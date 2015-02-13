@@ -10,6 +10,10 @@
 
 (global-unset-key (kbd "C-l"))
 (global-unset-key (kbd "C-j"))
+;; Disable fill column shit fuck
+(global-unset-key (kbd "C-x f"))
+;; Disable shit buffer gui
+(global-unset-key (kbd "C-x C-b"))
 
 (global-set-key (kbd "C-l") 'windmove-right)
 (global-set-key (kbd "C-k") 'windmove-up)
