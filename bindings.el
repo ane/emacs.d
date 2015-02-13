@@ -11,10 +11,10 @@
 (global-unset-key (kbd "C-l"))
 (global-unset-key (kbd "C-j"))
 
-(define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
-(define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
-(define-key evil-normal-state-map (kbd "C-j") 'windmove-down)
-(define-key evil-normal-state-map (kbd "C-h") 'windmove-left)
+(global-set-key (kbd "C-l") 'windmove-right)
+(global-set-key (kbd "C-k") 'windmove-up)
+(global-set-key (kbd "C-j") 'windmove-down)
+(global-set-key (kbd "C-h") 'windmove-left)
 
 (define-key evil-normal-state-map (kbd ",x") 'transpose-frame)
 (define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
