@@ -1,7 +1,9 @@
 (require-package 'flx-ido)
 (require-package 'ido-ubiquitous)
+(require-package 'ido-vertical-mode)
 
 (ido-mode t)
+(ido-vertical-mode t)
 (ido-everywhere t)
 (ido-ubiquitous t)
 (flx-ido-mode t)

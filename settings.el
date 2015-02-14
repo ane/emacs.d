@@ -1,18 +1,50 @@
 (require-package 'transpose-frame)
 (require-package 'evil)
 (require-package 'magit)
+(require-package 'flycheck)
+(require-package 'smooth-scrolling)
 (global-auto-revert-mode t)
 
+(require 'transpose-frame)
+
+;; UTF8
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
 (setq auto-revert-verbose nil
-      auto-save-default nil
-			make-backup-files nil
-      comment-auto-fill-only-comments t
-      confirm-nonexistent-file-or-buffer nil
-      custom-file "~/.emacs.d/custom.el"
-      disabled-command-function nil
       global-auto-revert-non-file-buffers t
-      kill-buffer-query-functions (remq 'process-kill-buffer-query-function
-                                        kill-buffer-query-functions))
+      auto-save-default nil)
+
+;; no backups
+(setq make-backup-files nil)
+
+;; column width is 80, not 72
+(setq fill-column 80)
+
+;; don't word wrap
+(setq-default truncate-lines t)
+
+;; more memory is fun
+(setq gc-cons-threshold 20000000)
+
+;; no minibuffer errors for flycheck, we use the window for that, unless it's not there
+(setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
+
+(setq comment-auto-fill-only-comments t)
+
+;; don't ask to create a new buffer
+(setq ido-create-new-buffer 'always)
+
+(setq confirm-nonexistent-file-or-buffer nil)
+
+(setq custom-file "~/.emacs.d/custom.el")
+
+(setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function
+																				kill-buffer-query-functions))
+;; enable evil
 (evil-mode 1)
 (electric-indent-mode +1)
 
