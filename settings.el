@@ -1,3 +1,6 @@
+(require-package 'transpose-frame)
+(require-package 'evil)
+(require-package 'magit)
 (global-auto-revert-mode t)
 
 (setq auto-revert-verbose nil
@@ -12,7 +15,6 @@
                                         kill-buffer-query-functions))
 (evil-mode 1)
 (electric-indent-mode +1)
-(require 'transpose-frame)
 
 (setq default-tab-width 2)
 

@@ -1,8 +1,12 @@
+(require-package 'flycheck)
+(require-package 'go-eldoc)
+(require-package 'go-projectile)
+(require-package 'company)
+(require-package 'company-go)
 ;; GO
 (add-hook 'go-mode-hook (lambda ()
 													(go-eldoc-setup)
 													(flycheck-mode)
-													(require 'go-projectile)
 													(setq gofmt-command "goimports")
 													(add-hook 'before-save-hook 'gofmt-before-save)
 													(setq company-go-show-annotation t)
