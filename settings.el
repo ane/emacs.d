@@ -3,6 +3,8 @@
 (require-package 'magit)
 (require-package 'flycheck)
 (require-package 'smooth-scrolling)
+(require-package 'company)
+(require-package 'markdown-mode+)
 (global-auto-revert-mode t)
 
 (require 'transpose-frame)
