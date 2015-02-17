@@ -6,6 +6,8 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(setq custom-file "~/.emacs.d/custom.el")
+
 (setq display-time-24hr-format t
       display-time-default-load-average nil
       info-use-header-line nil

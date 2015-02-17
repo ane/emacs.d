@@ -12,9 +12,10 @@
 
 (add-hook 'clojure-mode-hook (lambda ()
 															 (require 'smartparens-config)
+															 (eldoc-mode)
 															 (subword-mode)
 															 (company-mode)
 															 (projectile-mode)
 															 (rainbow-delimiters-mode)
-															 (smartparens-mode)
+															 (paredit-mode)
 															 (clj-refactor-mode)))

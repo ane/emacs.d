@@ -42,16 +42,15 @@
 
 (setq confirm-nonexistent-file-or-buffer nil)
 
-(setq custom-file "~/.emacs.d/custom.el")
 
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function
 																				kill-buffer-query-functions))
 ;; enable evil
 (evil-mode 1)
 
-;; electric indent and pair mode if version 24.4
+;; electric indent 
 (electric-indent-mode +1)
-(electric-pair-mode +1)
+(electric-pair-mode)
 
 (setq default-tab-width 2)
 

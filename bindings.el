@@ -15,10 +15,10 @@
 ;; Disable shit buffer gui
 (global-unset-key (kbd "C-x C-b"))
 
-(global-set-key (kbd "S-l") 'windmove-right)
-(global-set-key (kbd "S-k") 'windmove-up)
-(global-set-key (kbd "S-j") 'windmove-down)
-(global-set-key (kbd "S-h") 'windmove-left) 
+(global-set-key (kbd "C-S-l") 'windmove-right)
+(global-set-key (kbd "C-S-k") 'windmove-up)
+(global-set-key (kbd "C-S-j") 'windmove-down)
+(global-set-key (kbd "C-S-h") 'windmove-left) 
 
 (define-key evil-normal-state-map (kbd ",x") 'transpose-frame)
 (define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
