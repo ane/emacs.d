@@ -28,3 +28,8 @@
 (define-key evil-normal-state-map (kbd ",,") 'projectile-recentf)
 
 (global-set-key (kbd "C-SPC") 'company-complete)
+
+(global-set-key (kbd "C-l") 'paredit-backward-barf-sexp)
+(global-set-key (kbd "C-ö") 'paredit-backward-slurp-sexp)
+(global-set-key (kbd "C-ä") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "C-'") 'paredit-forward-barf-sexp)
