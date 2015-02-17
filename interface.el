@@ -15,7 +15,7 @@
       isearch-lazy-highlight nil
       linum-format "%3d "
       ;;max-mini-window-height 0
-      pop-up-windows nil
+      ;;pop-up-windows nil
       show-paren-style 'parenthesis
       show-paren-delay 0
       show-trailing-whitespace t

@@ -48,7 +48,10 @@
 																				kill-buffer-query-functions))
 ;; enable evil
 (evil-mode 1)
+
+;; electric indent and pair mode if version 24.4
 (electric-indent-mode +1)
+(electric-pair-mode +1)
 
 (setq default-tab-width 2)
 

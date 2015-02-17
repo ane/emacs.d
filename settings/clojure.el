@@ -1,0 +1,20 @@
+(require-package 'clojure-mode)
+(require-package 'cider)
+(require-package 'clj-refactor)
+(require-package 'smartparens)
+(require-package 'rainbow-delimiters)
+
+(add-hook 'cider-repl-mode-hook #'company-mode)
+
+(add-hook 'cider-mode-hook (lambda ()
+														 (eldoc-mode)
+														 (company-mode)))
+
+(add-hook 'clojure-mode-hook (lambda ()
+															 (require 'smartparens-config)
+															 (subword-mode)
+															 (company-mode)
+															 (projectile-mode)
+															 (rainbow-delimiters-mode)
+															 (smartparens-mode)
+															 (clj-refactor-mode)))
