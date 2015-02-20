@@ -43,10 +43,6 @@
 
 (setq confirm-nonexistent-file-or-buffer nil)
 
-;; add the themes in their own subdirectories, since we're using git submodules
-(let ((default-directory "~/.emacs.d/themes/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function
 																				kill-buffer-query-functions))
 ;; enable evil
