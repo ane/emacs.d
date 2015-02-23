@@ -7,6 +7,11 @@
 (require-package 'company-quickhelp)
 (require-package 'markdown-mode+)
 (require-package 'gnus)
+(require-package 'w3m)
+(require-package 'wanderlust)
+(require 'perse)
+
+(autoload 'wl "wl" "Wanderlust" t)
 
 (global-auto-revert-mode t)
 
