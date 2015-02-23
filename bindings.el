@@ -31,11 +31,6 @@
 
 (global-set-key (kbd "C-S-SPC") 'company-complete)
 
-(global-set-key (kbd "C-l") 'paredit-backward-barf-sexp)
-(global-set-key (kbd "C-ö") 'paredit-backward-slurp-sexp)
-(global-set-key (kbd "C-ä") 'paredit-forward-slurp-sexp)
-(global-set-key (kbd "C-'") 'paredit-forward-barf-sexp)
-
 (defun vi-open-line-above ()
   "Insert a newline above the current line and put point at beginning."
   (interactive)
@@ -43,10 +38,7 @@
     (beginning-of-line))
   (newline)
   (forward-line -1)
-  (interactive)  
-  (unless (eolp)
-    (end-of-line))
-  (newline-and-indent))
+  (indent-according-to-mode))
 
 (defun vi-open-line-below ()
   "Insert a newline below the current line and put point at beginning."

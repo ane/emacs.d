@@ -6,35 +6,15 @@
 (require-package 'company)
 (require-package 'company-quickhelp)
 (require-package 'markdown-mode+)
-(require-package 'gnus)
-(require-package 'w3m)
-(require-package 'wanderlust)
-(require 'perse)
 
-(autoload 'wl "wl" "Wanderlust" t)
+(global-auto-revert-mode 1)
 
-(global-auto-revert-mode t)
-
-(setq nnml-directory "~/mail")
-(setq message-directory "~/mail")
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
 
 (require 'transpose-frame)
 (add-to-list 'load-path "~/.emacs.d/themes/solarized")
 
-
-(setq gnus-summary-display-arrow t)
-(setq gnus-summary-same-subject "")
-
-(setq gnus-summary-line-format "%U%R%d %-5,5L %-20,20n %B%-80,80S\n"
-      gnus-user-date-format-alist '((t . "%Y-%m-%d %H:%M"))
-      gnus-summary-thread-gathering-function 'gnus-gather-threads-by-references
-      gnus-thread-sort-functions '(gnus-thread-sort-by-date)
-      gnus-sum-thread-tree-false-root ""
-      gnus-sum-thread-tree-indent " "
-      gnus-sum-thread-tree-leaf-with-other "├► "
-      gnus-sum-thread-tree-root ""
-      gnus-sum-thread-tree-single-leaf "╰► "
-      gnus-sum-thread-tree-vertical "│")
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
