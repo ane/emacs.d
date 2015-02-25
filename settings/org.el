@@ -1,8 +1,8 @@
-(require 'org)
+s(require 'org)
 
 (setq org-agenda-files '("~/Dropbox/org")
       org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"
-      org-default-notes-file "~/Dropbox/org/notes.org"
+      org-default-notes-file "~/Dropbox/org/work.org"
       org-agenda-window-setup 'current-window)
 
 (defun my/org-config ()

@@ -25,5 +25,6 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-select-enable-clipboard t
+      x-underline-at-descent-line t
       xterm-mouse-mode t)
 
