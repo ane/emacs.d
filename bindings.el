@@ -17,6 +17,9 @@
 ;; Disable shit buffer gui
 (global-unset-key (kbd "C-x C-b"))
 
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+
 (global-set-key (kbd "C-S-l") 'windmove-right)
 (global-set-key (kbd "C-S-k") 'windmove-up)
 (global-set-key (kbd "C-S-j") 'windmove-down)

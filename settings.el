@@ -9,8 +9,6 @@
 
 (global-auto-revert-mode 1)
 
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
 
 (require 'transpose-frame)
 (add-to-list 'load-path "~/.emacs.d/themes/solarized")

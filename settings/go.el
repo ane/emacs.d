@@ -5,11 +5,13 @@
 (require-package 'company)
 (require-package 'company-go)
 (require-package 'rainbow-delimiters)
+(require-package 'smartparens)
 ;; GO
 (add-hook 'go-mode-hook (lambda ()
 			 (go-eldoc-setup)
 			 (projectile-mode)
 			 (flycheck-mode)
+       (smartparens-mode)
 			 (subword-mode)
 			 (rainbow-delimiters-mode)
 			 (require 'go-projectile)
