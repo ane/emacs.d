@@ -9,10 +9,7 @@
 
 (global-auto-revert-mode 1)
 
-
 (require 'transpose-frame)
-(add-to-list 'load-path "~/.emacs.d/themes/solarized")
-
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
@@ -49,8 +46,6 @@
 
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function
 																				kill-buffer-query-functions))
-;; enable evil
-
 
 ;; electric indent 
 (electric-indent-mode +1)

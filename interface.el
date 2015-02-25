@@ -26,3 +26,4 @@
       visible-bell t
       x-select-enable-clipboard t
       xterm-mouse-mode t)
+
