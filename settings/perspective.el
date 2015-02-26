@@ -1,4 +1,4 @@
-(require-package 'perspective)
+(use-package 'perspective)
 (persp-mode)
 
 (require-package 'persp-projectile)

@@ -1,7 +1,7 @@
 ;; OCAML
-(require-package 'merlin)
-(require-package 'tuareg)
-(require-package 'flycheck-ocaml)
+(use-package 'merlin)
+(use-package 'tuareg)
+(use-package 'flycheck-ocaml)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 (with-eval-after-load 'merlin
