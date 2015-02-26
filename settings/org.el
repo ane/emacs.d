@@ -1,4 +1,4 @@
-s(require 'org)
+(require 'org)
 
 (setq org-agenda-files '("~/Dropbox/org")
       org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"

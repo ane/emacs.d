@@ -9,6 +9,7 @@ vendor/
 .bookmarks
 .visited-files
 ido.last
+*.elc
 local.el
 custom.el
 projectile-bookmarks.eld

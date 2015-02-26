@@ -56,4 +56,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; load settings directory
-(mapc 'load (directory-files "~/.emacs.d/settings" t "^[A-Za-z-]*\\.el"))
+(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/settings" t "^[A-Za-z-]*\\.el$")))
+
+;; offer a function to byte compile the .emacs.d directory
+(defun byte-compile-init-dir ()
+  "Byte compile all your dotfiles."
+  (interactive)
+  (byte-recompile-directory user-emacs-directory 0))
