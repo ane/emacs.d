@@ -11,7 +11,6 @@ vendor/
 ido.last
 *.elc
 local.el
-custom.el
 projectile-bookmarks.eld
 projectile.cache
 recentf
