@@ -1,10 +1,12 @@
 auto-save-list/
+projects/
 backups/
 elpa/
 eshell/
 project-explorer-cache/
 url/
 vendor/
+dev/
 
 .bookmarks
 .visited-files
