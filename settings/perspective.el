@@ -1,5 +1,3 @@
-(use-package 'perspective)
+(use-package persp-projectile)
 (persp-mode)
-
-(require-package 'persp-projectile)
 

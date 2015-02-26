@@ -1,15 +1,4 @@
-(require-package 'transpose-frame)
-(require-package 'evil)
-(require-package 'magit)
-(require-package 'flycheck)
-(require-package 'smooth-scrolling)
-(require-package 'company)
-(require-package 'company-quickhelp)
-(require-package 'markdown-mode+)
-
 (global-auto-revert-mode 1)
-
-(require 'transpose-frame)
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)

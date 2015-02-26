@@ -1,4 +1,4 @@
-(use-package 'smartparens)
+(use-package smartparens)
 (require 'smartparens)
 (require 'smartparens-config)
 

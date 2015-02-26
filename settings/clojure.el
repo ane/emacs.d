@@ -1,12 +1,3 @@
-(use-package 'clojure-mode)
-(use-package 'cider)
-(use-package 'projectile)
-(use-package 'clj-refactor)
-(use-package 'smartparens)
-(use-package 'rainbow-delimiters)
-(use-package 'company)
-(use-package 'company-quickhelp)
-
 (add-hook 'cider-repl-mode-hook
           (lambda ()
             (company-mode)

@@ -1,9 +1,3 @@
-(use-package 'projectile)
-(use-package 'company)
-(use-package 'omnisharp)
-(use-package 'flycheck)
-(use-package 'rainbow-delimiters)
-
 (setq omnisharp-server-executable-path "C:/Users/Ane/OmniSharp/server/Omnisharp/bin/Debug/OmniSharp.exe")
 
 (add-hook 'csharp-mode-hook

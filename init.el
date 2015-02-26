@@ -20,14 +20,23 @@
   (require 'f)
   (require 's)
 
-  ;; add load paths
-  (add-to-list 'load-path "~/.emacs.d/")
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
 
 (add-to-list 'load-path "~/.emacs.d/themes/solarized")
 
 (use-package-with-elapsed-timer "Loading interface..."
-                                (load "interface")
-                                (load "bindings")
+                                (load "~/.emacs.d/interface")
+                                (load "~/.emacs.d/bindings")
                                 (load custom-file))
+(use-package-with-elapsed-timer "Loading settings..."
+                                (load "~/.emacs.d/settings"))
+
+(when window-system
+  (add-hook 'after-init-hook
+            `(lambda ()
+               (let ((elapsed (float-time (time-subtract (current-time)
+                                                         emacs-start-time))))
+                 (message "Loading %s...done (%.3fs) [after-init]"
+                          ,load-file-name elapsed)))
+            t))

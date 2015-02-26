@@ -1,4 +1,4 @@
-(use-package 'projectile)
+(use-package projectile)
 (require 'projectile)
 
 (add-to-list 'projectile-globally-ignored-directories "elpa")

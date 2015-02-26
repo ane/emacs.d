@@ -1,6 +1,6 @@
-(use-package 'flx-ido)
-(use-package 'ido-ubiquitous)
-(use-package 'ido-vertical-mode)
+(use-package flx-ido)
+(use-package ido-ubiquitous)
+(use-package ido-vertical-mode)
 
 (ido-mode t)
 (ido-vertical-mode t)

@@ -1,9 +1,3 @@
-(use-package 'rainbow-delimiters)
-(use-package 'projectile)
-(use-package 'company)
-(use-package 'smartparens)
-(use-package 'company-quickhelp)
-
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
   (add-hook 'after-save-hook
