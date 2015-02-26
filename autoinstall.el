@@ -29,6 +29,8 @@
     smartparens
     smooth-scrolling
     transpose-frame
+    typescript
+    tss
     tuareg
     )
   "A list of packages to ensure are installed at launch.")

@@ -1,5 +1,4 @@
 (use-package projectile)
-(require 'projectile)
 
 (add-to-list 'projectile-globally-ignored-directories "elpa")
 (add-to-list 'projectile-globally-ignored-directories ".cache")

@@ -1,17 +1,3 @@
-;;(define-key evil-insert-state-map [left] 'undefined)
-;;(define-key evil-insert-state-map [right] 'undefined)
-;;(define-key evil-insert-state-map [up] 'undefined)
-;;(define-key evil-insert-state-map [down] 'undefined)
-;;
-;;(define-key evil-motion-state-map [left] 'undefined)
-;;(define-key evil-motion-state-map [right] 'undefined)
-;;(define-key evil-motion-state-map [up] 'undefined)
-;;(define-key evil-motion-state-map [down] 'undefined)
-
-;; enable vim bindings?
-;;(evil-mode 1)
-
-
 ;; Disable fill column shit fuck
 (global-unset-key (kbd "C-x f"))
 ;; Disable shit buffer gui
@@ -25,14 +11,6 @@
 (global-set-key (kbd "C-S-k") 'windmove-up)
 (global-set-key (kbd "C-S-j") 'windmove-down)
 (global-set-key (kbd "C-S-h") 'windmove-left) 
-
-;;(define-key evil-normal-state-map (kbd ",x") 'transpose-frame)
-;;(define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
-;;(define-key evil-normal-state-map (kbd ",b") 'projectile-switch-to-buffer)
-;;(define-key evil-normal-state-map (kbd ",l") 'projectile-find-file-in-directory)
-;;(define-key evil-normal-state-map (kbd ",t") 'projectile-find-test-file)
-;;(define-key evil-normal-state-map (kbd ",,") 'projectile-recentf)
-
 (global-set-key (kbd "C-S-SPC") 'company-complete)
 
 (defun vi-open-line-above ()
@@ -54,5 +32,5 @@
 (global-set-key (kbd "C-o") 'vi-open-line-below)
 (global-set-key (kbd "C-S-o") 'vi-open-line-above)
 
-
-
+(global-set-key (kbd "H-f") 'projectile-find-file)
+(global-set-key (kbd "H-x") 'projectile-persp-switch-project)
