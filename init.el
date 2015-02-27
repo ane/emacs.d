@@ -26,11 +26,11 @@
 (add-to-list 'load-path "~/.emacs.d/themes/solarized")
 
 (use-package-with-elapsed-timer "Loading interface..."
-                                (load "~/.emacs.d/interface")
-                                (load "~/.emacs.d/bindings")
-                                (load custom-file))
+  (load "~/.emacs.d/interface")
+  (load "~/.emacs.d/bindings")
+  (load custom-file))
 (use-package-with-elapsed-timer "Loading settings..."
-                                (load "~/.emacs.d/settings"))
+  (load "~/.emacs.d/settings"))
 
 (when window-system
   (add-hook 'after-init-hook

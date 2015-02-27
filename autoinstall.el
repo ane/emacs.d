@@ -11,9 +11,11 @@
     flx-ido
     flycheck
     flycheck-ocaml
+    flymake-cursor
     go-mode
     go-eldoc
     go-projectile
+    haskell-mode
     ido-ubiquitous
     ido-vertical-mode
     magit

@@ -34,3 +34,36 @@
 
 (global-set-key (kbd "H-f") 'projectile-find-file)
 (global-set-key (kbd "H-x") 'projectile-persp-switch-project)
+
+(defvar flymake-mode-map (make-sparse-keymap))
+(define-key flymake-mode-map (kbd "S-<next>") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "S-<prior>") 'flymake-goto-prev-error)
+(or (assoc 'flymake-mode minor-mode-map-alist)
+    (setq minor-mode-map-alist
+          (cons (cons 'flymake-mode flymake-mode-map)
+                minor-mode-map-alist)))
+
+(add-hook 'flycheck-mode-hook
+  (lambda ()
+    (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
+    (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
+
+(defun go-jump-to-func ()
+  (interactive)
+  (imenu "func"))
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (define-key go-mode-map (kbd "C-.") 'go-jump-to-func)))
+
+;; make CxCm act as M-x
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+(global-set-key (kbd "C-c C-m") 'execute-extended-command)
+
+;; i don't need öäå
+(global-set-key (kbd "ö") "[")
+(global-set-key (kbd "ä") "]")
+(global-set-key (kbd "Ö") "{")
+(global-set-key (kbd "Ä") "}")
+
+

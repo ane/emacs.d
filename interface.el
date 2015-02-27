@@ -11,8 +11,6 @@
 (setq display-time-24hr-format t
       display-time-default-load-average nil
       info-use-header-line nil
-      inhibit-startup-echo-area-message ""
-      inhibit-startup-message t
       initial-scratch-message nil
       isearch-lazy-highlight nil
       linum-format "%3d "
