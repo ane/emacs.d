@@ -52,3 +52,6 @@
   "Byte compile all your dotfiles."
   (interactive)
   (byte-recompile-directory user-emacs-directory 0))
+
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))

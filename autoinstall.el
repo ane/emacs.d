@@ -8,6 +8,7 @@
     cider
     clj-refactor
     clojure-mode
+    clojure-mode-extra-font-locking
     company
     company-go
     company-quickhelp
@@ -15,6 +16,8 @@
     flx-ido
     flycheck
     flycheck-ocaml
+    flycheck-clojure
+    flycheck-pos-tip
     flymake-cursor
     go-mode
     go-eldoc
