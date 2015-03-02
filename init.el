@@ -1,3 +1,4 @@
+
 (server-start)
 (defconst emacs-start-time (current-time))
 
@@ -7,6 +8,7 @@
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
 
@@ -17,8 +19,8 @@
   (load "~/.emacs.d/autoinstall")
 
   (require 'uniquify)
-  (require 'f)
   (require 's)
+  (require 'f)
 
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))

@@ -1,21 +1,28 @@
-(add-hook 'cider-repl-mode-hook
-          (lambda ()
-            (company-mode)
-            (smartparens-strict-mode)
-            (rainbow-delimiters-mode)
-            (subword-mode)))
+(use-package company)
+
+(push 'company-capf company-backends)
+(add-hook 'cider-repl-mode-hook #'company-mode)
+(add-hook 'cider-mode-hook #'company-mode)
+(add-hook 'cider-repl-mode-hook 'smartparens-mode)
+
+(require 'clojure-mode-extra-font-locking)
+(cljr-add-keybindings-with-prefix "C-c C-m")
+
+(defun setup-clojure ()
+  (subword-mode)
+  (smartparens-mode)
+  (flycheck-mode)
+  (projectile-mode)
+  (clj-refactor-mode)
+  (rainbow-delimiters-mode)
+  (eldoc-mode))
+
+(setq cider-repl-use-clojure-font-lock t)
+
+(setq cider-repl-result-prefix ";; => ")
 
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
-(defun my/setup-clojure ()
-  (setq indent-tabs-mode nil)
-  (eldoc-mode)
-  (subword-mode)
-  (company-mode)
-  (company-quickhelp-mode)
-  (projectile-mode)
-  (rainbow-delimiters-mode)
-  (smartparens-mode)
-  (clj-refactor-mode))
+(add-hook 'clojure-mode-hook 'setup-clojure)
 
-(add-hook 'clojure-mode-hook 'my/setup-clojure)
+(eval-after-load 'flycheck '(flycheck-clojure-setup))
