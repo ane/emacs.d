@@ -66,4 +66,4 @@
 (global-set-key (kbd "Ö") "{")
 (global-set-key (kbd "Ä") "}")
 
-
+(global-set-key (kbd "C-M-j") 'delete-indentation)
