@@ -23,8 +23,10 @@
     go-eldoc
     go-projectile
     haskell-mode
-    ido-ubiquitous
-    ido-vertical-mode
+    helm
+    helm-swoop
+    helm-ag
+    helm-projectile
     magit
     markdown-mode+
     omnisharp

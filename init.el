@@ -23,9 +23,12 @@
   (require 'f)
 
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
+  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
 
-(add-to-list 'load-path "~/.emacs.d/themes/solarized")
+(use-package-with-elapsed-timer "Loading themes..."
+  (require 'f)
+  (mapc (apply-partially 'add-to-list 'custom-theme-load-path) (f-directories "~/.emacs.d/themes")))
 
 (use-package-with-elapsed-timer "Loading interface..."
   (load "~/.emacs.d/interface")
