@@ -1,7 +1,7 @@
 (use-package org)
 
 (setq org-agenda-files '("~/Dropbox/org")
-      org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"
+      org-archive-location "~/Dropbox/archive.org::datetree/* Finished tasks"
       org-default-notes-file "~/Dropbox/org/work.org"
       org-agenda-window-setup 'current-window)
 
@@ -9,8 +9,13 @@
   (make-variable-buffer-local 'after-save-hook)
   (org-indent-mode)
   (add-hook 'after-save-hook (lambda ()
-                               (message "after save triggered!")
-                               (org-agenda-maybe-redo)))
-  (auto-revert-mode 1))
+                               (when (fboundp 'org-agenda-maybe-redo)
+                                 (org-agenda-maybe-redo)))
+  (auto-revert-mode 1)))
+
+(setq jiralib-url "https://nfleet.atlassian.net"
+      org-jira-default-jql "assignee = currentUser() and ((reporter = currentUser() and resolution = unresolved) or resolution = unresolved)")
 
 (add-hook 'org-mode-hook 'my/org-config)
+
+(use-package org-jira)

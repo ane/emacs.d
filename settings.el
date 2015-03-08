@@ -23,8 +23,6 @@
 ;; more memory is fun
 (setq gc-cons-threshold 20000000)
 
-;; no minibuffer errors for flycheck, we use the window for that, unless it's not there
-(setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
 
 (setq comment-auto-fill-only-comments t)
 

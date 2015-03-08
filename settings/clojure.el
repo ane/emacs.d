@@ -2,6 +2,7 @@
 
 (push 'company-capf company-backends)
 (add-hook 'cider-repl-mode-hook #'company-mode)
+(add-hook 'cider-repl-mode-hook #'projectile-mode)
 (add-hook 'cider-mode-hook #'company-mode)
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 
@@ -12,6 +13,7 @@
   (subword-mode)
   (smartparens-mode)
   (flycheck-mode)
+  (yas/minor-mode)
   (projectile-mode)
   (clj-refactor-mode)
   (rainbow-delimiters-mode)
