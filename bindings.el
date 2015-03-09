@@ -67,3 +67,6 @@
 (global-set-key (kbd "Ä") "}")
 
 (global-set-key (kbd "C-M-j") 'delete-indentation)
+
+;; yeah, I hate myself
+(mapc 'global-unset-key [[up] [down] [left] [right]])
