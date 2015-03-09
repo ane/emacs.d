@@ -55,3 +55,17 @@
 
 (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome")
+
+;; compilation window disappears if there are no errors
+(setq compilation-finish-function
+  (lambda (buf str)
+    (if (null (string-match ".*exited abnormally.*" str))
+        ;;no errors, make the compilation window go away in a few seconds
+        (progn
+          (run-at-time
+           "2 sec" nil 'delete-windows-on
+           (get-buffer-create "*compilation*"))
+          (message "No Compilation Errors!")))))
