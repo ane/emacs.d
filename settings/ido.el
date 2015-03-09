@@ -1,3 +1,13 @@
+(use-package flx-ido)
+(use-package ido-ubiquitous)
+(use-package ido-vertical-mode)
+
+(ido-mode t)
+(ido-vertical-mode t)
+(ido-everywhere t)
+(ido-ubiquitous t)
+(flx-ido-mode t)
+
 (setq ido-auto-merge-work-directories-length 1
       ido-create-new-buffer 'always
       ido-enable-flex-matching t
@@ -23,5 +33,5 @@
       ido-use-filename-at-point nil
       ido-use-virtual-buffers nil)
 
-;;(add-to-list 'ido-ignore-files "\\.DS_Store")
-;;(add-to-list 'ido-ignore-files "Icon$")
+(add-to-list 'ido-ignore-files "\\.DS_Store")
+(add-to-list 'ido-ignore-files "Icon$")

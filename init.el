@@ -23,7 +23,7 @@
   (require 'f)
 
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
+  ;(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
 
 (use-package-with-elapsed-timer "Loading themes..."
@@ -34,6 +34,7 @@
   (load "~/.emacs.d/interface")
   (load "~/.emacs.d/bindings")
   (load custom-file))
+
 (use-package-with-elapsed-timer "Loading settings..."
   (load "~/.emacs.d/settings"))
 

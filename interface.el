@@ -12,6 +12,7 @@
       display-time-default-load-average nil
       info-use-header-line nil
       inhibit-startup-screen t
+      indent-tabs-mode nil
       initial-scratch-message nil
       isearch-lazy-highlight nil
       linum-format "%3d "
@@ -26,4 +27,5 @@
       x-select-enable-clipboard t
       x-underline-at-descent-line t
       xterm-mouse-mode t)
+
 

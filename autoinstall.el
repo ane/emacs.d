@@ -23,10 +23,7 @@
     go-eldoc
     go-projectile
     haskell-mode
-    helm
-    helm-swoop
-    helm-ag
-    helm-projectile
+    ido-ubiquitous
     magit
     markdown-mode+
     omnisharp
@@ -38,6 +35,7 @@
     smart-mode-line
     smartparens
     smooth-scrolling
+    smex
     transpose-frame
     typescript
     tss

@@ -9,6 +9,7 @@
                           (rainbow-delimiters-mode)
                           (setq gofmt-command "goimports")
                           (add-hook 'before-save-hook 'gofmt-before-save)
-                          (setq company-go-show-annotation t)
+                          (setq company-go-show-annotation t
+                                intent-tabs-mode t)
                           (set (make-local-variable 'company-backends) '(company-go))
                           (company-mode)))
