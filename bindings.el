@@ -48,10 +48,6 @@
     (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
     (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
 
-(defun go-jump-to-func ()
-  (interactive)
-  (imenu "func"))
-
 (add-hook 'go-mode-hook
           (lambda ()
             (define-key go-mode-map (kbd "C-.") 'go-jump-to-func)))
@@ -125,10 +121,6 @@
   (interactive)
   (imenu "func"))
 
-(add-hook 'go-mode-hook
-          (lambda ()
-            (define-key go-mode-map (kbd "C-.") 'go-jump-to-func)))
-
 ;; make CxCm act as M-x
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-set-key (kbd "C-c C-m") 'execute-extended-command)
@@ -144,8 +136,10 @@
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
 
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-x C-m") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+;;(global-set-key (kbd "M-x") 'smex)
+;;(global-set-key (kbd "C-x C-m") 'smex)
+;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;;;; This is your old M-x.
+;;(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+(global-set-key [f4] 'speedbar-get-focus)

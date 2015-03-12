@@ -14,7 +14,7 @@
   (auto-revert-mode 1)))
 
 (setq jiralib-url "https://nfleet.atlassian.net"
-      org-jira-default-jql "assignee = currentUser() and ((reporter = currentUser() and resolution = unresolved) or resolution = unresolved)")
+      org-jira-default-jql "assignee = currentUser() and resolution = unresolved")
 
 (add-hook 'org-mode-hook 'my/org-config)
 

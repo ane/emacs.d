@@ -13,3 +13,5 @@
                                 intent-tabs-mode t)
                           (set (make-local-variable 'company-backends) '(company-go))
                           (company-mode)))
+(add-hook 'speedbar-load-hook (lambda ()
+                                (push ".go" speedbar-supported-extension-expressions)))

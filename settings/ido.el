@@ -2,11 +2,11 @@
 (use-package ido-ubiquitous)
 (use-package ido-vertical-mode)
 
-(ido-mode t)
-(ido-vertical-mode t)
-(ido-everywhere t)
-(ido-ubiquitous t)
-(flx-ido-mode t)
+;;(ido-mode t)
+;;(ido-vertical-mode t)
+;;(ido-everywhere t)
+;;(ido-ubiquitous t)
+;;(flx-ido-mode t)
 
 (setq ido-auto-merge-work-directories-length 1
       ido-create-new-buffer 'always
