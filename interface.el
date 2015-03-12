@@ -3,6 +3,7 @@
 (global-hl-line-mode -1)
 (show-paren-mode 1)
 (winner-mode t)
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 

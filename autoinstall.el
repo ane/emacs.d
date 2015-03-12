@@ -22,6 +22,10 @@
     go-mode
     go-eldoc
     go-projectile
+    helm
+    helm-ag
+    helm-swoop
+    helm-projectile
     haskell-mode
     ido-ubiquitous
     magit
