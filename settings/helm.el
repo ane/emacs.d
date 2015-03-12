@@ -11,6 +11,7 @@
               (define-key eshell-mode-map (kbd "TAB")     #'helm-esh-pcomplete)
               (define-key eshell-mode-map (kbd "C-c C-l") #'helm-eshell-history)))
 
+(global-set-key (kbd "C-x i")   #'helm-imenu)
 (global-set-key (kbd "C-x b")   #'helm-mini)
 (global-set-key (kbd "C-x C-b") #'helm-buffers-list)
 (global-set-key (kbd "C-x C-m") #'helm-M-x)
