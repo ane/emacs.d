@@ -12,6 +12,7 @@
 (setq display-time-24hr-format t
       display-time-default-load-average nil
       info-use-header-line nil
+      cursor-type 'bar
       inhibit-startup-screen t
       indent-tabs-mode nil
       initial-scratch-message nil

@@ -12,6 +12,9 @@
     company
     company-go
     company-quickhelp
+    evil
+    evil-leader
+    evil-smartparens
     f
     flx-ido
     flycheck
