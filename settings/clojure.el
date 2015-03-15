@@ -13,6 +13,7 @@
   (subword-mode)
   (smartparens-mode)
   (flycheck-mode)
+  (smartparens-strict-mode)
   (yas/minor-mode)
   (projectile-mode)
   (clj-refactor-mode)
@@ -26,5 +27,3 @@
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 (add-hook 'clojure-mode-hook 'setup-clojure)
-
-(eval-after-load 'flycheck '(flycheck-clojure-setup))

@@ -36,7 +36,6 @@
 
 ;; electric indent 
 (electric-indent-mode +1)
-(electric-pair-mode)
 
 (setq default-tab-width 2)
 
@@ -52,7 +51,9 @@
   (byte-recompile-directory user-emacs-directory 0))
 
 (eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  (lambda ()
+    (flycheck-clojure-setup)
+    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")

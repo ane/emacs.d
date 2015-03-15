@@ -8,6 +8,7 @@
                           (subword-mode)
                           (rainbow-delimiters-mode)
                           (setq gofmt-command "goimports")
+                          (setq gofmt-show-errors nil)
                           (add-hook 'before-save-hook 'gofmt-before-save)
                           (setq company-go-show-annotation t
                                 intent-tabs-mode t)

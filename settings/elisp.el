@@ -15,6 +15,7 @@
             (eldoc-mode)
             (subword-mode)
             (smartparens-mode)
+            (smartparens-strict-mode)
             (company-quickhelp-mode)
             (projectile-mode)
             (rainbow-delimiters-mode)

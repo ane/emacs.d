@@ -3,5 +3,5 @@
 (use-package smart-mode-line)
 
 (sml/setup)
-(sml/apply-theme 'light)
+(sml/apply-theme 'respectful)
 
