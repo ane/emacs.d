@@ -15,8 +15,8 @@
     evil
     evil-leader
     evil-smartparens
+    evil-escape
     f
-    flx-ido
     flycheck
     flycheck-ocaml
     flycheck-clojure
@@ -30,7 +30,6 @@
     helm-swoop
     helm-projectile
     haskell-mode
-    ido-ubiquitous
     magit
     markdown-mode+
     omnisharp

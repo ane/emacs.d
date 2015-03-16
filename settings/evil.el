@@ -23,25 +23,6 @@
 (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode)
 (setq-default evil-symbol-word-search t)
 
-(evil-define-motion evil-little-word (count)
-  :type exclusive
-  (let ((case-fold-search nil))
-    (forward-char)
-    (search-forward-regexp "[_A-Z]\\|\\W" nil t)
-    (backward-char)))
-
-(evil-define-motion evil-little-word-backward (count)
-  :type exclusive
-  (let ((case-fold-search nil))
-    (backward-char)
-    (search-backward-regexp "[_A-Z]\\|\\W" nil t)))
-
-(define-key evil-normal-state-map (kbd ", b") 'evil-little-word-backward)
-(define-key evil-normal-state-map (kbd ", w") 'evil-little-word) 
-(define-key evil-operator-state-map (kbd ", w") 'evil-little-word)
-(define-key evil-operator-state-map (kbd ", b") 'evil-little-word-backward)
-
-
 (evil-leader/set-leader ",")
 (evil-leader/set-key "f" 'helm-projectile-find-file)
 (evil-leader/set-key "p" 'helm-projectile-switch-project)
@@ -51,6 +32,15 @@
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
 (global-evil-leader-mode)
+
+(setq evil-insert-state-cursor '("red" hbar)
+      evil-normal-state-cursor '("white" box)
+      evil-visual-state-cursor '("green" box)
+      evil-default-cursor t
+      evil-want-visual-char-semi-exclusive t
+      evil-move-cursor-back nil
+      evil-want-C-u-scroll t
+      evil-ex-hl-update-delay 0.01)
 
 (evil-mode)
 (evil-escape-mode)
