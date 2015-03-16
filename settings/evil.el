@@ -24,10 +24,10 @@
 (setq-default evil-symbol-word-search t)
 
 (evil-leader/set-leader ",")
-(evil-leader/set-key "f" 'helm-projectile-find-file)
-(evil-leader/set-key "p" 'helm-projectile-switch-project)
+(evil-leader/set-key "f" 'projectile-find-file)
+(evil-leader/set-key "p" 'projectile-persp-switch-project)
 (evil-leader/set-key "t" 'projectile-find-test-file)
-(evil-leader/set-key "b" 'helm-projectile-switch-to-buffer)
+(evil-leader/set-key "b" 'projectile-switch-to-buffer)
 
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)

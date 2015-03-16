@@ -137,15 +137,8 @@
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
 
-
 (setq w32-pass-apps-to-system nil)
 (setq w32-apps-modifier 'hyper) ; Menu/App key
-
-;;(global-set-key (kbd "M-x") 'smex)
-;;(global-set-key (kbd "C-x C-m") 'smex)
-;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;;;; This is your old M-x.
-;;(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 (global-set-key [f4] 'speedbar-get-focus)
 

@@ -79,3 +79,13 @@
 ;;; lisp modes
 (sp-with-modes sp--lisp-modes
   (sp-local-pair "(" nil :bind "C-("))
+
+(defun my-create-newline-and-enter-sexp (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (message "hello i am a dog")
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(sp-local-pair 'go-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
