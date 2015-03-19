@@ -44,7 +44,6 @@
     smooth-scrolling
     smex
     transpose-frame
-    typescript
     tss
     zenburn-theme
     )

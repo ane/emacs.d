@@ -141,4 +141,3 @@
 (setq w32-apps-modifier 'hyper) ; Menu/App key
 
 (global-set-key [f4] 'speedbar-get-focus)
-

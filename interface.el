@@ -12,6 +12,7 @@
       display-time-default-load-average nil
       info-use-header-line nil
       cursor-type 'bar
+      auto-save-default nil
       inhibit-startup-screen t
       indent-tabs-mode nil
       initial-scratch-message nil
