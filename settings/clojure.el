@@ -27,3 +27,6 @@
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 (add-hook 'clojure-mode-hook 'setup-clojure)
+
+(add-hook 'speedbar-load-hook (lambda ()
+                                (push ".clj" speedbar-supported-extension-expressions)))

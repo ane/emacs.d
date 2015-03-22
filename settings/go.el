@@ -6,6 +6,7 @@
                           (flycheck-mode)
                           (smartparens-mode)
                           (subword-mode)
+                          (yas/minor-mode)
                           (rainbow-delimiters-mode)
                           (setq gofmt-command "goimports")
                           (setq gofmt-show-errors nil)
@@ -14,5 +15,6 @@
                                 intent-tabs-mode t)
                           (set (make-local-variable 'company-backends) '(company-go))
                           (company-mode)))
+
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".go" speedbar-supported-extension-expressions)))

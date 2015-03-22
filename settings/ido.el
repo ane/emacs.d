@@ -17,7 +17,6 @@
       ido-ignore-buffers `("\\` "
                            "^\\*Buffer List\\*"
                            "^\\*Compile-Log\\*"
-                           "^\\*Completions\\*"
                            "^\\*Helm"
                            "^\\*Help\\*"
                            "^\\*Ido"

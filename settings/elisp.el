@@ -11,10 +11,9 @@
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (remove-elc-on-save)
-            (setq indent-tabs-mode nil)
             (eldoc-mode)
             (subword-mode)
-            (smartparens-mode)
+            (yas/minor-mode)
             (smartparens-strict-mode)
             (company-quickhelp-mode)
             (projectile-mode)
