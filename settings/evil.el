@@ -4,16 +4,6 @@
 
 (setq-default evil-escape-key-sequence "jk")
 
-;;(define-key evil-normal-state-map [escape] 'keyboard-quit)
-;;(define-key evil-visual-state-map [escape] 'keyboard-quit)
-;;(define-key cider-stacktrace-mode-map [escape] 'cider-popup-buffer-quit-function)
-;;(define-key cider-test-report-mode-map [escape] 'cider-popup-buffer-quit-function)
-;;(define-key helm-map [escape] 'helm-keyboard-quit)
-;;(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-;;(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-;;(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-;;(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-;;(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
 (define-key evil-normal-state-map (kbd "M-.") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
@@ -26,7 +16,8 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key "f" 'projectile-find-file)
 (evil-leader/set-key "p" 'projectile-persp-switch-project)
-(evil-leader/set-key "t" 'projectile-find-test-file)
+(evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
+(evil-leader/set-key "T" 'projectile-find-test-file)
 (evil-leader/set-key "b" 'projectile-switch-to-buffer)
 (evil-leader/set-key "i" 'imenu)
 

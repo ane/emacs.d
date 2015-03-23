@@ -69,4 +69,6 @@
            (get-buffer-create "*compilation*"))
           (message "No Compilation Errors!")))))
 
+;; enable projectile everywhere
 (projectile-global-mode)
+
