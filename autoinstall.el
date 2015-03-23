@@ -14,7 +14,7 @@
     company-quickhelp
     evil
     evil-leader
-    evil-smartparens
+    ;; evil-smartparens
     evil-escape
     evil-surround
     f
@@ -34,6 +34,7 @@
     magit
     markdown-mode+
     omnisharp
+    overseer
     perspective
     persp-projectile
     projectile

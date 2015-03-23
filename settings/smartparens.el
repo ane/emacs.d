@@ -89,3 +89,7 @@
   (indent-according-to-mode))
 
 (sp-local-pair 'go-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+
+(mapc (lambda (mode)
+        (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-strict-mode))
+      sp--lisp-modes)

@@ -1,6 +1,6 @@
 (add-hook 'racket-mode-hook
           (lambda ()
-            (smartparens-strict-mode)
+            (smartparens-mode)
             (projectile-mode)
             (yas/minor-mode)
             (eldoc-mode)

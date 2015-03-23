@@ -14,7 +14,6 @@
       cursor-type 'bar
       auto-save-default nil
       inhibit-startup-screen t
-      indent-tabs-mode nil
       initial-scratch-message nil
       isearch-lazy-highlight nil
       linum-format "%3d "
@@ -26,4 +25,4 @@
       x-underline-at-descent-line t
       xterm-mouse-mode t)
 
-
+(setq-default indent-tabs-mode nil)

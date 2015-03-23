@@ -13,7 +13,6 @@
   (subword-mode)
   (smartparens-mode)
   (flycheck-mode)
-  (smartparens-strict-mode)
   (yas/minor-mode)
   (projectile-mode)
   (clj-refactor-mode)
