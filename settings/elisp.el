@@ -7,13 +7,11 @@
             nil
             t))
 
-
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (remove-elc-on-save)
             (eldoc-mode)
             (subword-mode)
-            (overseer-mode-hook)
             (yas/minor-mode)
             (smartparens-mode)
             (company-quickhelp-mode)

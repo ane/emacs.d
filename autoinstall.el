@@ -1,10 +1,10 @@
 
-(add-to-list 'package-pinned-packages '(cider . "marmalade") t)
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(company . "melpa-stable") t)
 
 (defvar autoinstall-packages
   '(
-    auto-complete
+    ace-window
     cider
     clj-refactor
     clojure-mode
@@ -13,6 +13,9 @@
     company-go
     company-quickhelp
     evil
+    evil-indent-textobject
+    evil-exchange
+    evil-snipe
     evil-leader
     ;; evil-smartparens
     evil-escape
@@ -23,7 +26,6 @@
     flycheck-ocaml
     flycheck-clojure
     flycheck-pos-tip
-    flymake-cursor
     go-mode
     go-eldoc
     go-projectile
@@ -33,8 +35,6 @@
     ido-hacks
     magit
     markdown-mode+
-    omnisharp
-    overseer
     perspective
     persp-projectile
     projectile
@@ -45,7 +45,6 @@
     smooth-scrolling
     smex
     transpose-frame
-    tss
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")
