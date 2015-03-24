@@ -1,6 +1,7 @@
 
 (require 'evil)
 (require 'evil-leader)
+(use-package evil-smartparens)
 
 (setq-default evil-escape-key-sequence "jk")
 
@@ -36,3 +37,5 @@
 
 (evil-mode)
 (evil-escape-mode)
+(global-evil-snipe-mode)
+(evil-exchange-install)

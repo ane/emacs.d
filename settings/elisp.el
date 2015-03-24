@@ -7,7 +7,6 @@
             nil
             t))
 
-
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (remove-elc-on-save)
