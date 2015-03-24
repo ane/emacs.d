@@ -29,3 +29,4 @@
 
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".clj" speedbar-supported-extension-expressions)))
+

@@ -13,7 +13,6 @@
             (remove-elc-on-save)
             (eldoc-mode)
             (subword-mode)
-            (overseer-mode-hook)
             (yas/minor-mode)
             (smartparens-mode)
             (company-quickhelp-mode)
@@ -21,3 +20,4 @@
             (rainbow-delimiters-mode)
             (set (make-local-variable 'company-backends) '((company-elisp :with company-dabbrev-code)))
             (company-mode)))
+

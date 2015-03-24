@@ -34,7 +34,6 @@
     magit
     markdown-mode+
     omnisharp
-    overseer
     perspective
     persp-projectile
     projectile
@@ -46,6 +45,7 @@
     smex
     transpose-frame
     tss
+    window-purpose
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")

@@ -71,4 +71,3 @@
 
 ;; enable projectile everywhere
 (projectile-global-mode)
-
