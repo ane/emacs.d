@@ -17,10 +17,13 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key "f" 'projectile-find-file)
 (evil-leader/set-key "p" 'projectile-persp-switch-project)
+(evil-leader/set-key "s" 'yas-insert-snippet)
 (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
 (evil-leader/set-key "T" 'projectile-find-test-file)
+(evil-leader/set-key "g" 'magit-status)
 (evil-leader/set-key "b" 'projectile-switch-to-buffer)
 (evil-leader/set-key "i" 'imenu)
+(evil-leader/set-key "I" 'indent-region)
 
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)

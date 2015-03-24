@@ -35,7 +35,6 @@
     ido-hacks
     magit
     markdown-mode+
-    omnisharp
     perspective
     persp-projectile
     projectile

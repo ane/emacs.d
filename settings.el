@@ -71,3 +71,18 @@
 
 ;; enable projectile everywhere
 (projectile-global-mode)
+
+(setq yas/prompt-functions '(yas-ido-prompt))
+(global-set-key (kbd "M-o") 'yas-expand)
+(setq yas-fallback-behavior 'return-nil)
+(yas-global-mode)
+
+
+(setq eldoc-idle-delay 0.1)
+(add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
+
+;; company settings
+(setq company-idle-delay 0.1
+      company-minimum-prefix-length 2
+      company-selection-wrap-around t
+      company-show-numbers t)
