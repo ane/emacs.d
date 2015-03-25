@@ -23,7 +23,6 @@
     f
     flx-ido
     flycheck
-    flycheck-ocaml
     flycheck-clojure
     flycheck-pos-tip
     go-mode
@@ -44,6 +43,7 @@
     smartparens
     smooth-scrolling
     smex
+    sr-speedbar
     transpose-frame
     zenburn-theme
     )

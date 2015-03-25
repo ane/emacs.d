@@ -26,3 +26,4 @@
       xterm-mouse-mode t)
 
 (setq-default indent-tabs-mode nil)
+(setq speedbar-show-unknown-files t)

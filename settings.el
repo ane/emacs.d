@@ -44,6 +44,7 @@
 ;; load settings directory
 (mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/settings" t "^[A-Za-z-]*\\.el$")))
 
+
 ;; offer a function to byte compile the .emacs.d directory
 (defun byte-compile-init-dir ()
   "Byte compile all your dotfiles."
@@ -84,5 +85,6 @@
 ;; company settings
 (setq company-idle-delay 0.1
       company-minimum-prefix-length 2
-      company-selection-wrap-around t
-      company-show-numbers t)
+      company-selection-wrap-around t)
+
+(load-theme 'zenburn)
