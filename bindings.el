@@ -35,6 +35,7 @@
 
 (global-set-key (kbd "H-f") 'projectile-find-file)
 (global-set-key (kbd "H-x") 'projectile-persp-switch-project)
+(global-set-key (kbd "H-b") 'sr-speedbar-toggle)
 
 (defvar flymake-mode-map (make-sparse-keymap))
 (define-key flymake-mode-map (kbd "S-<next>") 'flymake-goto-next-error)
@@ -141,3 +142,5 @@
 (setq w32-apps-modifier 'hyper) ; Menu/App key
 
 (global-set-key [f4] 'speedbar-get-focus)
+
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
