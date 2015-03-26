@@ -17,6 +17,6 @@
             (company-quickhelp-mode)
             (projectile-mode)
             (rainbow-delimiters-mode)
-            (set (make-local-variable 'company-backends) '((company-elisp :with company-dabbrev-code)))
             (company-mode)))
 
+(push 'company-elisp company-backends)
