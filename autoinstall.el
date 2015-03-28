@@ -1,5 +1,5 @@
 
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(company . "melpa-stable") t)
 
 (defvar autoinstall-packages
