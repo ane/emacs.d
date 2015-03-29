@@ -1,6 +1,8 @@
 
 ;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(company . "melpa-stable") t)
+(add-to-list 'package-pinned-packages '(evil-escape . "melpa-stable") t)
+(add-to-list 'package-pinned-packages '(smex . "melpa-stable") t)
 
 (defvar autoinstall-packages
   '(
@@ -13,16 +15,16 @@
     company-go
     company-quickhelp
     evil
-    evil-indent-textobject
     evil-exchange
     evil-snipe
     evil-leader
-    ;; evil-smartparens
+    evil-smartparens
     evil-escape
     evil-surround
     f
     flx-ido
     flycheck
+    flycheck-ocaml
     flycheck-clojure
     flycheck-pos-tip
     go-mode
@@ -34,6 +36,7 @@
     ido-hacks
     magit
     markdown-mode+
+    merlin
     perspective
     persp-projectile
     projectile
@@ -45,6 +48,7 @@
     smex
     sr-speedbar
     transpose-frame
+    tuareg
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")
