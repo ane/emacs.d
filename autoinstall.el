@@ -12,6 +12,7 @@
     clojure-mode
     clojure-mode-extra-font-locking
     company
+    company-ghc
     company-go
     company-quickhelp
     evil
@@ -25,12 +26,15 @@
     flx-ido
     flycheck
     flycheck-ocaml
+    flycheck-haskell
     flycheck-clojure
     flycheck-pos-tip
+    ghc
     go-mode
     go-eldoc
     go-projectile
     haskell-mode
+    hindent 
     ido-ubiquitous
     ido-vertical-mode
     ido-hacks

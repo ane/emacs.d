@@ -5,7 +5,6 @@
 
 (setq-default evil-escape-key-sequence "jk")
 
-
 (define-key evil-normal-state-map (kbd "M-.") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-operator-state-map (kbd "q") nil)
@@ -17,6 +16,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "f" 'projectile-find-file)
 (evil-leader/set-key "p" 'projectile-persp-switch-project)
+(evil-leader/set-key "x" 'smex)
 (evil-leader/set-key "s" 'yas-insert-snippet)
 (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
 (evil-leader/set-key "T" 'projectile-find-test-file)
