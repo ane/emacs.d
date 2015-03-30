@@ -26,7 +26,7 @@
     flx-ido
     flycheck
     flycheck-ocaml
-    flycheck-haskell
+    flycheck-hdevtools
     flycheck-clojure
     flycheck-pos-tip
     ghc
@@ -34,7 +34,6 @@
     go-eldoc
     go-projectile
     haskell-mode
-    hindent 
     ido-ubiquitous
     ido-vertical-mode
     ido-hacks

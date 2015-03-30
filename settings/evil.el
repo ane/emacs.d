@@ -3,7 +3,7 @@
 (require 'evil-leader)
 (use-package evil-smartparens)
 
-(setq-default evil-escape-key-sequence "jk")
+(setq-default evil-escape-key-sequence "fd")
 
 (define-key evil-normal-state-map (kbd "M-.") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
@@ -37,6 +37,8 @@
       evil-move-cursor-back nil
       evil-want-C-u-scroll t
       evil-ex-hl-update-delay 0.01)
+
+
 
 (evil-mode)
 (evil-escape-mode)
