@@ -27,3 +27,4 @@
 
 (setq-default indent-tabs-mode nil)
 (setq speedbar-show-unknown-files t)
+(setq ns-right-alternate-modifier nil)
