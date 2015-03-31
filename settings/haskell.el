@@ -7,6 +7,9 @@
 (evil-define-key 'insert haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
 (evil-define-key 'normal haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
 
+(add-hook 'speedbar-load-hook (lambda ()
+                                (push ".hs" speedbar-supported-extension-expressions)))
+
 (defun my/setup-haskell ()
   (ghc-init)
   (flycheck-mode)
