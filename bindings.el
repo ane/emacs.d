@@ -43,6 +43,7 @@
 (global-set-key (kbd "ä") "]")
 (global-set-key (kbd "Ö") "{")
 (global-set-key (kbd "Ä") "}")
+(global-set-key (kbd "<M-S-dead-circumflex>") "M-^")
 
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 

@@ -56,6 +56,8 @@
     (flycheck-clojure-setup)
     (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
+(setq flycheck-check-syntax-automatically '(save))
+
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
@@ -73,6 +75,8 @@
 ;; enable projectile everywhere
 (projectile-global-mode)
 
+(define-key yas-minor-mode-map [(tab)] nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
 (setq yas/prompt-functions '(yas-ido-prompt))
 (global-set-key (kbd "M-o") 'yas-expand)
 (setq yas-fallback-behavior 'return-nil)
