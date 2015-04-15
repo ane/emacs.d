@@ -11,11 +11,11 @@
                                 (push ".hs" speedbar-supported-extension-expressions)))
 
 (custom-set-variables
-  '(haskell-process-suggest-remove-import-lines t)
-  '(haskell-process-auto-import-loaded-modules t)
-  '(haskell-process-log t)
-  '(haskell-process-type 'cabal-repl))
-
+ '(haskell-process-suggest-hoogle-imports t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-type 'cabal-repl))
 
 (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
 (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
@@ -26,15 +26,14 @@
 
 
 (defun my/setup-haskell ()
+  (setq-local ghc-check-command t)
   (turn-on-hi2)
-  (ghc-init)
   (smartparens-mode)
   (flycheck-mode)
   (electric-indent-local-mode -1)
-  (eval-after-load 'flycheck
-    '(require 'flycheck-hdevtools))
-  (company-mode)
+  (flycheck-haskell-setup)
   (rainbow-delimiters-mode)
   (turn-on-haskell-doc-mode)) 
 
 (add-hook 'haskell-mode-hook 'my/setup-haskell)
+(add-hook 'haskell-interactive-mode-hook 'company-mode)

@@ -13,6 +13,7 @@
       info-use-header-line nil
       cursor-type 'bar
       auto-save-default nil
+      company-tooltip-align-annotations t
       inhibit-startup-screen t
       initial-scratch-message nil
       isearch-lazy-highlight nil

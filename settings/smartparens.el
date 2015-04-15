@@ -89,6 +89,9 @@
   (indent-according-to-mode))
 
 (sp-local-pair 'go-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+(sp-local-pair 'rust-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+(sp-local-pair 'rust-mode "(" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+(sp-local-pair 'rust-mode "[" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
 (sp-local-pair 'go-mode "(" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
 
 (mapc (lambda (mode)

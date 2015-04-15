@@ -12,7 +12,6 @@
     clojure-mode
     clojure-mode-extra-font-locking
     company
-    company-ghc
     company-go
     company-quickhelp
     evil
@@ -25,11 +24,11 @@
     f
     flx-ido
     flycheck
+    flycheck-rust
     flycheck-ocaml
-    flycheck-hdevtools
+    flycheck-haskell
     flycheck-clojure
     flycheck-pos-tip
-    ghc
     go-mode
     go-eldoc
     go-projectile
@@ -45,6 +44,7 @@
     projectile
     s
     rainbow-delimiters
+    rust-mode
     smart-mode-line
     smartparens
     smooth-scrolling
