@@ -6,14 +6,12 @@
 (add-hook 'cider-mode-hook #'company-mode)
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 (add-hook 'cider-repl-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'cider-repl-mode-hook 'hl-sexp-mode)
 
 (require 'clojure-mode-extra-font-locking)
 (cljr-add-keybindings-with-prefix "C-c C-m")
 
 (defun setup-clojure ()
   (subword-mode)
-  (hl-sexp-mode)
   (smartparens-mode)
   (flycheck-mode)
   (yas/minor-mode)
