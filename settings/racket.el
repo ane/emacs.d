@@ -1,6 +1,13 @@
+(sp-local-pair 'racket-mode "'" nil :actions nil)
+
 (add-hook 'racket-mode-hook
           (lambda ()
-            (smartparens-mode)
+            (add-to-list 'sp--lisp-modes 'racket-mode)
+            (smartparens-strict-mode)
+            (local-unset-key ")")
+            (local-unset-key "[")
+            (local-unset-key "}")
+            (local-unset-key "]")
             (projectile-mode)
             (yas/minor-mode)
             (eldoc-mode)

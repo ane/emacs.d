@@ -33,6 +33,7 @@
     go-eldoc
     go-projectile
     haskell-mode
+    hl-sexp
     ido-ubiquitous
     ido-vertical-mode
     ido-hacks
@@ -42,6 +43,7 @@
     perspective
     persp-projectile
     projectile
+    racket-mode
     s
     rainbow-delimiters
     rust-mode

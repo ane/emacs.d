@@ -1,8 +1,6 @@
 
 ;; Disable fill column shit fuck
 (global-unset-key (kbd "C-x f"))
-;; Disable shit buffer gui
-(global-unset-key (kbd "C-x C-b"))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)

@@ -82,7 +82,6 @@
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
-  (message "hello i am a dog")
   (newline)
   (indent-according-to-mode)
   (forward-line -1)
