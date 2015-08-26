@@ -9,6 +9,7 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
+                         ("elpy" . "http://jorgenschaefer.github.io/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
 
 (use-package-with-elapsed-timer "Initializing packages"

@@ -1,5 +1,7 @@
 (sp-local-pair 'racket-mode "'" nil :actions nil)
 
+(sp-local-pair 'racket-mode "(" nil :bind "C-(")
+
 (add-hook 'racket-mode-hook
           (lambda ()
             (add-to-list 'sp--lisp-modes 'racket-mode)

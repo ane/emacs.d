@@ -3,12 +3,10 @@
 (require 'evil-leader)
 (use-package evil-smartparens)
 
-(setq-default evil-escape-key-sequence "fd")
 
 (define-key evil-normal-state-map (kbd "M-.") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-operator-state-map (kbd "q") nil)
-(define-key evil-insert-state-map (kbd "<escape>") nil)
 
 (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode)
 (setq-default evil-symbol-word-search t)
@@ -38,11 +36,13 @@
       evil-want-C-u-scroll t
       evil-ex-hl-update-delay 0.01)
 
-
+(setq-default evil-escape-key-sequence "fd")
 
 (evil-mode)
 (evil-escape-mode)
 (global-evil-leader-mode)
-(global-evil-snipe-mode)
+(evil-snipe-mode)
 (global-evil-surround-mode)
 (evil-exchange-install)
+
+(setq-default evil-escape-delay 0.2)
