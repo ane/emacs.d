@@ -1,8 +1,11 @@
 auto-save-list/
 projects/
+semanticdb/
 backups/
 elpa/
 eshell/
+themes/
+.python-environments
 project-explorer-cache/
 url/
 vendor/
@@ -10,6 +13,8 @@ dev/
 data/
 
 bookmarks
+tramp
+ac-comphist.dat
 persp-confs/
 *.png
 .bookmarks
