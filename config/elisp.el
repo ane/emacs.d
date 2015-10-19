@@ -14,7 +14,6 @@
             (subword-mode)
             (yas/minor-mode)
             (smartparens-mode)
-            (company-quickhelp-mode)
             (projectile-mode)
             (rainbow-delimiters-mode)
             (company-mode)))

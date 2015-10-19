@@ -36,13 +36,23 @@
       evil-want-C-u-scroll t
       evil-ex-hl-update-delay 0.01)
 
-(setq-default evil-escape-key-sequence "fd")
 
 (evil-mode)
-(evil-escape-mode)
 (global-evil-leader-mode)
 (evil-snipe-mode)
 (global-evil-surround-mode)
+
 (evil-exchange-install)
 
+(evil-escape-mode)
+(setq-default evil-escape-key-sequence "fd")
 (setq-default evil-escape-delay 0.2)
+
+(define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
+(define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
+(define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
+(define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
+(define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
+(define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
+
+(evil-set-initial-state 'term-mode 'emacs)

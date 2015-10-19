@@ -1,4 +1,4 @@
-(global-auto-revert-mode 1)
+ (global-auto-revert-mode 1)
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
@@ -31,18 +31,17 @@
 
 (setq confirm-nonexistent-file-or-buffer nil)
 
-(setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function
-																				kill-buffer-query-functions))
+(setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 ;; electric indent 
 (electric-indent-mode +1)
 
-(setq default-tab-width 2)
+(setq default-tab-width 4)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; load settings directory
-(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/settings" t "^[A-Za-z-]*\\.el$")))
+(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$")))
 
 
 ;; offer a function to byte compile the .emacs.d directory
@@ -61,16 +60,21 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
-;; compilation window disappears if there are no errors
-(setq compilation-finish-function
-  (lambda (buf str)
-    (if (null (string-match ".*exited abnormally.*" str))
-        ;;no errors, make the compilation window go away in a few seconds
-        (progn
-          (run-at-time
-           "2 sec" nil 'delete-windows-on
-           (get-buffer-create "*compilation*"))
-          (message "No Compilation Errors!")))))
+(defun my-compilation-finish-function (buf str)
+  (unless (string-match ".*exited abnormally.*" str)
+    (progn
+      (run-at-time
+       "2 sec"
+       nil
+       (lambda ()
+         (progn 
+           (interactive)
+           (switch-to-buffer-other-window "*compilation*")
+           (previous-buffer)
+           (other-window -1))))
+      (message "No Compilation Errors!"))))
+
+(setq compilation-finish-function 'my-compilation-finish-function)
 
 ;; enable projectile everywhere
 (projectile-global-mode)
@@ -91,4 +95,7 @@
       company-minimum-prefix-length 2
       company-selection-wrap-around t)
 
-(load-theme 'zenburn)
+(add-to-list 'company-backends 'company-files)
+
+(load-theme 'monokai)
+(setq tramp-default-method "ssh")

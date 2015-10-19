@@ -5,6 +5,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(rainbow-mode)
 
 (setq custom-file "~/.emacs.d/custom.el")
 
@@ -14,7 +15,6 @@
       cursor-type 'bar
       auto-save-default nil
       company-tooltip-align-annotations t
-      inhibit-startup-screen t
       initial-scratch-message nil
       isearch-lazy-highlight nil
       linum-format "%3d "

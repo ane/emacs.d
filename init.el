@@ -1,48 +1,48 @@
-
 (server-start)
 (defconst emacs-start-time (current-time))
 
-(add-to-list 'load-path "~/.emacs.d/vendor/use-package/")
-(require 'use-package)
-(setq use-package-verbose t)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("elpy" . "http://jorgenschaefer.github.io/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")
+			 ("melpa" . "http://melpa.org/packages/")
+			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
+			 ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
+(when (not (package-installed-p 'dash))
+  (package-refresh-contents)
+  (package-install 'dash)
+  (package-install 'dash-functional)
+  (package-install 'use-package))
 
-(use-package-with-elapsed-timer "Initializing packages"
-  (package-initialize)
-  (load "~/.emacs.d/dev/dash.el/dash")
-  (load "~/.emacs.d/dev/dash.el/dash-functional")
-  (load "~/.emacs.d/autoinstall")
+(require 'use-package)
+(setq use-package-verbose t)
+(require 'dash)
+(require 'dash-functional)
 
-  (require 'uniquify)
-  (require 's)
-  (require 'f)
+(load "~/.emacs.d/autoinstall")
 
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
+(require 'uniquify)
+(require 's)
+(require 'f)
 
-(use-package-with-elapsed-timer "Loading themes..."
-  (require 'f)
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
-  (mapc (apply-partially 'add-to-list 'custom-theme-load-path) (f-directories "~/.emacs.d/themes")))
+(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
+(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
 
-(use-package-with-elapsed-timer "Loading interface..."
-  (load "~/.emacs.d/interface")
-  (load "~/.emacs.d/bindings")
-  (load custom-file))
+(require 'f)
+(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
+(mapc (apply-partially 'add-to-list 'custom-theme-load-path) (f-directories "~/.emacs.d/themes"))
 
-(use-package-with-elapsed-timer "Loading settings..."
-  (load "~/.emacs.d/settings"))
+(load "~/.emacs.d/interface")
+(load "~/.emacs.d/bindings")
+(load custom-file)
+
+(load "~/.emacs.d/settings")
 
 (when window-system
   (add-hook 'after-init-hook
-            `(lambda ()
-               (let ((elapsed (float-time (time-subtract (current-time)
-                                                         emacs-start-time))))
-                 (message "Loading %s...done (%.3fs) [after-init]"
-                          ,load-file-name elapsed)))
-            t))
+	    `(lambda ()
+	       (let ((elapsed (float-time (time-subtract (current-time)
+							 emacs-start-time))))
+		 (message "Loading %s...done (%.3fs) [after-init]"
+			  ,load-file-name elapsed)))
+	    t))

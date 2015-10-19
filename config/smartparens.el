@@ -1,8 +1,5 @@
 (use-package smartparens-config)
 
-;; highlights matching pairs
-(show-smartparens-global-mode t)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; keybinding management
 

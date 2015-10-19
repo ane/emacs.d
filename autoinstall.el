@@ -13,44 +13,45 @@
     clojure-mode-extra-font-locking
     company
     company-go
-    company-quickhelp
     evil
+    evil-escape
     evil-exchange
-    evil-snipe
     evil-leader
     evil-smartparens
-    evil-escape
+    evil-snipe
     evil-surround
     f
     flx-ido
     flycheck
-    flycheck-rust
-    flycheck-ocaml
-    flycheck-haskell
     flycheck-clojure
+    flycheck-haskell
+    flycheck-ocaml
     flycheck-pos-tip
-    go-mode
+    flycheck-rust
     go-eldoc
+    go-mode
     go-projectile
     haskell-mode
     hl-sexp
+    ido-hacks
     ido-ubiquitous
     ido-vertical-mode
-    ido-hacks
     magit
     markdown-mode+
     merlin
-    perspective
     persp-projectile
+    perspective
     projectile
+    racer
     racket-mode
-    s
     rainbow-delimiters
+    rainbow-mode
     rust-mode
+    s
     smart-mode-line
     smartparens
-    smooth-scrolling
     smex
+    smooth-scrolling
     sr-speedbar
     transpose-frame
     tuareg
@@ -59,10 +60,10 @@
   "A list of packages to ensure are installed at launch.")
 
 (when (--any? (not (package-installed-p it)) autoinstall-packages)
-  ;; check for new packages (package versions)
   (message "%s" "Emacs is now refreshing its package database...")
   (package-refresh-contents)
   (message "%s" " done.")
+  ;; check for new packages (package versions)
   ;; install the missing packages
   (dolist (p autoinstall-packages)
     (when (not (package-installed-p p))
