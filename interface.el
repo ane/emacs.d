@@ -1,4 +1,5 @@
 (column-number-mode t)
+(show-paren-mode 1)
 (global-font-lock-mode t)
 (global-hl-line-mode -1)
 (winner-mode t)

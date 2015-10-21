@@ -27,9 +27,9 @@
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
 
-(setq evil-insert-state-cursor '("dodger blue" bar)
-      evil-normal-state-cursor '("white" box)
-      evil-visual-state-cursor '("salmon1" box)
+(setq evil-insert-state-cursor '("HotPink1" (hbar . 4))
+      evil-normal-state-cursor '("cyan1" box)
+      evil-visual-state-cursor '("SeaGreen1" box)
       evil-default-cursor t
       evil-want-visual-char-semi-exclusive t
       evil-move-cursor-back nil
@@ -56,3 +56,7 @@
 (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
 
 (evil-set-initial-state 'term-mode 'emacs)
+(evil-set-initial-state 'ielm-mode 'emacs)
+(evil-set-initial-state 'alchemist-iex-mode 'emacs)
+(evil-set-initial-state 'comint-mode 'emacs)
+
