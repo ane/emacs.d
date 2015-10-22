@@ -56,3 +56,6 @@
 (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
 
 (evil-set-initial-state 'term-mode 'emacs)
+(evil-set-initial-state 'comint-mode 'emacs)
+(evil-set-initial-state 'eshell-mode 'emacs)
+(evil-set-initial-state 'alchemist-iex-mode 'emacs)
