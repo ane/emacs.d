@@ -39,6 +39,7 @@
     magit
     markdown-mode+
     merlin
+    monokai-theme
     persp-projectile
     perspective
     projectile
