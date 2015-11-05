@@ -38,6 +38,7 @@
     ido-ubiquitous
     ido-vertical-mode
     js2-mode
+    js2-refactor
     magit
     markdown-mode+
     merlin
@@ -56,7 +57,7 @@
     smex
     smooth-scrolling
     sr-speedbar
-    tern-mode
+    tern
     transpose-frame
     tuareg
     web-mode

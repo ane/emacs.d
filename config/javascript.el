@@ -11,8 +11,11 @@
 
 (add-hook 'js2-mode-hook (lambda ()
                            (tern-mode t)
+                           (eldoc-mode)
+                           (js2-refactor-mode)
                            (flycheck-mode)
                            (company-mode)))
+
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (when (equal window-system 'w32)

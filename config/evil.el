@@ -23,6 +23,8 @@
 (evil-leader/set-key "b" 'projectile-switch-to-buffer)
 (evil-leader/set-key "i" 'imenu)
 (evil-leader/set-key "I" 'indent-region)
+(evil-leader/set-key-for-mode 'js2-refactor-mode
+  "r" (lambda () (discover-show-context-menu 'js2-refactor)))
 
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
