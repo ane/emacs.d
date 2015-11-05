@@ -1,4 +1,3 @@
-
 (require 'evil)
 (require 'evil-leader)
 (use-package evil-smartparens)
@@ -61,4 +60,3 @@
 (evil-set-initial-state 'eshell-mode 'emacs)
 (evil-set-initial-state 'alchemist-iex-mode 'emacs)
 (evil-set-initial-state 'comint-mode 'emacs)
-
