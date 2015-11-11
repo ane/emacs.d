@@ -97,5 +97,5 @@
 
 (add-to-list 'company-backends 'company-files)
 
-(load-theme 'monokai)
+(load-theme 'aurora)
 (setq tramp-default-method "ssh")
