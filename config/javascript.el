@@ -1,5 +1,6 @@
 (use-package flycheck)
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
@@ -19,7 +20,7 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (when (equal window-system 'w32)
-  (setq tern-command '("node" "c:/nodejs/node_modules/tern/bin/tern")))
+  (setq tern-command `("node" ,(expand-file-name "~/AppData/Roaming/npm/node_modules/tern/bin/tern"))))
 
 (add-hook 'web-mode-hook
           (lambda ()
