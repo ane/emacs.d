@@ -9,6 +9,7 @@
 (add-to-list 'company-backends 'company-tern)
 
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+(setq js2-strict-missing-semi-warning nil)
 
 (add-hook 'js2-mode-hook (lambda ()
                            (tern-mode t)
@@ -28,3 +29,11 @@
               (company-mode)
               (tern-mode t)
               (flycheck-mode))))
+
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (tide-setup)
+            (flycheck-mode +1)
+            (setq flycheck-check-syntax-automatically '(save mode-enabled))
+            (eldoc-mode +1)
+            (company-mode-on)))
