@@ -8,7 +8,10 @@
 			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
 			 ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
-(when (not (package-installed-p 'dash))
+
+(when (or (not (package-installed-p 'dash))
+          (not (package-installed-p 'use-package))
+          (not (package-installed-p 'dash-functional)))
   (package-refresh-contents)
   (package-install 'dash)
   (package-install 'dash-functional)

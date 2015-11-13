@@ -1,7 +1,5 @@
 ;; modeline
 
-(use-package smart-mode-line)
-
+(use-package smart-mode-line) 
 (sml/setup)
-(sml/apply-theme 'respectful)
-
+(sml/apply-theme 'dark)

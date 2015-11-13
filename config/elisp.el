@@ -11,7 +11,6 @@
           (lambda ()
             (remove-elc-on-save)
             (eldoc-mode)
-            (subword-mode)
             (yas/minor-mode)
             (smartparens-mode)
             (projectile-mode)

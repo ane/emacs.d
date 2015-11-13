@@ -13,6 +13,7 @@
     clojure-mode-extra-font-locking
     company
     company-go
+    company-tern
     evil
     evil-escape
     evil-exchange
@@ -36,9 +37,12 @@
     ido-hacks
     ido-ubiquitous
     ido-vertical-mode
+    js2-mode
+    js2-refactor
     magit
     markdown-mode+
     merlin
+    monokai-theme
     persp-projectile
     perspective
     projectile
@@ -53,8 +57,10 @@
     smex
     smooth-scrolling
     sr-speedbar
+    tern
     transpose-frame
     tuareg
+    web-mode
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")

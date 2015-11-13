@@ -1,4 +1,3 @@
-
 (require 'evil)
 (require 'evil-leader)
 (use-package evil-smartparens)
@@ -23,6 +22,8 @@
 (evil-leader/set-key "b" 'projectile-switch-to-buffer)
 (evil-leader/set-key "i" 'imenu)
 (evil-leader/set-key "I" 'indent-region)
+(evil-leader/set-key-for-mode 'js2-refactor-mode
+  "r" (lambda () (discover-show-context-menu 'js2-refactor)))
 
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
@@ -39,11 +40,8 @@
 
 (evil-mode)
 (global-evil-leader-mode)
-(evil-snipe-mode)
 (global-evil-surround-mode)
-
 (evil-exchange-install)
-
 (evil-escape-mode)
 (setq-default evil-escape-key-sequence "fd")
 (setq-default evil-escape-delay 0.2)
@@ -56,8 +54,6 @@
 (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
 
 (evil-set-initial-state 'term-mode 'emacs)
-(evil-set-initial-state 'ielm-mode 'emacs)
 (evil-set-initial-state 'eshell-mode 'emacs)
 (evil-set-initial-state 'alchemist-iex-mode 'emacs)
 (evil-set-initial-state 'comint-mode 'emacs)
-
