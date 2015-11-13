@@ -57,6 +57,7 @@
 
 (evil-set-initial-state 'term-mode 'emacs)
 (evil-set-initial-state 'ielm-mode 'emacs)
+(evil-set-initial-state 'eshell-mode 'emacs)
 (evil-set-initial-state 'alchemist-iex-mode 'emacs)
 (evil-set-initial-state 'comint-mode 'emacs)
 
