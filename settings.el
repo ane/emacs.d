@@ -36,9 +36,6 @@
 ;; electric indent 
 (electric-indent-mode +1)
 
-;; electric pairing
-(electric-pair-mode +1)
-
 (setq default-tab-width 4)
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -99,3 +96,4 @@
 (add-to-list 'company-backends 'company-files)
 
 (setq tramp-default-method "ssh")
+

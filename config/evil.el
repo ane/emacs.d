@@ -7,7 +7,6 @@
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-operator-state-map (kbd "q") nil)
 
-(add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode)
 (setq-default evil-symbol-word-search t)
 
 (evil-leader/set-leader "<SPC>")

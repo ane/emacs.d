@@ -1,9 +1,5 @@
 (add-hook 'racket-mode-hook
           (lambda ()
-            (add-to-list 'sp--lisp-modes 'racket-mode)
-            (smartparens-strict-mode)
-            (sp-local-pair 'racket-mode "(" nil :bind "C-(")
-            (sp-local-pair 'racket-mode "'" nil :actions nil)
             (local-unset-key ")")
             (local-unset-key "[")
             (local-unset-key "}")

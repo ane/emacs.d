@@ -2,7 +2,7 @@
                                 (push ".rs" speedbar-supported-extension-expressions)))
 
 (setq racer-cmd "~/Downloads/racer/target/release/racer")
-(setq racer-rust-src-path "~/Downloads/rustc-1.3.0/src")
+(setq racer-rust-src-path "~/Downloads/rustc-1.4.0/src")
 
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
