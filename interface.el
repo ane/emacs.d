@@ -30,3 +30,23 @@
 (setq-default indent-tabs-mode nil)
 (setq speedbar-show-unknown-files t)
 (setq ns-right-alternate-modifier nil)
+
+;; company stuf
+(deftheme ane "my theme")
+(custom-theme-set-faces
+ 'ane
+ '(company-tooltip ((t (:background "DarkSlateGrey"))))
+ '(company-scrollbar-bg ((t (:background "DimGrey"))))
+ '(company-scrollbar-fg ((t (:background "cyan1"))))
+ '(company-tooltip-selection ((t (:background "DarkSlateGray4"))))
+ '(company-tooltip-common-selection ((t (:foreground "LightSalmon" :inherit company-tooltip-selection))))
+ '(company-tooltip-common ((t (:foreground "LightSalmon" :inherit company-tooltip))))
+ '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
+ '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
+ '(company-preview-common ((t (:foreground "LightSalmon" :background "transparent"))))
+ '(company-tooltip-search ((t (:inherit company-tooltip-common))))
+ )
+
+(invert-face 'default)
+(rainbow-delimiters-mode)
+(enable-theme 'ane)

@@ -18,7 +18,6 @@
     evil-escape
     evil-exchange
     evil-leader
-    evil-smartparens
     evil-snipe
     evil-surround
     f
@@ -29,6 +28,7 @@
     flycheck-ocaml
     flycheck-pos-tip
     flycheck-rust
+    geiser
     go-eldoc
     go-mode
     go-projectile
@@ -42,7 +42,6 @@
     magit
     markdown-mode+
     merlin
-    monokai-theme
     persp-projectile
     perspective
     projectile
@@ -53,11 +52,11 @@
     rust-mode
     s
     smart-mode-line
-    smartparens
     smex
     smooth-scrolling
     sr-speedbar
     tern
+    tide
     transpose-frame
     tuareg
     web-mode

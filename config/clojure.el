@@ -11,11 +11,10 @@
 (cljr-add-keybindings-with-prefix "C-c C-m")
 
 (defun setup-clojure ()
-  (subword-mode)
-  (smartparens-mode)
   (flycheck-mode)
   (yas/minor-mode)
   (projectile-mode)
+  (paredit-mode)
   (clj-refactor-mode)
   (rainbow-delimiters-mode)
   (eldoc-mode))

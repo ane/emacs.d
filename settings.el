@@ -43,7 +43,6 @@
 ;; load settings directory
 (mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$")))
 
-
 ;; offer a function to byte compile the .emacs.d directory
 (defun byte-compile-init-dir ()
   "Byte compile all your dotfiles."
@@ -72,7 +71,7 @@
            (switch-to-buffer-other-window "*compilation*")
            (previous-buffer)
            (other-window -1))))
-      (message "No Compilation Errors!"))))
+      (message "no compilation Errors!"))))
 
 (setq compilation-finish-function 'my-compilation-finish-function)
 
@@ -86,7 +85,6 @@
 (setq yas-fallback-behavior 'return-nil)
 (yas-global-mode)
 
-
 (setq eldoc-idle-delay 0.1)
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
 
@@ -97,5 +95,5 @@
 
 (add-to-list 'company-backends 'company-files)
 
-(load-theme 'aurora)
 (setq tramp-default-method "ssh")
+
