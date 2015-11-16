@@ -14,6 +14,7 @@
     company
     company-go
     company-tern
+    darktooth-theme
     evil
     evil-escape
     evil-exchange

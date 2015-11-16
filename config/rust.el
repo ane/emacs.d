@@ -17,4 +17,3 @@
             (flycheck-mode)
             (flycheck-rust-setup)))
 
-(sp-local-pair 'rust-mode "'" nil :actions nil)

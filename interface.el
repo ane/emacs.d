@@ -47,6 +47,5 @@
  '(company-tooltip-search ((t (:inherit company-tooltip-common))))
  )
 
-(invert-face 'default)
 (rainbow-delimiters-mode)
-(enable-theme 'ane)
+(load-theme 'darktooth)
