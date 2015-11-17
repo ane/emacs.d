@@ -12,6 +12,7 @@
 (setq js2-strict-missing-semi-warning nil)
 
 (add-hook 'js2-mode-hook (lambda ()
+                           (exec-path-from-shell-initialize)
                            (tern-mode t)
                            (rainbow-delimiters-mode)
                            (eldoc-mode)
@@ -20,6 +21,7 @@
                            (company-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
 
 (when (equal window-system 'w32)
   (setq tern-command `("node" ,(expand-file-name "~/AppData/Roaming/npm/node_modules/tern/bin/tern"))))
