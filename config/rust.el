@@ -10,11 +10,7 @@
 
 (add-hook 'rust-mode-hook
           (lambda ()
-            (use-package flycheck-rust)
             (setq company-tooltip-align-annotations t)
-            (smartparens-mode)
             (rainbow-delimiters-mode)
-            (flycheck-mode)
-            (flycheck-rust-setup)))
+            (flycheck-mode)))
 
-(sp-local-pair 'rust-mode "'" nil :actions nil)
