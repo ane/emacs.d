@@ -35,6 +35,7 @@
 
 ;; electric indent 
 (electric-indent-mode +1)
+(electric-pair-mode +1)
 
 (setq default-tab-width 4)
 
