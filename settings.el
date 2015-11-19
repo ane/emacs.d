@@ -58,7 +58,7 @@
 (setq flycheck-check-syntax-automatically '(save))
 
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
+      browse-url-generic-program "firefox")
 
 (defun my-compilation-finish-function (buf str)
   (unless (string-match ".*exited abnormally.*" str)

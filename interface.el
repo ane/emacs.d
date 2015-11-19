@@ -48,4 +48,4 @@
  )
 
 (rainbow-delimiters-mode)
-(load-theme 'darktooth)
+(load-theme 'darktooth t)

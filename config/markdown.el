@@ -5,6 +5,6 @@
             (setq fill-column 100)
             (auto-fill-mode)))
 
-(setq markdown-command "docter")
+(setq markdown-command "marked")
 
 
