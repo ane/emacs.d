@@ -1,7 +1,7 @@
-(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
 
 (add-hook 'tuareg-mode-hook (lambda ()
+                              (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
+                              (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
                               (use-package merlin)
                               (use-package ocp-indent)
                               (setq merlin-command 'opam)
