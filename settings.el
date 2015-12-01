@@ -84,17 +84,15 @@
 (setq yas/prompt-functions '(yas-ido-prompt))
 (global-set-key (kbd "M-o") 'yas-expand)
 (setq yas-fallback-behavior 'return-nil)
-(yas-global-mode)
 
 (setq eldoc-idle-delay 0.1)
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
 
 ;; company settings
-(setq company-idle-delay 0.1
+(setq company-idle-delay 0.2
       company-minimum-prefix-length 2
       company-selection-wrap-around t)
 
 (add-to-list 'company-backends 'company-files)
-
 (setq tramp-default-method "ssh")
 

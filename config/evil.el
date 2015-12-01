@@ -57,3 +57,4 @@
 (evil-set-initial-state 'alchemist-iex-mode 'emacs)
 (evil-set-initial-state 'comint-mode 'emacs)
 (evil-set-initial-state 'geiser-repl-mode 'emacs)
+(evil-set-initial-state 'slime-repl-mode 'emacs)

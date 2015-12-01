@@ -38,6 +38,7 @@
     ido-hacks
     ido-ubiquitous
     ido-vertical-mode
+    inf-ruby
     js2-mode
     js2-refactor
     magit
@@ -46,11 +47,14 @@
     persp-projectile
     perspective
     projectile
+    projectile-rails
     racer
     racket-mode
     rainbow-delimiters
     rainbow-mode
+    robe
     rust-mode
+    rvm
     s
     smart-mode-line
     smex
@@ -61,6 +65,7 @@
     transpose-frame
     tuareg
     web-mode
+    yard-mode
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")

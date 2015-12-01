@@ -18,6 +18,12 @@
 (global-set-key (kbd "H-f") 'projectile-find-file)
 (global-set-key (kbd "H-x") 'projectile-persp-switch-project)
 
+(add-hook 'paredit-mode-hook (lambda ()
+                               (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
+                               (define-key paredit-mode-map (kbd "M-;") 'paredit-backward-slurp-sexp)
+                               (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
+                               (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp)))
+
 (defvar flymake-mode-map (make-sparse-keymap))
 (define-key flymake-mode-map (kbd "S-<next>") 'flymake-goto-next-error)
 (define-key flymake-mode-map (kbd "S-<prior>") 'flymake-goto-prev-error)

@@ -33,19 +33,26 @@
 
 ;; company stuf
 (deftheme ane "my theme")
-(custom-theme-set-faces
- 'ane
- '(company-tooltip ((t (:background "DarkSlateGrey"))))
- '(company-scrollbar-bg ((t (:background "DimGrey"))))
- '(company-scrollbar-fg ((t (:background "cyan1"))))
- '(company-tooltip-selection ((t (:background "DarkSlateGray4"))))
- '(company-tooltip-common-selection ((t (:foreground "salmon" :inherit company-tooltip-selection))))
- '(company-tooltip-common ((t (:foreground "salmon" :inherit company-tooltip))))
- '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
- '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
- '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
- '(company-tooltip-search ((t (:inherit company-tooltip-common))))
- )
+
+(let ((indigofera-grey-0        (if (display-graphic-p) "DarkSlateGray4" "DarkSlateGray4"))
+      (indigofera-white         (if (display-graphic-p) "#ffffff"        "white"))
+      (indigofera-dark          (if (display-graphic-p) "#030B1C" "navy"))
+      (indigofera-analogue      (if (display-graphic-p) "#05436C" "DarkSlateGray4"))
+      (indigofera-complement    (if (display-graphic-p) "#A84900" "LightSalmon")))
+  (custom-theme-set-faces
+   'ane
+   '(company-tooltip ((t (:background "#030B1C"))))
+   '(company-scrollbar-bg ((t (:background "DimGrey"))))
+   '(company-scrollbar-fg ((t (:background "cyan1"))))
+   '(company-tooltip-selection ((t (:background "#05436C"))))
+   '(company-tooltip-common-selection ((t (:foreground "salmon" :inherit company-tooltip-selection))))
+   '(company-tooltip-common ((t (:foreground "salmon" :inherit company-tooltip))))
+   '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
+   '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
+   '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
+   '(company-tooltip-search ((t (:inherit company-tooltip-common))))
+   ))
 
 (rainbow-delimiters-mode)
+(load-theme 'smart-mode-line-dark t)
 (load-theme 'darktooth t)
