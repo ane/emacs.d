@@ -1,11 +1,5 @@
-(use-package flx-ido)
-(use-package ido-ubiquitous)
-(use-package ido-hacks)
-(use-package ido-vertical-mode)
-
 (ido-mode t)
 (ido-vertical-mode t)
-(ido-hacks-mode)
 (ido-everywhere t)
 (ido-ubiquitous t)
 (flx-ido-mode t)

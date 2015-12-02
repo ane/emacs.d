@@ -1,7 +1,5 @@
-(require 'evil)
-(require 'evil-leader)
-(use-package evil-smartparens)
-
+(use-package evil)
+(use-package evil-leader)
 
 (define-key evil-normal-state-map (kbd "M-.") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
@@ -37,20 +35,16 @@
       evil-ex-hl-update-delay 0.01)
 
 
-(evil-mode)
-(global-evil-leader-mode)
-(global-evil-surround-mode)
-(evil-exchange-install)
-(evil-escape-mode)
 (setq-default evil-escape-key-sequence "fd")
 (setq-default evil-escape-delay 0.2)
 
-(define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
-(define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
-(define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
-(define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
-(define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
-(define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)
+(add-hook 'evil-mode-hook (lambda ()
+			    (define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
+			    (define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
+			    (define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
+			    (define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
+			    (define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
+			    (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)))
 
 (evil-set-initial-state 'term-mode 'emacs)
 (evil-set-initial-state 'eshell-mode 'emacs)

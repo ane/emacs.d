@@ -36,11 +36,18 @@
 
 (let ((indigofera-grey-0        (if (display-graphic-p) "DarkSlateGray4" "DarkSlateGray4"))
       (indigofera-white         (if (display-graphic-p) "#ffffff"        "white"))
-      (indigofera-dark          (if (display-graphic-p) "#030B1C" "navy"))
-      (indigofera-analogue      (if (display-graphic-p) "#05436C" "DarkSlateGray4"))
-      (indigofera-complement    (if (display-graphic-p) "#A84900" "LightSalmon")))
+      (indigofera-dark          (if (display-graphic-p) "#04080B"        "navy"))
+      (indigofera-bright3       (if (display-graphic-p) "#62A7EE"        "DarkSlateGray4"))
+      (indigofera-red3          (if (display-graphic-p) "#FF645C"        "LightSalmon"))
+      (indigofera-yellow2       (if (display-graphic-p) "#AA9A39"        "mustard")))
   (custom-theme-set-faces
    'ane
+   ;; `(default ((t (:foreground ,indigofera-white :background ,indigofera-dark))))
+   ;; `(font-lock-string-face ((t (:foreground ,indigofera-red3))))
+   ;; `(font-lock-keyword-face ((t (:foreground ,indigofera-bright3))))
+   ;; `(font-lock-comment-face ((t (:foreground ,indigofera-yellow2))))
+   ;; `(font-lock-type-face ((t (:foreground ,indigofera-))))
+   
    '(company-tooltip ((t (:background "#030B1C"))))
    '(company-scrollbar-bg ((t (:background "DimGrey"))))
    '(company-scrollbar-fg ((t (:background "cyan1"))))
@@ -53,6 +60,26 @@
    '(company-tooltip-search ((t (:inherit company-tooltip-common))))
    ))
 
-(rainbow-delimiters-mode)
-(load-theme 'smart-mode-line-dark t)
-(load-theme 'darktooth t)
+;; when a daemon, invoke theme startup 
+
+(defun setup-interface ()
+  (interactive)
+  (sml/setup)
+  (load-theme 'smart-mode-line-dark t)
+  (rainbow-delimiters-mode)
+  (load-theme 'darktooth t)
+  (evil-mode +1)
+  (global-evil-leader-mode +1)
+  (global-evil-surround-mode +1)
+  (evil-exchange-install)
+  (evil-escape-mode +1)
+  (projectile-global-mode +1)
+  (persp-mode +1))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (setup-interface)))
+  (add-hook 'after-make-frame-functions 'switch-perspectives t)
+  (setup-interface))

@@ -17,5 +17,3 @@
       org-jira-default-jql "assignee = currentUser() and resolution = unresolved")
 
 (add-hook 'org-mode-hook 'my/org-config)
-
-(use-package org-jira)

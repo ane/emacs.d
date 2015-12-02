@@ -41,8 +41,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; load settings directory
-(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$")))
 
 ;; offer a function to byte compile the .emacs.d directory
 (defun byte-compile-init-dir ()
@@ -79,6 +77,9 @@
 ;; enable projectile everywhere
 (projectile-global-mode)
 
+(use-package yasnippet)
+(use-package company)
+
 (define-key yas-minor-mode-map [(tab)] nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
 (setq yas/prompt-functions '(yas-ido-prompt))
@@ -96,3 +97,7 @@
 (add-to-list 'company-backends 'company-files)
 (setq tramp-default-method "ssh")
 
+(use-package flycheck)
+
+;; load settings directory
+(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$")))

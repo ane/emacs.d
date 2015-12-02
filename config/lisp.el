@@ -4,6 +4,7 @@
 (add-hook 'slime-mode-hook
           (lambda ()
             (company-mode)
+            (message "Hello!!!")
             (rainbow-delimiters-mode)
             (paredit-mode)
             (yas/minor-mode)))

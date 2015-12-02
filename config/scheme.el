@@ -2,6 +2,7 @@
 
 (add-hook 'geiser-mode-hook
           (lambda ()
+            (setq-local company-idle-delay 1)
             (put 'module 'scheme-indent-function 'scheme-module-indent)
             (rainbow-delimiters-mode)
             (paredit-mode)

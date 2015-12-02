@@ -1,5 +1,5 @@
 ;; modeline
 
 (use-package smart-mode-line) 
-(setq sml/theme nil)
 (sml/setup)
+(add-to-list 'sml/replacer-regexp-list '("^~/quicklisp/local-projects/" "QL::"))
