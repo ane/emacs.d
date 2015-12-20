@@ -1,6 +1,6 @@
 
 ;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-(add-to-list 'package-pinned-packages '(company . "melpa-stable") t)
+;(add-to-list 'package-pinned-packages '(geiser . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(evil-escape . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(smex . "melpa-stable") t)
 
@@ -15,6 +15,7 @@
     company-go
     company-tern
     darktooth-theme
+    ensime
     evil
     evil-escape
     evil-exchange
@@ -54,6 +55,8 @@
     rainbow-mode
     robe
     rust-mode
+    ruby-block
+    ruby-refactor
     rvm
     s
     smart-mode-line

@@ -9,5 +9,10 @@
 (add-to-list 'projectile-globally-ignored-directories "build")
 (add-to-list 'projectile-globally-ignored-directories "bin")
 (add-to-list 'projectile-globally-ignored-directories ".git")
+(add-to-list 'projectile-globally-ignored-directories "quelpa")
+(add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
+(add-to-list 'projectile-globally-ignored-directories "target")
+(add-to-list 'projectile-globally-ignored-directories "project/project")
+(add-to-list 'projectile-globally-ignored-directories "project/target")
 
 (setq projectile-indexing-method 'alien)

@@ -1,5 +1,6 @@
 (add-hook 'ruby-mode-hook
           (lambda ()
+            (use-package ruby-block)
             (rvm-use-default)
             (company-mode)
             (add-to-list 'company-backends 'company-robe)
@@ -7,6 +8,7 @@
             (flycheck-mode)
             (rainbow-delimiters-mode)
             (projectile-rails-mode)
+            (ruby-block-mode)
             (yard-mode)
             (eldoc-mode)))
 

@@ -34,20 +34,23 @@
 ;; company stuf
 (deftheme ane "my theme")
 
-(let ((indigofera-grey-0        (if (display-graphic-p) "DarkSlateGray4" "DarkSlateGray4"))
+(let (
       (indigofera-white         (if (display-graphic-p) "#ffffff"        "white"))
-      (indigofera-dark          (if (display-graphic-p) "#04080B"        "navy"))
-      (indigofera-bright3       (if (display-graphic-p) "#62A7EE"        "DarkSlateGray4"))
-      (indigofera-red3          (if (display-graphic-p) "#FF645C"        "LightSalmon"))
-      (indigofera-yellow2       (if (display-graphic-p) "#AA9A39"        "mustard")))
+      (indigofera-dark          (if (display-graphic-p) "#000D0D"        "navy"))
+      (indigofera-dark1         (if (display-graphic-p) "#333399"        "MidnightBlue"))
+      (indigofera-bright4       (if (display-graphic-p) "#006FF4"        "DarkSlateGray4"))
+      (indigofera-red3          (if (display-graphic-p) "#E325FD"        "LightSalmon"))
+      (indigofera-yellow2       (if (display-graphic-p) "#E2FF21"        "chartreuse1")))
   (custom-theme-set-faces
    'ane
    ;; `(default ((t (:foreground ,indigofera-white :background ,indigofera-dark))))
-   ;; `(font-lock-string-face ((t (:foreground ,indigofera-red3))))
-   ;; `(font-lock-keyword-face ((t (:foreground ,indigofera-bright3))))
-   ;; `(font-lock-comment-face ((t (:foreground ,indigofera-yellow2))))
+   ;;`(font-lock-string-face ((t (:foreground ,indigofera-red3))))
+   ;;`(font-lock-keyword-face ((t (:foreground ,indigofera-bright4))))
+   ;;`(font-lock-comment-face ((t (:foreground ,indigofera-yellow2))))
    ;; `(font-lock-type-face ((t (:foreground ,indigofera-))))
    
+   `(region         ((t (:background ,indigofera-dark1 :distant-foreground ,indigofera-white))))
+   `(show-paren-match ((t (:foreground "cyan" :weight bold :background "black"))))
    '(company-tooltip ((t (:background "#030B1C"))))
    '(company-scrollbar-bg ((t (:background "DimGrey"))))
    '(company-scrollbar-fg ((t (:background "cyan1"))))
@@ -57,29 +60,30 @@
    '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
    '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
    '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
-   '(company-tooltip-search ((t (:inherit company-tooltip-common))))
-   ))
+   '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
+
+
+(setq sml/no-confirm-load-theme t)
 
 ;; when a daemon, invoke theme startup 
-
 (defun setup-interface ()
   (interactive)
-  (sml/setup)
-  (load-theme 'smart-mode-line-dark t)
   (rainbow-delimiters-mode)
-  (load-theme 'darktooth t)
-  (evil-mode +1)
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)
   (evil-escape-mode +1)
+  (evil-mode +1)
   (projectile-global-mode +1)
-  (persp-mode +1))
+  (persp-mode +1)
+  (sml/setup)
+  (sml/apply-theme 'respectful)
+  (load-theme 'darktooth t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)
                 (select-frame frame)
                 (setup-interface)))
-  (add-hook 'after-make-frame-functions 'switch-perspectives t)
-  (setup-interface))
+  (progn
+    (setup-interface)))

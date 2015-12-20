@@ -5,6 +5,7 @@
             (setq-local company-idle-delay 1)
             (put 'module 'scheme-indent-function 'scheme-module-indent)
             (rainbow-delimiters-mode)
+            (yas-minor-mode-on)
             (paredit-mode)
             (eldoc-mode)
             (company-mode)))

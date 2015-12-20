@@ -2,7 +2,7 @@
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (eldoc-mode)
-            (yas/minor-mode)
+            (yas-minor-mode-on)
             (projectile-mode)
             (rainbow-delimiters-mode)
             (rainbow-mode)

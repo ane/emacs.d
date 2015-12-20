@@ -18,6 +18,8 @@
 (evil-leader/set-key "w" 'ace-window)
 (evil-leader/set-key "b" 'projectile-switch-to-buffer)
 (evil-leader/set-key "i" 'imenu)
+(evil-leader/set-key "h" 'previous-buffer)
+(evil-leader/set-key "l" 'next-buffer)
 (evil-leader/set-key "I" 'indent-region)
 (evil-leader/set-key-for-mode 'js2-refactor-mode
   "r" (lambda () (discover-show-context-menu 'js2-refactor)))
