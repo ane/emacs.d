@@ -2,8 +2,7 @@
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("local" . "~/.emacs.d/projects/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 (if (require 'quelpa nil t)
   (quelpa-self-upgrade)
@@ -35,3 +34,6 @@
 		 (message "Loading %s...done (%.3fs) [after-init]"
 			  ,load-file-name elapsed)))
 	    t))
+
+(setq x-select-enable-clipboard t)
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)

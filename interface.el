@@ -51,6 +51,8 @@
    
    `(region         ((t (:background ,indigofera-dark1 :distant-foreground ,indigofera-white))))
    `(show-paren-match ((t (:foreground "cyan" :weight bold :background "black"))))
+   `(hl-line ((t (:background ,indigofera-dark :distant-foreground ,indigofera-bright4))))
+   '(aw-leading-char-face ((t (:foreground "red" :height 2.0))))
    '(company-tooltip ((t (:background "#030B1C"))))
    '(company-scrollbar-bg ((t (:background "DimGrey"))))
    '(company-scrollbar-fg ((t (:background "cyan1"))))
@@ -77,8 +79,8 @@
   (projectile-global-mode +1)
   (persp-mode +1)
   (sml/setup)
-  (sml/apply-theme 'respectful)
-  (load-theme 'darktooth t))
+  (sml/apply-theme 'dark)
+  (load-theme 'zenburn t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
