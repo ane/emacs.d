@@ -2,8 +2,12 @@
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
+<<<<<<< HEAD
                          ("melpa" . "http://melpa.org/packages/")
                          ))
+=======
+                         ("melpa" . "http://melpa.org/packages/")))
+>>>>>>> 3c5061cdb2fdb4153cc62576c77452eb04cc6641
 (package-initialize)
 
 (dolist (base-pkg '(use-package s f dash dash-functional))
@@ -30,3 +34,6 @@
 		 (message "Loading %s...done (%.3fs) [after-init]"
 			  ,load-file-name elapsed)))
 	    t))
+
+(setq x-select-enable-clipboard t)
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)

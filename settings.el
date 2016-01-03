@@ -104,3 +104,6 @@
 
 ;; load yasnippet snippets
 (yas-reload-all)
+
+;; set some sr-speedbar defaults
+(setq sr-speedbar-width 30)
