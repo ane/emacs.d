@@ -3,19 +3,14 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
-                         ("local" . "~/.emacs.d/projects/")))
+                         ))
 (package-initialize)
-(if (require 'quelpa nil t)
-  (quelpa-self-upgrade)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
-    (eval-buffer)))
 
-(dolist (base-pkg '(use-package s f dash dash-functional uniquify))
-  (quelpa base-pkg)
+(dolist (base-pkg '(use-package s f dash dash-functional))
+  (package-install base-pkg)
   (require base-pkg))
 
-(quelpa '(projectile :fetcher file :path "~/.emacs.d/projects/projectile/"))
+(require 'uniquify)
 
 (load "~/.emacs.d/autoinstall")
 
