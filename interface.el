@@ -29,6 +29,14 @@
 
 (setq-default indent-tabs-mode nil)
 (setq speedbar-show-unknown-files t)
+(setq speedbar-use-images nil)
+(setq speedbar-frame-parameters '((minibuffer)
+                                  (width . 40)
+                                  (border-width . 0)
+                                  (menu-bar-lines . 0)
+                                  (tool-bar-lines . 0)
+                                  (unsplittable . t)
+                                  (left-fringe . 0)))
 (setq ns-right-alternate-modifier nil)
 
 ;; company stuf
@@ -50,8 +58,6 @@
    ;; `(font-lock-type-face ((t (:foreground ,indigofera-))))
    
    `(region         ((t (:background ,indigofera-dark1 :distant-foreground ,indigofera-white))))
-   `(show-paren-match ((t (:foreground "cyan" :weight bold :background "black"))))
-   `(hl-line ((t (:background ,indigofera-dark :distant-foreground ,indigofera-bright4))))
    '(aw-leading-char-face ((t (:foreground "red" :height 2.0))))
    '(company-tooltip ((t (:background "#030B1C"))))
    '(company-scrollbar-bg ((t (:background "DimGrey"))))
@@ -65,6 +71,7 @@
    '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
 
 
+(setq speedbar-fr)
 (setq sml/no-confirm-load-theme t)
 
 ;; when a daemon, invoke theme startup 
@@ -76,10 +83,10 @@
   (evil-exchange-install)
   (evil-escape-mode +1)
   (evil-mode +1)
+  (hl-line-mode)
   (projectile-global-mode +1)
-  (persp-mode +1)
   (sml/setup)
-  (sml/apply-theme 'dark)
+  (sml/apply-theme 'respectful)
   (load-theme 'zenburn t))
 
 (if (daemonp)

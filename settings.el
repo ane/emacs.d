@@ -107,3 +107,15 @@
 
 ;; set some sr-speedbar defaults
 (setq sr-speedbar-width 30)
+
+;; helm things
+(setq helm-split-window-in-side-p t
+      helm-ff-file-name-history-use-recentf t
+      helm-M-x-fuzzy-match t
+      helm-recentf-fuzzy-match t
+      helm-buffers-fuzzy-matching t
+      helm-locate-fuzzy-match nil
+      helm-imenu-fuzzy-match t
+      helm-apropos-fuzzy-match t)
+
+(helm-mode)

@@ -8,8 +8,7 @@
             (rainbow-delimiters-mode)
             (projectile-rails-mode)
             (ruby-block-mode)
-            (eldoc-mode)
-            (yard-mode)))
+            (eldoc-mode)))
 
 (add-hook 'speedbar-mode-hook
           (lambda()
