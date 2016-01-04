@@ -28,7 +28,6 @@
   (add-to-list 'company-backends 'company-ghc)
   (setq-local ghc-check-command t)
   (turn-on-hi2)
-  (smartparens-mode)
   (flycheck-mode)
   (electric-indent-local-mode -1)
   (flycheck-haskell-setup)
