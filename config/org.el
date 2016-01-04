@@ -1,8 +1,11 @@
 (use-package org)
 
-(setq org-agenda-files '("~/Dropbox/org")
-      org-archive-location "~/Dropbox/archive.org::datetree/* Finished tasks"
+(setq org-directory "~/Dropbox/org/"
+      org-agenda-files '("work.org" "life.org")
+      org-mobile-inbox-for-pull "~/Dropbox/org/from-mobile.org"
+      org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"
       org-default-notes-file "~/Dropbox/org/work.org"
+      org-mobile-directory "~/Dropbox/MobileOrg"
       org-agenda-window-setup 'current-window)
 
 (defun my/org-config ()
@@ -12,8 +15,5 @@
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
   (auto-revert-mode 1)))
-
-(setq jiralib-url "https://nfleet.atlassian.net"
-      org-jira-default-jql "assignee = currentUser() and resolution = unresolved")
 
 (add-hook 'org-mode-hook 'my/org-config)

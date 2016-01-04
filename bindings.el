@@ -38,9 +38,10 @@
     (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
 
 ;; make CxCm act as M-x
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-x C-m") 'smex)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-c C-m") 'execute-extended-command)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 ;; i don't need öäå
 (global-set-key (kbd "ö") "[")
@@ -60,3 +61,32 @@
 (global-set-key [f4] 'speedbar-get-focus)
 
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
+(define-key evil-normal-state-map (kbd "M-.") nil)
+(define-key evil-normal-state-map (kbd "q") nil)
+(define-key evil-operator-state-map (kbd "q") nil)
+
+(setq-default evil-symbol-word-search t)
+
+(evil-leader/set-leader "<SPC>")
+(evil-leader/set-key "f" 'helm-projectile-find-file)
+(evil-leader/set-key "F" 'find-file)
+(evil-leader/set-key "p" 'helm-projectile-switch-project)
+(evil-leader/set-key "x" 'smex)
+(evil-leader/set-key "s" 'yas-insert-snippet)
+(evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
+(evil-leader/set-key "T" 'projectile-find-test-file)
+(evil-leader/set-key "g" 'magit-status)
+(evil-leader/set-key "w" 'ace-window)
+(evil-leader/set-key "b" 'helm-projectile-switch-to-buffer)
+(evil-leader/set-key "B" 'list-buffers)
+(evil-leader/set-key "i" 'helm-imenu)
+(evil-leader/set-key "o" 'helm-occur)
+(evil-leader/set-key "h" 'previous-buffer)
+(evil-leader/set-key "l" 'next-buffer)
+(evil-leader/set-key "I" 'indent-region)
+(evil-leader/set-key-for-mode 'js2-refactor-mode
+  "r" (lambda () (discover-show-context-menu 'js2-refactor)))
+
+(evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
+(evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)

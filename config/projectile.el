@@ -16,3 +16,4 @@
 (add-to-list 'projectile-globally-ignored-directories "project/target")
 
 (setq projectile-indexing-method 'alien)
+(helm-projectile-on)
