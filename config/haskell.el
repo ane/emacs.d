@@ -17,13 +17,9 @@
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-type 'stack-ghci))
-<<<<<<< HEAD
 
 (add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
 (add-to-list 'flycheck-disabled-checkers 'haskell-hlint)
-=======
->>>>>>> e158ee774fd77cd726ef52490767a71e15d7cee0
-
 (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
 (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
 (evil-leader/set-key-for-mode 'haskell-mode "h i" 'haskell-process-do-info)

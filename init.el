@@ -14,9 +14,6 @@
 
 (load "~/.emacs.d/autoinstall")
 
-(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/themes"))
-(mapc (apply-partially 'add-to-list 'custom-theme-load-path) (f-directories "~/.emacs.d/themes"))
-
 (load "~/.emacs.d/interface")
 (load "~/.emacs.d/bindings")
 (load custom-file)
