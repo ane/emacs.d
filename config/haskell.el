@@ -14,7 +14,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
- '(haskell-process-type 'cabal-repl))
+ '(haskell-process-type 'stack-ghci))
 
 (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
 (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
@@ -23,17 +23,17 @@
 (evil-leader/set-key-for-mode 'haskell-mode "h k" 'haskell-interactive-mode-clear)
 (evil-leader/set-key-for-mode 'haskell-mode "h l" 'haskell-process-load-or-reload)
 
-
 (defun my/setup-haskell ()
   (add-to-list 'company-backends 'company-ghc)
   (setq-local ghc-check-command t)
   (turn-on-hi2)
-  (smartparens-mode)
   (flycheck-mode)
   (electric-indent-local-mode -1)
   (flycheck-haskell-setup)
   (rainbow-delimiters-mode)
-  (turn-on-haskell-doc-mode)) 
+  (haskell-doc-mode)
+  (interactive-haskell-mode)) 
+
 
 (add-hook 'haskell-mode-hook 'my/setup-haskell)
 (add-hook 'haskell-interactive-mode-hook 'company-mode)

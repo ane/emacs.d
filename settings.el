@@ -48,10 +48,8 @@
   (interactive)
   (byte-recompile-directory user-emacs-directory 0))
 
-(eval-after-load 'flycheck
-  (lambda ()
-    (flycheck-clojure-setup)
-    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 (setq flycheck-check-syntax-automatically '(save))
 

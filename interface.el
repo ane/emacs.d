@@ -87,7 +87,7 @@
   (projectile-global-mode +1)
   (sml/setup)
   (sml/apply-theme 'respectful)
-  (load-theme 'zenburn t))
+  (load-theme 'monokai t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
