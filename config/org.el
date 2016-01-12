@@ -11,6 +11,8 @@
 (defun my/org-config ()
   (make-variable-buffer-local 'after-save-hook)
   (org-indent-mode)
+  (org-bullets-mode)
+  (auto-fill)
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))

@@ -17,9 +17,12 @@
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-type 'stack-ghci))
+<<<<<<< HEAD
 
 (add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
 (add-to-list 'flycheck-disabled-checkers 'haskell-hlint)
+=======
+>>>>>>> e158ee774fd77cd726ef52490767a71e15d7cee0
 
 (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
 (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
@@ -34,7 +37,9 @@
   (electric-indent-local-mode -1)
   (flycheck-haskell-setup)
   (rainbow-delimiters-mode)
-  (turn-on-haskell-doc-mode)) 
+  (haskell-doc-mode)
+  (interactive-haskell-mode)) 
+
 
 (add-hook 'haskell-mode-hook 'my/setup-haskell)
 (add-hook 'haskell-interactive-mode-hook 'company-mode)

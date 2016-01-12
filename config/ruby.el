@@ -3,6 +3,7 @@
             (use-package ruby-block)
             (company-mode)
             (add-to-list 'company-backends 'company-robe)
+            (yard-mode)
             (robe-mode)
             (flycheck-mode)
             (rainbow-delimiters-mode)

@@ -4,7 +4,6 @@
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
                          ))
-
 (package-initialize)
 
 (dolist (base-pkg '(use-package s f dash dash-functional))
