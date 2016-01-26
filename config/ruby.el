@@ -7,7 +7,6 @@
             (robe-mode)
             (flycheck-mode)
             (rainbow-delimiters-mode)
-            (projectile-rails-mode)
             (ruby-block-mode)
             (eldoc-mode)))
 

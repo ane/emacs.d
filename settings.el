@@ -48,7 +48,10 @@
   (interactive)
   (byte-recompile-directory user-emacs-directory 0))
 
-(with-eval-after-load 'flycheck flycheck-pos-tip-mode)
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
+
+(setq flycheck-check-syntax-automatically '(save))
 
 (setq flycheck-check-syntax-automatically '(save)) 
 (setq browse-url-browser-function 'browse-url-generic
