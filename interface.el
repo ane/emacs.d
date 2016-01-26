@@ -77,7 +77,7 @@
  '(font-lock-doc-face ((t (:foreground "MistyRose4"))))
  '(font-lock-type-face ((t (:foreground "cyan4"))))
  '(font-lock-string-face ((t (:foreground "DarkBlue"))))
- '(font-lock-variable-name-face ((t (:foreground "tomato3")))))
+ '(font-lock-variable-name-face ((t (:foreground "forest green")))))
 
 (setq speedbar-fr)
 (setq sml/no-confirm-load-theme t)
