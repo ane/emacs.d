@@ -40,39 +40,48 @@
 (setq ns-right-alternate-modifier nil)
 
 ;; company stuf
-(deftheme ane "my theme")
+;;(deftheme ane "my theme")
 
-(let (
-      (indigofera-white         (if (display-graphic-p) "#ffffff"        "white"))
-      (indigofera-dark          (if (display-graphic-p) "#000D0D"        "navy"))
-      (indigofera-dark1         (if (display-graphic-p) "#333399"        "MidnightBlue"))
-      (indigofera-bright4       (if (display-graphic-p) "#006FF4"        "DarkSlateGray4"))
-      (indigofera-red3          (if (display-graphic-p) "#E325FD"        "LightSalmon"))
-      (indigofera-yellow2       (if (display-graphic-p) "#E2FF21"        "chartreuse1")))
-  (custom-theme-set-faces
-   'ane
-   ;; `(default ((t (:foreground ,indigofera-white :background ,indigofera-dark))))
-   ;;`(font-lock-string-face ((t (:foreground ,indigofera-red3))))
-   ;;`(font-lock-keyword-face ((t (:foreground ,indigofera-bright4))))
-   ;;`(font-lock-comment-face ((t (:foreground ,indigofera-yellow2))))
-   ;; `(font-lock-type-face ((t (:foreground ,indigofera-))))
+;; (let (
+;;       (indigofera-white         (if (display-graphic-p) "#ffffff"        "white"))
+;;       (indigofera-dark          (if (display-graphic-p) "#000D0D"        "navy"))
+;;       (indigofera-dark1         (if (display-graphic-p) "#333399"        "MidnightBlue"))
+;;       (indigofera-bright4       (if (display-graphic-p) "#006FF4"        "DarkSlateGray4"))
+;;       (indigofera-red3          (if (display-graphic-p) "#E325FD"        "LightSalmon"))
+;;       (indigofera-yellow2       (if (display-graphic-p) "#E2FF21"        "chartreuse1")))
+;;   (custom-theme-set-faces
+;;    'ane
+;;    ;; `(default ((t (:foreground ,indigofera-white :background ,indigofera-dark))))
+;;    ;;`(font-lock-string-face ((t (:foreground ,indigofera-red3))))
+;;    ;;`(font-lock-keyword-face ((t (:foreground ,indigofera-bright4))))
+;;    ;;`(font-lock-comment-face ((t (:foreground ,indigofera-yellow2))))
+;;    ;; `(font-lock-type-face ((t (:foreground ,indigofera-))))
    
-   `(region         ((t (:background ,indigofera-dark1 :distant-foreground ,indigofera-white))))
-   '(aw-leading-char-face ((t (:foreground "red" :height 2.0))))
-   '(company-tooltip ((t (:background "#030B1C"))))
-   '(company-scrollbar-bg ((t (:background "DimGrey"))))
-   '(company-scrollbar-fg ((t (:background "cyan1"))))
-   '(company-tooltip-selection ((t (:background "#05436C"))))
-   '(company-tooltip-common-selection ((t (:foreground "salmon" :inherit company-tooltip-selection))))
-   '(company-tooltip-common ((t (:foreground "salmon" :inherit company-tooltip))))
-   '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
-   '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
-   '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
-   '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
+;;    `(region         ((t (:background ,indigofera-dark1 :distant-foreground ,indigofera-white))))
+;;    `(aw-leading-char-face ((t (:foreground "red" :height 2.0))))
+;;    `(company-tooltip ((t (:background "#030B1C"  :foreground ,indigofera-white))))
+;;    `(company-scrollbar-bg ((t (:background "DimGrey"))))
+;;    `(company-scrollbar-fg ((t (:background "cyan1"))))
+;;    `(company-tooltip-selection ((t (:background "#05436C" :foreground ,indigofera-white))))
+;;    '(company-tooltip-common-selection ((t (:foreground "salmon" :inherit company-tooltip-selection))))
+;;    '(company-tooltip-common ((t (:foreground "salmon" :inherit company-tooltip))))
+;;    '(company-tooltip-annotation ((t (:foreground "LightSkyBlue" :inherit company-tooltip))))
+;;    '(company-preview ((t (:foreground "white" :inherit company-tooltip))))
+;;    '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
+;;    '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
 
+(custom-set-faces
+ '(font-lock-keyword-face ((t (:foreground "DarkMagenta" :weight bold))))
+ '(font-lock-function-name-face ((t (:foreground "MediumBlue"))))
+ '(font-lock-comment-face ((t (:foreground "DarkSlateGray4"))))
+ '(font-lock-doc-face ((t (:foreground "MistyRose4"))))
+ '(font-lock-type-face ((t (:foreground "cyan4"))))
+ '(font-lock-string-face ((t (:foreground "DarkBlue"))))
+ '(font-lock-variable-name-face ((t (:foreground "tomato3")))))
 
 (setq speedbar-fr)
 (setq sml/no-confirm-load-theme t)
+(setq monokai-use-variable-pitch nil)
 
 ;; when a daemon, invoke theme startup 
 (defun setup-interface ()
@@ -86,8 +95,7 @@
   (hl-line-mode)
   (projectile-global-mode +1)
   (sml/setup)
-  (sml/apply-theme 'respectful)
-  (load-theme 'monokai t))
+  (sml/apply-theme 'light))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions

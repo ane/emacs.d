@@ -11,11 +11,12 @@
 (defun my/org-config ()
   (make-variable-buffer-local 'after-save-hook)
   (org-indent-mode)
-  (org-bullets-mode)
-  (auto-fill)
+  (auto-fill-mode)
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
   (auto-revert-mode 1)))
 
 (add-hook 'org-mode-hook 'my/org-config)
+
+(setq monokai-use-variable-pitch nil)
