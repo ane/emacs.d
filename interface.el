@@ -77,7 +77,6 @@
 ;; when a daemon, invoke theme startup 
 (defun setup-interface ()
   (interactive)
-  (rainbow-delimiters-mode)
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)

@@ -11,6 +11,5 @@
 (add-hook 'rust-mode-hook
           (lambda ()
             (setq company-tooltip-align-annotations t)
-            (rainbow-delimiters-mode)
             (flycheck-mode)))
 
