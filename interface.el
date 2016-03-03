@@ -74,7 +74,7 @@
 (setq sml/no-confirm-load-theme t)
 (setq monokai-use-variable-pitch nil)
 
-(load-theme 'ane t)
+(load-theme 'color-theme-sanityinc-tomorrow-night t)
 
 ;; when a daemon, invoke theme startup 
 (defun setup-interface ()
@@ -85,9 +85,7 @@
   (evil-escape-mode +1)
   (evil-mode +1)
   (hl-line-mode)
-  (projectile-global-mode +1)
-  (sml/setup)
-  (sml/apply-theme 'light))
+  (projectile-global-mode +1))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -96,3 +94,6 @@
                 (setup-interface)))
   (progn
     (setup-interface)))
+
+(sml/setup)
+(sml/apply-theme 'respectful)

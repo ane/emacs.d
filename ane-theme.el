@@ -8,6 +8,8 @@
  '(font-lock-doc-face ((t (:foreground "MistyRose4"))))
  '(font-lock-type-face ((t (:foreground "cyan4"))))
  '(font-lock-string-face ((t (:foreground "DarkBlue"))))
- '(font-lock-variable-name-face ((t (:foreground "forest green")))))
+ '(font-lock-variable-name-face ((t (:foreground "forest green"))))
+ '(show-paren-match ((t (:foreground "magenta" :background "white" :weight bold ))))
+ '(show-paren-mismatch ((t (:foreground "white" :background "red")))))
 
 (provide-theme 'ane)
