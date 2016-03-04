@@ -23,7 +23,6 @@
       uniquify-buffer-name-style 'forward
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
-      x-select-enable-clipboard t
       x-underline-at-descent-line t
       xterm-mouse-mode t)
 
@@ -70,11 +69,8 @@
 ;;    '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
 ;;    '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
 
-(setq speedbar-fr)
 (setq sml/no-confirm-load-theme t)
 (setq monokai-use-variable-pitch nil)
-
-(load-theme 'ane t)
 
 ;; when a daemon, invoke theme startup 
 (defun setup-interface ()
@@ -87,7 +83,8 @@
   (hl-line-mode)
   (projectile-global-mode +1)
   (sml/setup)
-  (sml/apply-theme 'light))
+  (sml/apply-theme 'respectful)
+  (load-theme 'sanityinc-tomorrow-bright t))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions

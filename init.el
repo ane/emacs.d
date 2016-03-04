@@ -28,6 +28,3 @@
 		 (message "Loading %s...done (%.3fs) [after-init]"
 			  ,load-file-name elapsed)))
 	    t))
-
-(setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)

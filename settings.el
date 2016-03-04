@@ -1,4 +1,4 @@
- (global-auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
