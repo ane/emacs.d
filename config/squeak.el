@@ -37,17 +37,14 @@
                 (if (s-present? test)
                     (let ((pass-regexp (format "--- PASS: %s \\(([^\\)]+?)\\)" test))
                           (fail-regexp (format "--- FAIL: %s \\(([^\\)]+?)\\)" test)))
-                   (cond ((string-match pass-regexp (buffer-string))
-                          (progn
-                            (message "hahaa")
-                            `(success . ,(s-chop-suffix "s" (s-chop-prefix " (" (match-string 1)))))
-                          (string-match fail-regexp (buffer-string))
-                          (progn
-                            (message "bah")
-                            `(failure . ,(s-chop-suffix "s" (s-chop-prefix " (" (match-string 1))))))))
-                 (when (string-match "^ok\s+\t+.+?\t\\(.+\\)$" (buffer-string))
-                     `(success . ,(s-trim (match-string 1)))
-                   '(err . "failed")))))))
+                      (cond ((string-match pass-regexp (buffer-string))
+                             `(success . ,(s-chop-prefix " (" (match-string 1))))
+                            ((string-match fail-regexp (buffer-string))
+                             `(failure . ,(s-chop-prefix " (" (match-string 1))))))
+                  (cond ((string-match "^ok\s+\t+.+?\t\\(.+\\)$" (buffer-string))
+                         `(success . ,(s-trim (match-string 1))))
+                        ((string-match "^FAIL\t+.+?\t\\(.+\\)$" (buffer-string))
+                         `(failure . ,(s-trim (match-string 1))))))))))
       '(err . (format "`%s' command not found in PATH!" go-executable-name)))))
 
 
