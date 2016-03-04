@@ -26,7 +26,8 @@
                                       `("-run" ,test))))))
           (dolist (bufname `(,output-buffer-name ,errors-buffer-name))
             (when (get-buffer bufname)
-              (kill-buffer bufname)))
+              (with-current-buffer (get-buffer bufname)
+                (erase-buffer))))
           (let ((output-buffer (get-buffer-create output-buffer-name))
                 (errors-buffer (get-buffer-create errors-buffer-name)))
             (shell-command full-command output-buffer errors-buffer)
@@ -34,9 +35,16 @@
                 '(err . "could not run tests, are you in the right directory or is the build working?")
               (with-current-buffer output-buffer
                 (if (s-present? test)
-                 (let ((reg (format "--- PASS: %s \\(([^\\)]+?)\\)" test)))
-                   (when (string-match reg (buffer-string))
-                     `(success . ,(s-chop-suffix "s" (s-chop-prefix " (" (match-string 1))))))
+                    (let ((pass-regexp (format "--- PASS: %s \\(([^\\)]+?)\\)" test))
+                          (fail-regexp (format "--- FAIL: %s \\(([^\\)]+?)\\)" test)))
+                   (cond ((string-match pass-regexp (buffer-string))
+                          (progn
+                            (message "hahaa")
+                            `(success . ,(s-chop-suffix "s" (s-chop-prefix " (" (match-string 1)))))
+                          (string-match fail-regexp (buffer-string))
+                          (progn
+                            (message "bah")
+                            `(failure . ,(s-chop-suffix "s" (s-chop-prefix " (" (match-string 1))))))))
                  (when (string-match "^ok\s+\t+.+?\t\\(.+\\)$" (buffer-string))
                      `(success . ,(s-trim (match-string 1)))
                    '(err . "failed")))))))
@@ -49,7 +57,9 @@
   (if (squeak--inside-test-file-p)
       (let ((test-name (squeak--get-test-name)))
         (if test-name
-            (message (cdr (squeak--run-go-test test-name)))
+            (let ((result (squeak--run-go-test test-name)))
+              (message (symbol-name (car result)))
+              (message (cdr result)))
           (message "Not inside a test.")))
     (message "Not inside a test file.")))
 
