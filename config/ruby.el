@@ -7,7 +7,6 @@
             (robe-mode)
             (flycheck-mode)
             (rainbow-delimiters-mode)
-            (ruby-block-mode)
             (eldoc-mode)))
 
 (add-hook 'speedbar-mode-hook

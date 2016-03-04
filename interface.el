@@ -85,6 +85,7 @@
   (sml/setup)
   (sml/apply-theme 'respectful)
   (load-theme 'sanityinc-tomorrow-bright t))
+  (projectile-global-mode +1))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -93,3 +94,6 @@
                 (setup-interface)))
   (progn
     (setup-interface)))
+
+(sml/setup)
+(sml/apply-theme 'respectful)
