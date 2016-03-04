@@ -84,7 +84,7 @@
   (projectile-global-mode +1)
   (sml/setup)
   (sml/apply-theme 'respectful)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'sanityinc-tomorrow-bright t)
   (projectile-global-mode +1))
 
 (if (daemonp)
