@@ -75,6 +75,7 @@
 (spaceline-spacemacs-theme)
 (setq powerline-default-separator 'wave)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
+(setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
 
 (defun setup-interface ()
@@ -89,12 +90,10 @@
   (load-theme 'atom-one-dark t)
   (projectile-global-mode +1))
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (select-frame frame)
-                (setup-interface)))
-  (progn
-    (setup-interface)))
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (select-frame frame)
+            (setup-interface)))
 
+(setup-interface)
 
