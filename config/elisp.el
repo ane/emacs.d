@@ -1,6 +1,7 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
+            (flycheck-mode)
             (eldoc-mode)
             (yas-minor-mode-on)
             (projectile-mode)

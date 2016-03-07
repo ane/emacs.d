@@ -71,8 +71,12 @@
 
 (setq sml/no-confirm-load-theme t)
 (setq monokai-use-variable-pitch nil)
+(require 'spaceline-config)
+(spaceline-spacemacs-theme)
+(setq powerline-default-separator 'wave)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
+(setq spaceline-window-numbers-unicode t)
 
-;; when a daemon, invoke theme startup 
 (defun setup-interface ()
   (interactive)
   (global-evil-leader-mode +1)
@@ -82,9 +86,7 @@
   (evil-mode +1)
   (hl-line-mode)
   (projectile-global-mode +1)
-  (sml/setup)
-  (sml/apply-theme 'respectful)
-  (load-theme 'sanityinc-tomorrow-bright t)
+  (load-theme 'atom-one-dark t)
   (projectile-global-mode +1))
 
 (if (daemonp)
@@ -95,5 +97,4 @@
   (progn
     (setup-interface)))
 
-(sml/setup)
-(sml/apply-theme 'respectful)
+
