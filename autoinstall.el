@@ -7,6 +7,7 @@
 (defvar autoinstall-packages
   '(
     ace-window
+    atom-one-dark-theme
     cider
     clj-refactor
     clojure-mode
@@ -36,9 +37,6 @@
     go-projectile
     haskell-mode
     hl-sexp
-    ido-hacks
-    ido-ubiquitous
-    ido-vertical-mode
     inf-ruby
     js2-mode
     js2-refactor
@@ -68,7 +66,6 @@
     transpose-frame
     tuareg
     web-mode
-    yard-mode
     zenburn-theme
     )
   "A list of packages to ensure are installed at launch.")
