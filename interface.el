@@ -77,6 +77,7 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
+(load-theme 'sanityinc-tomorrow-night t)
 
 (defun setup-interface ()
   (interactive)
@@ -87,7 +88,6 @@
   (evil-mode +1)
   (hl-line-mode)
   (projectile-global-mode +1)
-  (load-theme 'atom-one-dark t)
   (projectile-global-mode +1))
 
 (add-hook 'after-make-frame-functions

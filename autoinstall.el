@@ -57,6 +57,7 @@
     ruby-refactor
     rvm
     s
+    scala-mode2
     smart-mode-line
     smex
     smooth-scrolling
