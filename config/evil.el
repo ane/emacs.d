@@ -30,4 +30,5 @@
 (evil-set-initial-state 'geiser-repl-mode 'emacs)
 (evil-set-initial-state 'slime-repl-mode 'emacs)
 (evil-set-initial-state 'cider-repl-mode 'emacs)
+(evil-set-initial-state 'ensime-inf-mode 'emacs)
 (evil-set-initial-state 'sbt-mode 'emacs)

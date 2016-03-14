@@ -6,6 +6,7 @@
                                 (push ".scala" speedbar-supported-extension-expressions)))
 
 (add-hook 'sbt-mode-hook #'visual-line-mode)
+(add-hook 'ensime-inf-mode #'visual-line-mode)
 
 
 
