@@ -5,10 +5,7 @@
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".scala" speedbar-supported-extension-expressions)))
 
-(add-hook 'scala-mode-hook #'scala-eldoc)
+(add-hook 'sbt-mode-hook #'visual-line-mode)
 
-(defun scala-eldoc ()
-  (setq-local eldoc-documentation-function
-              (lambda ()
-                (when (ensime-connected-p)
-                  (ensime-print-type-at-point)))))
+
+

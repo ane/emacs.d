@@ -90,3 +90,4 @@
 
 (evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
+(windmove-default-keybindings)

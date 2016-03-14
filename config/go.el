@@ -16,4 +16,4 @@
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".go" speedbar-supported-extension-expressions)))
 
-(add-hook 'go-mode-hook #'squeak-mode)
+(add-hook 'go-mode-hook #'rats-mode)
