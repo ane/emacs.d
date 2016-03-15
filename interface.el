@@ -73,11 +73,11 @@
 (setq monokai-use-variable-pitch nil)
 (require 'spaceline-config)
 (spaceline-spacemacs-theme)
-(setq powerline-default-separator 'wave)
+(setq powerline-default-separator 'arrow)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'sanityinc-tomorrow-night t)
+(load-theme 'atom-one-dark t)
 
 (defun setup-interface ()
   (interactive)
