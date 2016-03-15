@@ -15,7 +15,6 @@
     company
     company-go
     company-tern
-    darktooth-theme
     ensime
     evil
     evil-escape
@@ -24,7 +23,6 @@
     evil-snipe
     evil-surround
     f
-    flx-ido
     flycheck
     flycheck-clojure
     flycheck-haskell
@@ -36,7 +34,6 @@
     go-mode
     go-projectile
     haskell-mode
-    hl-sexp
     inf-ruby
     js2-mode
     js2-refactor
@@ -57,8 +54,8 @@
     ruby-refactor
     rvm
     s
+    color-theme-sanityinc-tomorrow
     scala-mode2
-    smart-mode-line
     smex
     smooth-scrolling
     sr-speedbar

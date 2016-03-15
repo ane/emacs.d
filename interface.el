@@ -69,15 +69,13 @@
 ;;    '(company-preview-common ((t (:foreground "salmon" :background "transparent"))))
 ;;    '(company-tooltip-search ((t (:inherit company-tooltip-common))))))
 
-(setq sml/no-confirm-load-theme t)
-(setq monokai-use-variable-pitch nil)
 (require 'spaceline-config)
 (spaceline-spacemacs-theme)
 (setq powerline-default-separator 'arrow)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'atom-one-dark t)
+(load-theme 'sanityinc-tomorrow-bright t)
 
 (defun setup-interface ()
   (interactive)
