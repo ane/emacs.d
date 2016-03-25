@@ -8,7 +8,9 @@
 (package-initialize)
 
 (dolist (base-pkg '(use-package s f dash dash-functional))
-  (package-install base-pkg)
+  (when (not (package-installed-p base-pkg))
+    (package-refresh-contents)
+    (package-install base-pkg))
   (require base-pkg))
 
 (require 'uniquify)

@@ -7,7 +7,6 @@
 (defvar autoinstall-packages
   '(
     ace-window
-    atom-one-dark-theme
     cider
     clj-refactor
     clojure-mode
@@ -34,6 +33,8 @@
     go-mode
     go-projectile
     haskell-mode
+    helm
+    helm-projectile
     inf-ruby
     js2-mode
     js2-refactor
@@ -58,6 +59,7 @@
     scala-mode2
     smex
     smooth-scrolling
+    spaceline
     sr-speedbar
     tern
     tide

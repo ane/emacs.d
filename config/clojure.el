@@ -4,7 +4,6 @@
 (add-hook 'cider-repl-mode-hook #'company-mode)
 (add-hook 'cider-repl-mode-hook #'projectile-mode)
 (add-hook 'cider-mode-hook #'company-mode)
-(add-hook 'cider-repl-mode-hook 'smartparens-mode)
 (add-hook 'cider-repl-mode-hook 'turn-on-visual-line-mode)
 
 (require 'clojure-mode-extra-font-locking)
