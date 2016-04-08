@@ -34,6 +34,10 @@
     go-mode
     go-projectile
     haskell-mode
+    helm
+    helm-ag
+    helm-projectile
+    hi2
     inf-ruby
     js2-mode
     js2-refactor

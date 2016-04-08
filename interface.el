@@ -75,7 +75,7 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'sanityinc-tomorrow-bright t)
+(load-theme 'ane t)
 
 (defun setup-interface ()
   (interactive)
@@ -84,8 +84,7 @@
   (evil-exchange-install)
   (evil-escape-mode +1)
   (evil-mode +1)
-  (hl-line-mode)
-  (projectile-global-mode +1)
+  (global-hl-line-mode)
   (projectile-global-mode +1))
 
 (add-hook 'after-make-frame-functions
@@ -94,4 +93,5 @@
             (setup-interface)))
 
 (setup-interface)
+;;; interface.el ends here
 
