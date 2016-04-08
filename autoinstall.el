@@ -7,7 +7,6 @@
 (defvar autoinstall-packages
   '(
     ace-window
-    atom-one-dark-theme
     cider
     clj-refactor
     clojure-mode
@@ -62,6 +61,7 @@
     scala-mode2
     smex
     smooth-scrolling
+    spaceline
     sr-speedbar
     tern
     tide

@@ -10,7 +10,7 @@
 (dolist (base-pkg '(use-package s f dash dash-functional))
   (when (not (package-installed-p base-pkg))
     (package-refresh-contents)
-  (package-install base-pkg))
+    (package-install base-pkg))
   (require base-pkg))
 
 (require 'uniquify)
