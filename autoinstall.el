@@ -13,6 +13,7 @@
     clojure-mode-extra-font-locking
     company
     company-go
+    company-ghc
     company-tern
     ensime
     evil

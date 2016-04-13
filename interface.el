@@ -75,7 +75,7 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'sanityinc-tomorrow-bright t)
+(load-theme 'sanityinc-tomorrow-night t)
 
 (defun setup-interface ()
   (interactive)
