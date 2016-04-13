@@ -1,10 +1,9 @@
 (use-package evil)
 (use-package evil-leader)
 
-
-(setq evil-insert-state-cursor '("HotPink1" (hbar . 4))
-      evil-normal-state-cursor '("cyan1" box)
-      evil-visual-state-cursor '("SeaGreen1" box)
+(setq evil-insert-state-cursor '("ForestGreen" bar)
+      evil-normal-state-cursor '("magenta" box)
+      evil-visual-state-cursor '("cyan" box)
       evil-default-cursor t
       evil-want-visual-char-semi-exclusive t
       evil-move-cursor-back nil
