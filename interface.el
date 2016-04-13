@@ -75,10 +75,11 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'ane t)
+(load-theme 'sanityinc-tomorrow-night t)
 
 (defun setup-interface ()
   (interactive)
+  (set-default-font (font-spec :family "Ubuntu Mono" :size 13.0))
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)

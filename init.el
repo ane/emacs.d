@@ -30,3 +30,4 @@
 		 (message "Loading %s...done (%.3fs) [after-init]"
 			  ,load-file-name elapsed)))
 	    t))
+(put 'japanese-hiragana-region 'disabled t)

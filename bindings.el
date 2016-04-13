@@ -70,7 +70,7 @@
 
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key "f" 'helm-projectile-find-file)
-(evil-leader/set-key "F" 'find-file)
+(evil-leader/set-key "F" 'helm-find-files)
 (evil-leader/set-key "p" 'helm-projectile-switch-project)
 (evil-leader/set-key "x" 'smex)
 (evil-leader/set-key "s" 'yas-insert-snippet)
@@ -82,6 +82,7 @@
 (evil-leader/set-key "b" 'helm-projectile-switch-to-buffer)
 (evil-leader/set-key "B" 'list-buffers)
 (evil-leader/set-key "i" 'helm-imenu)
+(evil-leader/set-key "k" 'kill-buffer)
 (evil-leader/set-key "o" 'helm-occur)
 (evil-leader/set-key "h" 'previous-buffer)
 (evil-leader/set-key "l" 'next-buffer)
