@@ -76,6 +76,9 @@
 ;; enable projectile everywhere
 (projectile-global-mode)
 
+(when (eq 'ns (window-system))
+  (exec-path-from-shell-initialize))
+
 (use-package yasnippet)
 (use-package company)
 
