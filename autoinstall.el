@@ -59,7 +59,7 @@
     rvm
     s
     color-theme-sanityinc-tomorrow
-    scala-mode2
+    scala-mode
     smex
     smooth-scrolling
     spaceline

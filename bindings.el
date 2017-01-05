@@ -58,7 +58,7 @@
 (setq w32-pass-apps-to-system nil)
 (setq w32-apps-modifier 'hyper) ; Menu/App key
 
-(global-set-key [f4] 'speedbar-get-focus)
+(global-set-key [f8] 'neotree-toggle)
 
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 

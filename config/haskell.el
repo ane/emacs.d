@@ -29,9 +29,7 @@
 
 (defun my/setup-haskell ()
   (turn-on-hi2)
-  (ghc-init)
   (company-mode)
-  (add-to-list 'company-backends 'company-ghc)
   (flycheck-mode)
   (electric-indent-local-mode -1)
   (flycheck-haskell-setup)
