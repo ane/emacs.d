@@ -38,7 +38,19 @@
                                   (left-fringe . 0)))
 (setq ns-right-alternate-modifier nil)
 
+(setq neo-window-position 1)
+(setq neo-theme 'arrow)
+(setq neo-smart-open t)
+
+(add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
 ;; company stuf
+
 ;;(deftheme ane "my theme")
 
 ;; (let (
@@ -75,17 +87,19 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'sanityinc-tomorrow-night t)
+(load-theme 'monokai t)
 
 (defun setup-interface ()
   (interactive)
-  (set-default-font (font-spec :family "Ubuntu Mono" :size 13.0))
+  (set-default-font (font-spec :family "Source Code Pro" :size 15.0))
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)
   (evil-escape-mode +1)
   (evil-mode +1)
+  (evil-vimish-fold-mode 1)
   (global-hl-line-mode)
+  (setq browse-url-browser-function 'browse-url-default-browser)
   (projectile-global-mode +1))
 
 (add-hook 'after-make-frame-functions

@@ -22,6 +22,7 @@
     evil-leader
     evil-snipe
     evil-surround
+    evil-vimish-fold
     f
     flycheck
     flycheck-clojure
@@ -42,6 +43,7 @@
     js2-mode
     js2-refactor
     magit
+    magit-gitflow
     markdown-mode+
     merlin
     persp-projectile

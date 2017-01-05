@@ -1,4 +1,5 @@
 (use-package org)
+(use-package ox-reveal)
 
 (setq org-directory "~/Dropbox/org/"
       org-agenda-files '("work.org" "life.org")

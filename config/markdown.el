@@ -7,7 +7,7 @@
 (add-hook 'markdown-mode-hook #'text-mode-settings)
 (add-hook 'rst-mode-hook #'text-mode-settings)
 
-(setq markdown-command "marked")
+(setq markdown-command "kramdown")
 
 
 

@@ -22,19 +22,22 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
+<<<<<<< HEAD
 (add-hook 'js2-mode-hook #'setup-tide-mode)
+(add-hook 'before-save-hook 'tide-format-before-save)
+(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
 (when (equal window-system 'w32)
   (setq tern-command `("node" ,(expand-file-name "~/AppData/Roaming/npm/node_modules/tern/bin/tern"))))
 
 (add-hook 'web-mode-hook
           (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))
             (when (equal web-mode-content-type "jsx")
               (company-mode)
               (tern-mode t)
-              (flycheck-mode))
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
+              (flycheck-mode))))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -47,8 +50,6 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
-(add-hook 'before-save-hook 'tide-format-before-save)
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (setup-tide-mode)))

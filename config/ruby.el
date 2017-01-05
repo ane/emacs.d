@@ -16,3 +16,6 @@
             (speedbar-add-supported-extension "\\.rjs")
             (speedbar-add-supported-extension "\\.rhtml")
             (speedbar-add-supported-extension "\\.rake")))
+
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.haml\\'" . web-mode))
