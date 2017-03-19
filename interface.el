@@ -87,11 +87,11 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'monokai t)
+(load-theme 'sanityinc-tomorrow-night t)
 
 (defun setup-interface ()
   (interactive)
-  (set-default-font (font-spec :family "Source Code Pro" :size 15.0))
+  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 11.0))
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)

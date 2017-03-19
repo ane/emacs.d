@@ -409,7 +409,6 @@
 (add-hook 'ensime-inf-mode #'visual-line-mode)
 
 
-
 (defun scheme-module-indent (state indent-point normal-indent) 0)
 
 (add-hook 'geiser-mode-hook

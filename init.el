@@ -21,6 +21,7 @@
 (load "~/.emacs.d/bindings")
 (load custom-file)
 (load "~/.emacs.d/settings")
+(load "~/.emacs.d/modes")
 
 (when window-system
   (add-hook 'after-init-hook

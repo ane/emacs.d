@@ -107,7 +107,7 @@
 (use-package flycheck)
 
 ;; load settings directory
-(mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$")))
+;; (mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$"))) 
 
 ;; load yasnippet snippets
 (yas-reload-all)

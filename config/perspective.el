@@ -1,2 +1,0 @@
-(persp-mode)
-
