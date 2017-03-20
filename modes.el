@@ -9,6 +9,8 @@
 (require 'clojure-mode-extra-font-locking)
 (cljr-add-keybindings-with-prefix "C-c C-m")
 
+;; Clojure
+;;{{{  
 (defun setup-clojure ()
   (flycheck-mode)
   (yas/minor-mode)
@@ -33,30 +35,16 @@
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".clj" speedbar-supported-extension-expressions)))
 
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
+;;}}}
 
-(eval-after-load 'company
-  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
-
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(add-hook 'irony-mode-hook 'flycheck-mode)
-(add-hook 'irony-mode-hook 'company-mode)
-
+;; Emacs
+;;{{{ 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (flycheck-mode)
+            (aggressive-indent-mode)
             (eldoc-mode)
+            (folding-mode)
             (yas-minor-mode-on)
             (projectile-mode)
             (rainbow-delimiters-mode)
@@ -64,14 +52,11 @@
             (company-mode)
             (paredit-mode)
             (set (make-local-variable 'company-backends) '(company-capf))))
-(add-hook 'elixir-mode-hook
-          (lambda ()
-            (company-mode)
-            (alchemist-mode)))
+;;}}}
 
-(add-hook 'alchemist-iex-mode-hook
-          (lambda ()
-            (company-mode)))
+;; Evil
+;;{{{ 
+
 (use-package evil)
 (use-package evil-leader)
 
@@ -105,7 +90,12 @@
 (evil-set-initial-state 'cider-repl-mode 'emacs)
 (evil-set-initial-state 'ensime-inf-mode 'emacs)
 (evil-set-initial-state 'sbt-mode 'emacs)
+
+;;}}}
+
 ;; GO
+;;{{{ 
+
 (add-hook 'go-mode-hook (lambda ()
                           (use-package go-projectile)
                           (go-eldoc-setup)
@@ -124,6 +114,12 @@
                                 (push ".go" speedbar-supported-extension-expressions)))
 
 (add-hook 'go-mode-hook #'rats-mode)
+
+;;}}}
+
+;; Haskell
+;;{{{ 
+
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin"))
       (local-bin-path (expand-file-name "~/.local/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -164,44 +160,12 @@
 
 (add-hook 'haskell-mode-hook 'my/setup-haskell)
 (add-hook 'haskell-interactive-mode-hook 'company-mode)
-;(ido-mode t)
-;(ido-vertical-mode t)
-;(ido-everywhere t)
-;(ido-ubiquitous t)
-;(flx-ido-mode t)
 
-;; (setq ido-auto-merge-work-directories-length 1
-;;       ido-create-new-buffer 'always
-;;       ido-enable-flex-matching t
-;;       ido-use-faces nil
-;;       ido-ignore-buffers `("\\` "
-;;                            "^\\*Buffer List\\*"
-;;                            "^\\*Compile-Log\\*"
-;;                            "^\\*Helm"
-;;                            "^\\*Help\\*"
-;;                            "^\\*Ido"
-;;                            "^\\*RE-Builder\\*"
-;;                            "^\\*Shell Command Output\\*"
-;;                            "^\\*Warnings\\*"
-;;                            "^\\*XML Validation Header\\*"
-;;                            "^\\*growl\\*"
-;;                            "^\\*helm"
-;;                            "^\\*magit"
-;;                            "TAGS"
-;;                            (lambda (name)
-;;                              (save-excursion
-;;                                (equal major-mode 'dired-mode))))
-;;       ido-use-filename-at-point nil
-;;       ido-use-virtual-buffers nil)
+;;}}}
 
-;; (add-to-list 'ido-ignore-files "\\.DS_Store")
-;; (add-to-list 'ido-ignore-files "Icon$")
+;; JavaScript
+;;{{{ 
 
-
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "C-x C-m") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
@@ -256,6 +220,12 @@
 (add-hook 'typescript-mode-hook
           (lambda ()
             (setup-tide-mode)))
+
+;;}}}
+
+;; Common Lisp
+;;{{{ 
+
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
 
@@ -266,7 +236,13 @@
             (rainbow-delimiters-mode)
             (paredit-mode)
             (yas/minor-mode)))
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+;;}}}
+
+;; Text
+;;{{{ 
+
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 (defun text-mode-settings ()
   (setq fill-column 100)
@@ -277,13 +253,10 @@
 
 (setq markdown-command "kramdown")
 
+;;}}}
 
-
-(add-hook 'graphviz-dot-mode-hook
-          (lambda ()
-            (define-key graphviz-dot-mode-map (kbd "C-c C-v") 'graphviz-dot-preview)))
-
-(add-to-list 'auto-mode-alist '("\\.cql\\'" . sql-mode))
+;; OCaml
+;;{{{ 
 
 (add-hook 'tuareg-mode-hook (lambda ()
                               (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
@@ -298,8 +271,10 @@
                               (add-to-list 'company-backends 'merlin-company-backend)
                               (company-mode)))
 
+;;}}}
 
-
+;; Org
+;;{{{ 
 (use-package org)
 (use-package ox-reveal)
 
@@ -322,11 +297,12 @@
 
 (add-hook 'org-mode-hook 'my/org-config)
 
-(setq monokai-use-variable-pitch nil)
+;;}}}
+
+;; Projectile
+;;{{{  
 (persp-mode)
-
 (use-package projectile)
-
 (add-to-list 'projectile-globally-ignored-directories "elpa")
 (add-to-list 'projectile-globally-ignored-directories ".cache")
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
@@ -341,36 +317,23 @@
 (add-to-list 'projectile-globally-ignored-directories "target")
 (add-to-list 'projectile-globally-ignored-directories "project/project")
 (add-to-list 'projectile-globally-ignored-directories "project/target")
-
 (setq projectile-indexing-method 'alien)
+
 (helm-projectile-on)
+;;}}}
+
+;; Python
+;;{{{  
 (add-hook 'python-mode-hook
           (lambda ()
             (setq indent-tabs-mode nil
                   tab-width 4)
             (flycheck-mode)
             (elpy-enable)))
-(add-hook 'racket-mode-hook
-          (lambda ()
-            (local-unset-key ")")
-            (local-unset-key "[")
-            (local-unset-key "}")
-            (local-unset-key "]")
-            (projectile-mode)
-            (yas/minor-mode)
-            (company-mode)
-            (eldoc-mode)
-            (flycheck-mode)
-            (rainbow-delimiters-mode)))
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (use-package ruby-block)
-            (company-mode)
-            (add-to-list 'company-backends 'company-robe)
-            (robe-mode)
-            (flycheck-mode)
-            (rainbow-delimiters-mode)
-            (eldoc-mode)))
+;;}}}
+
+;; Speedbar
+;;{{{ 
 
 (add-hook 'speedbar-mode-hook
           (lambda()
@@ -380,12 +343,11 @@
             (speedbar-add-supported-extension "\\.rjs")
             (speedbar-add-supported-extension "\\.rhtml")
             (speedbar-add-supported-extension "\\.rake")))
+;;}}}
 
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.haml\\'" . web-mode))
-(add-hook 'speedbar-load-hook (lambda ()
-                                (push ".rs" speedbar-supported-extension-expressions)))
 
+;; Rust
+;;{{{ 
 (setq racer-cmd "~/.cargo/bin/racer")
 (setq racer-rust-src-path "~/Downloads/rustc-1.7.0/src")
 
@@ -398,17 +360,10 @@
             (setq company-tooltip-align-annotations t)
             (flycheck-mode)))
 
-(use-package ensime)
-(add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
-(add-hook 'scala-mode-hook #'eldoc-mode)
-(add-hook 'scala-mode-hook #'yas-minor-mode)
-(add-hook 'speedbar-load-hook (lambda ()
-                                (push ".scala" speedbar-supported-extension-expressions)))
+;;}}}
 
-(add-hook 'sbt-mode-hook #'visual-line-mode)
-(add-hook 'ensime-inf-mode #'visual-line-mode)
-
-
+;; Scheme
+;;{{{ 
 (defun scheme-module-indent (state indent-point normal-indent) 0)
 
 (add-hook 'geiser-mode-hook
@@ -426,11 +381,20 @@
             (rainbow-delimiters-mode)
             (company-mode)
             (paredit-mode)))
+;;}}}
+
+;; Text
+;;{{{ 
 (add-hook 'text-mode-hook #'setup-text-mode)
 
 (defun setup-text-mode ()
   (setq fill-column 80)
   (auto-fill-mode))
+
+;;}}}
+
+;; Web
+;;{{{ 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2)
@@ -446,3 +410,4 @@
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
+;;}}}

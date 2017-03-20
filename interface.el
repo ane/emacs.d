@@ -91,11 +91,12 @@
 
 (defun setup-interface ()
   (interactive)
-  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 11.0))
+  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 13.0))
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)
   (evil-escape-mode +1)
+  (smooth-scrolling-mode)
   (evil-mode +1)
   (evil-vimish-fold-mode 1)
   (global-hl-line-mode)

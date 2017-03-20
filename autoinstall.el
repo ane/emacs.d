@@ -1,12 +1,10 @@
-
-;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-;(add-to-list 'package-pinned-packages '(geiser . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(evil-escape . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(smex . "melpa-stable") t)
 
 (defvar autoinstall-packages
   '(
     ace-window
+    aggressive-indent
     cider
     clj-refactor
     clojure-mode
@@ -15,7 +13,6 @@
     company-go
     company-ghc
     company-tern
-    ensime
     evil
     evil-escape
     evil-exchange
@@ -39,7 +36,6 @@
     helm-ag
     helm-projectile
     hi2
-    inf-ruby
     js2-mode
     js2-refactor
     magit
@@ -49,16 +45,9 @@
     persp-projectile
     perspective
     projectile
-    projectile-rails
     racer
-    racket-mode
     rainbow-delimiters
     rainbow-mode
-    robe
-    rust-mode
-    ruby-block
-    ruby-refactor
-    rvm
     s
     color-theme-sanityinc-tomorrow
     scala-mode
