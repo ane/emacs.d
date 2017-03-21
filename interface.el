@@ -91,7 +91,7 @@
 
 (defun setup-interface ()
   (interactive)
-  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 13.0))
+  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 15.0))
   (global-evil-leader-mode +1)
   (global-evil-surround-mode +1)
   (evil-exchange-install)
