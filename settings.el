@@ -79,8 +79,6 @@
 (when (eq 'ns (window-system))
   (exec-path-from-shell-initialize))
 
-(use-package yasnippet)
-(use-package company)
 
 (setq-default buffer-file-coding-system 'utf-8-unix)
 (setq-default default-buffer-file-coding-system 'utf-8-unix)
@@ -101,31 +99,7 @@
       company-minimum-prefix-length 2
       company-selection-wrap-around t)
 
-(add-to-list 'company-backends 'company-files)
 (setq tramp-default-method "ssh")
-
-(use-package flycheck)
-
-;; load settings directory
-;; (mapc 'load (mapcar 'file-name-sans-extension (directory-files "~/.emacs.d/config" t "^[A-Za-z-]*\\.el$"))) 
-
-;; load yasnippet snippets
-(yas-reload-all)
-
-;; set some sr-speedbar defaults
-(setq sr-speedbar-width 30)
-
-;; helm things
-(setq helm-split-window-in-side-p t
-      helm-ff-file-name-history-use-recentf t
-      helm-M-x-fuzzy-match t
-      helm-recentf-fuzzy-match t
-      helm-buffers-fuzzy-matching t
-      helm-locate-fuzzy-match nil
-      helm-imenu-fuzzy-match t
-      helm-apropos-fuzzy-match t)
-
-(helm-mode)
 
 (use-package magit-gitflow)
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
