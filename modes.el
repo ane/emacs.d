@@ -93,30 +93,6 @@
 
 ;;}}}
 
-;; GO
-;;{{{ 
-
-(add-hook 'go-mode-hook (lambda ()
-                          (use-package go-projectile)
-                          (go-eldoc-setup)
-                          (flycheck-mode)
-                          (subword-mode)
-                          (yas/minor-mode)
-                          (setq gofmt-command "goimports")
-                          (setq gofmt-show-errors nil)
-                          (add-hook 'before-save-hook 'gofmt-before-save)
-                          (setq-local company-go-show-annotation t)
-                          (setq-local intent-tabs-mode t)
-                          (set (make-local-variable 'company-backends) '(company-go))
-                          (company-mode)))
-
-(add-hook 'speedbar-load-hook (lambda ()
-                                (push ".go" speedbar-supported-extension-expressions)))
-
-(add-hook 'go-mode-hook #'rats-mode)
-
-;;}}}
-
 ;; Haskell
 ;;{{{ 
 
@@ -163,66 +139,6 @@
 
 ;;}}}
 
-;; JavaScript
-;;{{{ 
-
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
-
-(add-to-list 'company-backends 'company-tern)
-
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-(setq js2-strict-missing-semi-warning nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-                           (exec-path-from-shell-initialize)
-                           (tern-mode t)
-                           (rainbow-delimiters-mode)
-                           (eldoc-mode)
-                           (js2-refactor-mode)
-                           (flycheck-mode)
-                           (company-mode)))
-
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-
-(add-hook 'js2-mode-hook #'setup-tide-mode)
-(add-hook 'before-save-hook 'tide-format-before-save)
-(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
-
-(when (equal window-system 'w32)
-  (setq tern-command `("node" ,(expand-file-name "~/AppData/Roaming/npm/node_modules/tern/bin/tern"))))
-
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))
-            (when (equal web-mode-content-type "jsx")
-              (company-mode)
-              (tern-mode t)
-              (flycheck-mode))))
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
-(add-hook 'typescript-mode-hook
-          (lambda ()
-            (setup-tide-mode)))
-
-;;}}}
-
 ;; Common Lisp
 ;;{{{ 
 
@@ -252,24 +168,6 @@
 (add-hook 'rst-mode-hook #'text-mode-settings)
 
 (setq markdown-command "kramdown")
-
-;;}}}
-
-;; OCaml
-;;{{{ 
-
-(add-hook 'tuareg-mode-hook (lambda ()
-                              (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-                              (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
-                              (use-package merlin)
-                              (use-package ocp-indent)
-                              (setq merlin-command 'opam)
-                              (setq merlin-error-after-save nil)
-                              (flycheck-mode)
-                              (flycheck-ocaml-setup)
-                              (merlin-mode)
-                              (add-to-list 'company-backends 'merlin-company-backend)
-                              (company-mode)))
 
 ;;}}}
 
@@ -322,16 +220,6 @@
 (helm-projectile-on)
 ;;}}}
 
-;; Python
-;;{{{  
-(add-hook 'python-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode nil
-                  tab-width 4)
-            (flycheck-mode)
-            (elpy-enable)))
-;;}}}
-
 ;; Speedbar
 ;;{{{ 
 
@@ -345,31 +233,11 @@
             (speedbar-add-supported-extension "\\.rake")))
 ;;}}}
 
-
-;; Rust
-;;{{{ 
-(setq racer-cmd "~/.cargo/bin/racer")
-(setq racer-rust-src-path "~/Downloads/rustc-1.7.0/src")
-
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
-
-(add-hook 'rust-mode-hook
-          (lambda ()
-            (setq company-tooltip-align-annotations t)
-            (flycheck-mode)))
-
-;;}}}
-
 ;; Scheme
 ;;{{{ 
-(defun scheme-module-indent (state indent-point normal-indent) 0)
-
 (add-hook 'geiser-mode-hook
           (lambda ()
             (setq-local company-idle-delay 1)
-            (put 'module 'scheme-indent-function 'scheme-module-indent)
             (rainbow-delimiters-mode)
             (yas-minor-mode-on)
             (paredit-mode)

@@ -12,61 +12,47 @@
     company
     company-go
     company-ghc
-    company-tern
     evil
     evil-escape
-    evil-exchange
     evil-leader
-    evil-snipe
-    evil-surround
-    evil-vimish-fold
+    exec-path-from-shell
     f
     flycheck
     flycheck-clojure
     flycheck-haskell
-    flycheck-ocaml
     flycheck-pos-tip
-    flycheck-rust
+    folding
     geiser
-    go-eldoc
-    go-mode
-    go-projectile
+    grandshell-theme
     haskell-mode
     helm
     helm-ag
     helm-projectile
     hi2
-    js2-mode
-    js2-refactor
     magit
     magit-gitflow
     markdown-mode+
-    merlin
     persp-projectile
     perspective
     projectile
-    racer
     rainbow-delimiters
     rainbow-mode
     s
     color-theme-sanityinc-tomorrow
     scala-mode
-    smex
     smooth-scrolling
     spaceline
     sr-speedbar
-    tern
-    tide
     transpose-frame
-    tuareg
     web-mode
-    zenburn-theme
-    )
+    zenburn-theme)
   "A list of packages to ensure are installed at launch.")
 
 (when (--any? (not (package-installed-p it)) autoinstall-packages)
   (message "%s" "Emacs is now refreshing its package database...")
-  (package-refresh-contents)
+  (unless refreshed
+    (package-refresh-contents)
+    (setq refreshed t))
   (message "%s" " done.")
   ;; check for new packages (package versions)
   ;; install the missing packages
