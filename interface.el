@@ -91,7 +91,11 @@
 
 (defun setup-interface ()
   (interactive)
-  (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size 15.0))
+  (let ((font-size (pcase window-system
+                     ('x 13.0)
+                     ('ns 15.0))))
+    (message (format "The font size is %s" font-size))
+    (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)

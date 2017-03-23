@@ -191,9 +191,10 @@
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
-  (auto-revert-mode 1)))
+            (auto-revert-mode 1)))
 
 (add-hook 'org-mode-hook 'my/org-config)
+(setq org-journal-dir "~/Dropbox/org/journal/")
 
 ;;}}}
 
@@ -278,4 +279,12 @@
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
+;;}}}
+
+;; Misc
+;;{{{
+(add-hook 'calendar-load-hook
+          (lambda ()
+            (calendar-set-date-style 'european)
+            (setq calendar-week-start-day 1)))
 ;;}}}
