@@ -12,6 +12,7 @@
     company
     company-go
     company-ghc
+    diminish
     evil
     evil-escape
     evil-leader
@@ -32,6 +33,7 @@
     magit
     magit-gitflow
     markdown-mode+
+    org-journal
     persp-projectile
     perspective
     projectile
