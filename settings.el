@@ -6,6 +6,15 @@
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+(setq-default buffer-file-coding-system 'utf-8-unix)
+(setq-default default-buffer-file-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+
+(setq system-time-locale "C")
+
+(setq abbrev-file-name "~/Dropbox/abbrev_defs")
+(setq save-abbrevs t)
 
 (setq auto-revert-verbose nil
       global-auto-revert-non-file-buffers t
@@ -23,11 +32,7 @@
 ;; more memory is fun
 (setq gc-cons-threshold 20000000)
 
-
 (setq comment-auto-fill-only-comments t)
-
-;; don't ask to create a new buffer
-(setq ido-create-new-buffer 'always)
 
 (setq confirm-nonexistent-file-or-buffer nil)
 
@@ -82,10 +87,6 @@
 (use-package yasnippet)
 (use-package company)
 
-(setq-default buffer-file-coding-system 'utf-8-unix)
-(setq-default default-buffer-file-coding-system 'utf-8-unix)
-(set-default-coding-systems 'utf-8-unix)
-(prefer-coding-system 'utf-8-unix)
 
 (define-key yas-minor-mode-map [(tab)] nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
