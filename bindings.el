@@ -26,18 +26,10 @@
                                (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
                                (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp)))
 
-(defvar flymake-mode-map (make-sparse-keymap))
-(define-key flymake-mode-map (kbd "S-<next>") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "S-<prior>") 'flymake-goto-prev-error)
-(or (assoc 'flymake-mode minor-mode-map-alist)
-    (setq minor-mode-map-alist
-          (cons (cons 'flymake-mode flymake-mode-map)
-                minor-mode-map-alist)))
-
 (add-hook 'flycheck-mode-hook
-  (lambda ()
-    (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
-    (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
+          (lambda ()
+            (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
+            (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
 
 ;; make CxCm act as M-x
 (global-set-key (kbd "M-x") 'helm-M-x)

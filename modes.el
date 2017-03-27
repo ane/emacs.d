@@ -30,7 +30,7 @@
 (add-hook 'clojure-mode-hook 'setup-clojure)
 (add-hook 'cider-repl-mode-hook #'paredit-mode)
 (add-hook 'cider-repl-mode-hook (lambda ()
-                                  (evil-local-mode 0)))
+                                  (evil-local-mode -1)))
 
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".clj" speedbar-supported-extension-expressions)))
@@ -60,6 +60,9 @@
 (use-package evil)
 (use-package evil-leader)
 
+(defun turn-off-evil-locally ()
+  (evil-local-mode -1))
+
 (setq evil-insert-state-cursor '("ForestGreen" bar)
       evil-normal-state-cursor '("magenta" box)
       evil-visual-state-cursor '("cyan" box)
@@ -73,13 +76,14 @@
 (setq-default evil-escape-key-sequence "fd")
 (setq-default evil-escape-delay 0.2)
 
-(add-hook 'evil-mode-hook (lambda ()
-			    (define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
-			    (define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
-			    (define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
-			    (define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
-			    (define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
-			    (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)))
+(add-hook 'evil-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
+            (define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
+            (define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
+            (define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
+            (define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
+            (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)))
 
 (evil-set-initial-state 'term-mode 'emacs)
 (evil-set-initial-state 'eshell-mode 'emacs)
@@ -90,6 +94,8 @@
 (evil-set-initial-state 'cider-repl-mode 'emacs)
 (evil-set-initial-state 'ensime-inf-mode 'emacs)
 (evil-set-initial-state 'sbt-mode 'emacs)
+(evil-set-initial-state 'calendar-mode 'emacs)
+
 
 ;;}}}
 
@@ -148,7 +154,7 @@
 (add-hook 'slime-mode-hook
           (lambda ()
             (company-mode)
-	    (flycheck-mode)
+            (flycheck-mode)
             (rainbow-delimiters-mode)
             (paredit-mode)
             (yas/minor-mode)))
@@ -291,3 +297,24 @@
             (calendar-set-date-style 'european)
             (setq calendar-week-start-day 1)))
 ;;}}}
+
+;; Diminish
+;;{{{
+
+(use-package diminish)
+
+(diminish 'folding-mode)
+(diminish 'aggressive-indent-mode)
+(diminish 'helm-mode)
+(diminish 'auto-revert-mode)
+(diminish 'paredit-mode)
+(diminish 'evil-escape-mode)
+(diminish 'undo-tree-mode)
+(diminish 'rainbow-delimiters-mode)
+(diminish 'rainbow-mode)
+(diminish 'eldoc-mode)
+(diminish 'yas-minor-mode)
+(diminish 'projectile-mode "Proj")
+
+;;}}}
+
