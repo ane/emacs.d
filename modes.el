@@ -194,6 +194,8 @@
   (make-variable-buffer-local 'after-save-hook)
   (org-indent-mode)
   (auto-fill-mode)
+  (company-mode)
+  (abbrev-mode)
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
@@ -285,6 +287,7 @@
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html" . web-mode))
 ;;}}}
 
 ;; Misc
