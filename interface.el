@@ -14,6 +14,7 @@
       display-time-default-load-average nil
       info-use-header-line nil
       cursor-type 'bar
+      calendar-week-start-day 1
       auto-save-default nil
       company-tooltip-align-annotations t
       initial-scratch-message nil

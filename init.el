@@ -1,8 +1,7 @@
 (defconst emacs-start-time (current-time))
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ))
+                         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
 (setq refreshed nil)

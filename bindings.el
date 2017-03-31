@@ -71,6 +71,7 @@
 (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
 (evil-leader/set-key "T" 'projectile-find-test-file)
 (evil-leader/set-key "a" 'helm-ag)
+(evil-leader/set-key "A" 'helm-projectile-ag)
 (evil-leader/set-key "g" 'magit-status)
 (evil-leader/set-key "w" 'ace-window)
 (evil-leader/set-key "b" 'helm-projectile-switch-to-buffer)
