@@ -148,8 +148,12 @@
 ;; Common Lisp
 ;;{{{ 
 
+(let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+  (when (file-exists-p slime-helper)
+    (load slime-helper)))
+
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
-(setq slime-contribs '(slime-fancy))
+(setq slime-contribs '(slime-fancy slime-company))
 
 (add-hook 'slime-mode-hook
           (lambda ()
@@ -158,6 +162,10 @@
             (rainbow-delimiters-mode)
             (paredit-mode)
             (yas/minor-mode)))
+
+(add-hook 'slime-repl-mode-hook
+          (lambda ()
+            (turn-off-evil-mode)))
 
 ;;}}}
 
