@@ -29,8 +29,6 @@
 
 (add-hook 'clojure-mode-hook 'setup-clojure)
 (add-hook 'cider-repl-mode-hook #'paredit-mode)
-(add-hook 'cider-repl-mode-hook (lambda ()
-                                  (evil-local-mode -1)))
 
 (add-hook 'speedbar-load-hook (lambda ()
                                 (push ".clj" speedbar-supported-extension-expressions)))
@@ -60,9 +58,6 @@
 (use-package evil)
 (use-package evil-leader)
 
-(defun turn-off-evil-locally ()
-  (evil-local-mode -1))
-
 (setq evil-insert-state-cursor '("ForestGreen" bar)
       evil-normal-state-cursor '("magenta" box)
       evil-visual-state-cursor '("cyan" box)
@@ -71,7 +66,6 @@
       evil-move-cursor-back nil
       evil-want-C-u-scroll t
       evil-ex-hl-update-delay 0.01)
-
 
 (setq-default evil-escape-key-sequence "fd")
 (setq-default evil-escape-delay 0.2)
@@ -85,17 +79,18 @@
             (define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
             (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)))
 
-(evil-set-initial-state 'term-mode 'emacs)
-(evil-set-initial-state 'eshell-mode 'emacs)
-(evil-set-initial-state 'alchemist-iex-mode 'emacs)
-(evil-set-initial-state 'comint-mode 'emacs)
-(evil-set-initial-state 'geiser-repl-mode 'emacs)
-(evil-set-initial-state 'slime-repl-mode 'emacs)
-(evil-set-initial-state 'cider-repl-mode 'emacs)
-(evil-set-initial-state 'ensime-inf-mode 'emacs)
-(evil-set-initial-state 'sbt-mode 'emacs)
-(evil-set-initial-state 'calendar-mode 'emacs)
+(add-hook 'clojure-mode-hook #'evil-local-mode)
+(add-hook 'lisp-mode-hook #'evil-local-mode)
 
+(dolist (mode '(clojure-mode-hook
+                lisp-mode-hook
+                emacs-lisp-mode-hook
+                haskell-mode-hook
+                fundamental-mode-hook
+                scheme-mode-hook
+                web-mode-hook
+                text-mode-hook))
+  (add-hook mode #'evil-local-mode))
 
 ;;}}}
 
@@ -162,10 +157,6 @@
             (rainbow-delimiters-mode)
             (paredit-mode)
             (yas/minor-mode)))
-
-(add-hook 'slime-repl-mode-hook
-          (lambda ()
-            (turn-off-evil-mode)))
 
 ;;}}}
 
