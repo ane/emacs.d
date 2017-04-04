@@ -44,7 +44,6 @@
             (flycheck-mode)
             (aggressive-indent-mode)
             (eldoc-mode)
-            (folding-mode)
             (yas-minor-mode-on)
             (projectile-mode)
             (rainbow-delimiters-mode)
@@ -229,6 +228,17 @@
 (helm-projectile-on)
 ;;}}}
 
+;; Racket
+;;{{{
+(defun setup-racket ()
+  (paredit-mode)
+  (rainbow-delimiters-mode)
+  (rainbow-mode)
+  (company-mode))
+
+(add-hook 'racket-mode-hook #'setup-racket)
+;;}}}
+
 ;; Speedbar
 ;;{{{ 
 
@@ -303,7 +313,6 @@
 
 (use-package diminish)
 
-(diminish 'folding-mode)
 (diminish 'aggressive-indent-mode)
 (diminish 'helm-mode)
 (diminish 'auto-revert-mode)
