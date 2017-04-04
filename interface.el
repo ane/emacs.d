@@ -100,7 +100,6 @@
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)
-  (evil-mode +1)
   (global-hl-line-mode)
   (setq browse-url-browser-function 'browse-url-default-browser)
   (projectile-global-mode +1))
