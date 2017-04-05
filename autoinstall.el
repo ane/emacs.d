@@ -22,7 +22,6 @@
     flycheck-clojure
     flycheck-haskell
     flycheck-pos-tip
-    folding
     geiser
     grandshell-theme
     haskell-mode
@@ -39,6 +38,7 @@
     projectile
     rainbow-delimiters
     rainbow-mode
+    racket-mode
     s
     color-theme-sanityinc-tomorrow
     scala-mode
