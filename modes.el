@@ -85,8 +85,15 @@
                 lisp-mode-hook
                 emacs-lisp-mode-hook
                 haskell-mode-hook
+                erlang-mode-hook
+                racket-mode-hook
                 fundamental-mode-hook
                 scheme-mode-hook
+                python-mode-hook
+                yaml-mode-hook
+                ruby-mode-hook
+                scala-mode-hook
+                elm-mode-hook
                 web-mode-hook
                 text-mode-hook))
   (add-hook mode #'evil-local-mode))
@@ -231,11 +238,13 @@
 ;;{{{
 (defun setup-racket ()
   (paredit-mode)
+  (evil-local-mode)
   (rainbow-delimiters-mode)
   (rainbow-mode)
   (company-mode))
 
 (add-hook 'racket-mode-hook #'setup-racket)
+(add-to-list 'auto-mode-alist '("\\.rkt\\'" . racket-mode))
 ;;}}}
 
 ;; Speedbar
@@ -290,6 +299,7 @@
   (setq web-mode-enable-auto-opening t)
   (setq web-mode-enable-auto-expanding t)
   (setq web-mode-enable-auto-pairing t)
+  (electric-pair-mode -1)
   (setq web-mode-enable-auto-quoting t)
   (company-mode))
 
@@ -326,3 +336,38 @@
 
 ;;}}}
 
+;; Idris
+
+(defun my-idris-hook ()
+  (evil-local-mode)
+  (company-mode))
+
+(add-hook 'idris-mode-hook #'my-idris-hook)
+
+;; SSH
+;;{{{
+
+(autoload 'ssh-config-mode "ssh-config-mode" t)
+(add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
+(add-to-list 'auto-mode-alist '("/sshd?_config\\'"      . ssh-config-mode))
+(add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
+(add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
+(add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+
+;;}}}
+
+;; Erlang
+;;{{{
+
+(add-hook 'erlang-mode-hook #'company-erlang-init)
+
+;;}}}
+
+;; Elm
+;;{{{
+
+(add-hook 'elm-mode-hook
+          (lambda ()
+            (company-mode)
+            (add-to-list 'company-backends 'company-elm))) 
+;;}}}
