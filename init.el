@@ -65,6 +65,7 @@
       x-underline-at-descent-line t
       xterm-mouse-mode t)
 
+
 (setq-default indent-tabs-mode nil)
 (setq speedbar-show-unknown-files t)
 (setq speedbar-use-images nil)
@@ -88,14 +89,13 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'grandshell t)
+(load-theme 'kaolin-dark t)
 
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
                      ('x 13.0)
                      ('ns 15.0))))
-    (message (format "The font size is %s" font-size))
     (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
@@ -158,18 +158,13 @@
       browse-url-generic-program "google-chrome")
 
 (defun my-compilation-finish-function (buf str) 
-  (unless (string-match ".*exited abnormally.*" str)
-    (progn
-      (run-at-time
-       "2 sec"
-       nil
-       (lambda ()
-         (progn 
-           (interactive)
-           (switch-to-buffer-other-window "*compilation*")
-           (previous-buffer)
-           (other-window -1))))
-      (message "no compilation Errors!"))))
+  (if (null (string-match ".*exited abnormally.*" str))
+      ;;no errors, make the compilation window go away in a few seconds
+      (progn
+        (run-at-time
+         "2 sec" nil 'delete-windows-on
+         (get-buffer-create "*compilation*"))
+        (message "No Compilation Errors!"))))
 
 (setq compilation-finish-function 'my-compilation-finish-function)
 
@@ -190,6 +185,8 @@
 
 (add-to-list 'company-backends 'company-files)
 (setq tramp-default-method "ssh")
+
+(setq make-backup-files nil)
 
 ;; set some sr-speedbar defaults
 (setq sr-speedbar-width 30)
@@ -244,14 +241,9 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
-;; i don't need öäå
-(global-set-key (kbd "ö") "[")
-(global-set-key (kbd "ä") "]")
-(global-set-key (kbd "Ö") "{")
-(global-set-key (kbd "Ä") "}")
-(global-set-key (kbd "<M-S-dead-circumflex>") "M-^")
-
 (global-set-key (kbd "C-M-j") 'delete-indentation)
+
+(global-set-key (kbd "<f9>") #'evil-local-mode)
 
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
@@ -333,6 +325,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (insert (calendar-date-string (calendar-current-date) nil
                                 omit-day-of-week-p)))
 ;;}}}
+
 
 ;; Additional loads
 ;;{{{

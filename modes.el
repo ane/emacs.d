@@ -95,6 +95,8 @@
                 scala-mode-hook
                 elm-mode-hook
                 web-mode-hook
+                scss-mode-hook
+                css-mode-hoo
                 text-mode-hook))
   (add-hook mode #'evil-local-mode))
 
@@ -370,4 +372,17 @@
           (lambda ()
             (company-mode)
             (add-to-list 'company-backends 'company-elm))) 
+;;}}}
+
+
+;; Sass
+
+;;{{{
+
+(add-to-list 'auto-mode-alist '("\\.scss" . scss-mode))
+
+(add-hook 'scss-mode-hook
+          (lambda ()
+            (company-mode)))
+
 ;;}}}

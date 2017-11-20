@@ -23,12 +23,12 @@
     flycheck-haskell
     flycheck-pos-tip
     geiser
-    grandshell-theme
     haskell-mode
     helm
     helm-ag
     helm-projectile
     hi2
+    kaolin-themes
     magit
     magit-gitflow
     markdown-mode+
