@@ -94,7 +94,7 @@
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
-                     ('x 13.0)
+                     ('x 10.0)
                      ('ns 15.0))))
     (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
@@ -244,6 +244,11 @@
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 
 (global-set-key (kbd "<f9>") #'evil-local-mode)
+(global-set-key (kbd "<f7>") #'ane/open-work-org)
+
+(defun ane/open-work-org ()
+  (interactive)
+  (find-file (expand-file-name "~/Dropbox/org/work.org")))
 
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
