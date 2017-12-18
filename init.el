@@ -89,14 +89,14 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'kaolin-dark t)
+(load-theme 'tango t)
 
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
-                     ('x 10.0)
+                     ('x 13.0)
                      ('ns 15.0))))
-    (set-default-font (font-spec :family "Source Code Pro" :weight 'medium :size font-size)))
+    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)
