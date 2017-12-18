@@ -244,7 +244,12 @@
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 
 (global-set-key (kbd "<f9>") #'evil-local-mode)
+(global-set-key (kbd "<f6>") #'ane/open-emacsd-folder)
 (global-set-key (kbd "<f7>") #'ane/open-work-org)
+
+(defun ane/open-emacsd-folder ()
+  (interactive)
+  (projectile-persp-switch-project "~/.emacs.d"))
 
 (defun ane/open-work-org ()
   (interactive)
