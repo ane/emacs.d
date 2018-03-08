@@ -84,12 +84,12 @@
 
 
 (require 'spaceline-config)
-(spaceline-spacemacs-theme)
-(setq powerline-default-separator 'arrow)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)                              ; when a daemon, invoke theme startup 
+(spaceline-all-the-icons-theme)
+(setq powerline-default-separator 'wave)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'tango t)
+(load-theme 'gruvbox-dark-hard t)
 
 (defun setup-interface ()
   (interactive)
@@ -243,17 +243,45 @@
 
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 
+(global-set-key (kbd "<f2>") #'switch-to-buffer)
+(global-set-key (kbd "<f3>") #'helm-projectile-switch-project)
 (global-set-key (kbd "<f9>") #'evil-local-mode)
-(global-set-key (kbd "<f6>") #'ane/open-emacsd-folder)
+(global-set-key (kbd "<f6>") #'ane/open-emacs.d-init.el)
+(global-set-key (kbd "<S-f6>") #'ane/open-emacs.d-modes.el)
 (global-set-key (kbd "<f7>") #'ane/open-work-org)
+(global-set-key (kbd "<S-f7>") #'ane/open-blog-org)
+(global-set-key (kbd "<f10>") #'imenu-list-smart-toggle)
 
-(defun ane/open-emacsd-folder ()
+(global-set-key (kbd "C-c C-d") #'insert-date-time)
+
+(global-set-key (kbd "s-<left>") #'previous-buffer)
+(global-set-key (kbd "s-<right>") #'next-buffer)
+(global-set-key (kbd "s-<escape>") #'delete-other-windows)
+
+(defun ane/open-emacs.d-init.el ()
   (interactive)
-  (projectile-persp-switch-project "~/.emacs.d"))
+  (find-file (expand-file-name "~/.emacs.d/init.el")))
+
+(defun ane/open-emacs.d-modes.el ()
+  (interactive)
+  (find-file (expand-file-name "~/.emacs.d/modes.el")))
 
 (defun ane/open-work-org ()
   (interactive)
   (find-file (expand-file-name "~/Dropbox/org/work.org")))
+
+(defun ane/open-blog-org ()
+  (interactive) 
+  (find-file (expand-file-name "~/Dropbox/org/blog.org")))
+
+(setq bibtex-completion-bibliography
+      '("~/Dropbox/org/personal.org"))
+
+(setq reftex-default-bibliography '("~/Dropbox/org/personal.bib"))
+
+(setq org-ref-bibliography-notes "~/Dropbox/org/notes.org"
+      org-ref-default-bibliography '("~/Dropbox/org/personal.bib"))
+
 
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
@@ -334,11 +362,31 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive "P*")
   (insert (calendar-date-string (calendar-current-date) nil
                                 omit-day-of-week-p)))
-;;}}}
 
+(defun insert-date-time ()
+  "Insert current date-time string in full ISO 8601 format.
+Example: 2010-11-29T23:23:35-08:00"
+  (interactive)
+  (insert
+   (concat
+    (format-time-string "%Y-%m-%dT%T")
+    ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
+     (format-time-string "%z")))))
+;;}}}
+;; packages
+
+(use-package flycheck-yamllint
+  :ensure t
+  :defer t
+  :init
+  (progn
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
 
 ;; Additional loads
 ;;{{{
 (load "~/.emacs.d/modes")
 ;;}}}
 ;; config.el ends here
+
+

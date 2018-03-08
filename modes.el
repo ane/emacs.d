@@ -96,7 +96,8 @@
                 elm-mode-hook
                 web-mode-hook
                 scss-mode-hook
-                css-mode-hoo
+                plantuml-mode-hook
+                css-mode-hook
                 text-mode-hook))
   (add-hook mode #'evil-local-mode))
 
@@ -136,12 +137,11 @@
 (defun my/setup-haskell ()
   (company-mode)
   (flycheck-mode)
-  (electric-indent-local-mode -1)
+  (haskell-indentation-mode)
   (flycheck-haskell-setup)
   (rainbow-delimiters-mode)
   (haskell-doc-mode)
   (interactive-haskell-mode)) 
-
 
 (add-hook 'haskell-mode-hook 'my/setup-haskell)
 (add-hook 'haskell-interactive-mode-hook 'company-mode)
@@ -195,20 +195,25 @@
       org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"
       org-default-notes-file "~/Dropbox/org/work.org"
       org-mobile-directory "~/Dropbox/MobileOrg"
+      org-cycle-separator-lines 1
       org-agenda-window-setup 'current-window)
 
 (defun my/org-config ()
+  (interactive)
   (make-variable-buffer-local 'after-save-hook)
-  (org-indent-mode)
   (auto-fill-mode)
   (company-mode)
   (abbrev-mode)
+  (set-face-attribute 'org-level-1 nil :height 1.6)
+  (set-face-attribute 'org-level-2 nil :height 1.2)
+  (set-face-attribute 'org-level-3 nil :height 1.15)
+  (set-face-attribute 'org-level-4 nil :height 1.1)
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
-            (auto-revert-mode 1)))
-
-(add-hook 'org-mode-hook 'my/org-config)
+            (auto-revert-mode 1))
+  (org-indent-mode))
+(add-hook 'org-mode-hook #'my/org-config)
 (setq org-journal-dir "~/Dropbox/org/journal/")
 
 ;;}}}
@@ -385,4 +390,25 @@
           (lambda ()
             (company-mode)))
 
+;;}}}
+
+(add-hook 'imenu-list-minor-mode-hook
+          (lambda ()
+            (setq imenu-list-focus-after-activation t)))
+
+;; Yaml
+;;{{{
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (abbrev-mode)
+            (flycheck-mode)))
+
+;;}}}
+
+
+;; PlantUML
+;;{{{
+(setq plantuml-jar-path "/usr/local/lib/plantuml.jar")
+(add-to-list 'auto-mode-alist '("\\.diag\\'" . plantuml-mode))
+(add-hook 'plantuml-mode-hook #'flycheck-plantuml-setup)
 ;;}}}
