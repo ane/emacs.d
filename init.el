@@ -78,31 +78,27 @@
                                   (left-fringe . 0)))
 (setq ns-right-alternate-modifier nil)
 
-(setq neo-window-position 1)
-(setq neo-theme 'arrow)
-(setq neo-smart-open t)
 
 
 (require 'spaceline-config)
-(spaceline-all-the-icons-theme)
 (setq powerline-default-separator 'wave)
+(spaceline-emacs-theme)
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'gruvbox-dark-hard t)
+(load-theme 'doom-vibrant t)
 
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
                      ('x 13.0)
-                     ('ns 15.0))))
+                     ('ns 13.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)
   (global-hl-line-mode)
-  (setq browse-url-browser-function 'browse-url-default-browser)
-  (projectile-global-mode +1))
+  (setq browse-url-browser-function 'browse-url-default-browser))
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)
@@ -168,9 +164,6 @@
 
 (setq compilation-finish-function 'my-compilation-finish-function)
 
-;; enable projectile everywhere
-(projectile-global-mode)
-
 (when (eq 'ns (window-system))
   (exec-path-from-shell-initialize))
 
@@ -201,7 +194,7 @@
       helm-imenu-fuzzy-match t
       helm-apropos-fuzzy-match t)
 
-(helm-mode)
+;; (helm-mode)
 ;;}}}
 
 ;; bindings
@@ -216,7 +209,7 @@
 (global-set-key (kbd "C-S-k") 'windmove-up)
 (global-set-key (kbd "C-S-j") 'windmove-down)
 (global-set-key (kbd "C-S-h") 'windmove-left) 
-(global-set-key (kbd "C-S-SPC") 'company-complete)
+(global-set-key (kbd "M-SPC") 'company-complete)
 
 (global-set-key (kbd "C-o") 'vi-open-line-below)
 (global-set-key (kbd "C-S-o") 'vi-open-line-above)
@@ -236,15 +229,12 @@
             (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
 
 ;; make CxCm act as M-x
-(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-c C-m") 'execute-extended-command)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 
 (global-set-key (kbd "<f2>") #'switch-to-buffer)
-(global-set-key (kbd "<f3>") #'helm-projectile-switch-project)
 (global-set-key (kbd "<f9>") #'evil-local-mode)
 (global-set-key (kbd "<f6>") #'ane/open-emacs.d-init.el)
 (global-set-key (kbd "<S-f6>") #'ane/open-emacs.d-modes.el)
@@ -289,8 +279,6 @@
 (setq w32-pass-apps-to-system nil)
 (setq w32-apps-modifier 'hyper) ; Menu/App key
 
-(global-set-key [f8] 'neotree-toggle)
-
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 (define-key evil-normal-state-map (kbd "M-.") nil)
@@ -298,30 +286,6 @@
 (define-key evil-operator-state-map (kbd "q") nil)
 
 (setq-default evil-symbol-word-search t)
-
-(evil-leader/set-leader "<SPC>")
-(evil-leader/set-key "f" 'helm-projectile-find-file)
-(evil-leader/set-key "F" 'helm-find-files)
-(evil-leader/set-key "p" 'helm-projectile-switch-project)
-(evil-leader/set-key "x" 'smex)
-(evil-leader/set-key "s" 'yas-insert-snippet)
-(evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
-(evil-leader/set-key "T" 'projectile-find-test-file)
-(evil-leader/set-key "a" 'helm-ag)
-(evil-leader/set-key "A" 'helm-projectile-ag)
-(evil-leader/set-key "g" 'magit-status)
-(evil-leader/set-key "w" 'ace-window)
-(evil-leader/set-key "b" 'helm-projectile-switch-to-buffer)
-(evil-leader/set-key "B" 'list-buffers)
-(evil-leader/set-key "i" 'helm-imenu)
-(evil-leader/set-key "k" 'kill-buffer)
-(evil-leader/set-key "o" 'helm-occur)
-(evil-leader/set-key "h" 'previous-buffer)
-(evil-leader/set-key "l" 'next-buffer)
-(evil-leader/set-key "I" 'indent-region)
-
-(evil-leader/set-key-for-mode 'cider-mode "e" 'cider-eval-last-sexp)
-(evil-leader/set-key-for-mode 'emacs-lisp-mode "e" 'eval-last-sexp)
 (windmove-default-keybindings)
 
 (defun minibuffer-keyboard-quit ()
@@ -383,9 +347,16 @@ Example: 2010-11-29T23:23:35-08:00"
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
 
+;;; ivy and counsel
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(counsel-mode)
+
 ;; Additional loads
 ;;{{{
 (load "~/.emacs.d/modes")
+(load "~/.emacs.d/asciidoc")
 ;;}}}
 ;; config.el ends here
 

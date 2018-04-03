@@ -2,7 +2,6 @@
 
 (push 'company-capf company-backends)
 (add-hook 'cider-repl-mode-hook #'company-mode)
-(add-hook 'cider-repl-mode-hook #'projectile-mode)
 (add-hook 'cider-mode-hook #'company-mode)
 (add-hook 'cider-repl-mode-hook 'turn-on-visual-line-mode)
 
@@ -14,7 +13,6 @@
 (defun setup-clojure ()
   (flycheck-mode)
   (yas/minor-mode)
-  (projectile-mode)
   (paredit-mode)
   (clj-refactor-mode)
   (rainbow-delimiters-mode)
@@ -43,7 +41,6 @@
             (aggressive-indent-mode)
             (eldoc-mode)
             (yas-minor-mode-on)
-            (projectile-mode)
             (rainbow-delimiters-mode)
             (rainbow-mode)
             (company-mode)
@@ -54,32 +51,36 @@
 ;; Evil
 ;;{{{ 
 
-(use-package evil)
-(use-package evil-leader)
+(use-package evil
+  :init
+  (setq evil-insert-state-cursor '("ForestGreen" bar)
+        evil-normal-state-cursor '("magenta" box)
+        evil-visual-state-cursor '("cyan" box)
+        evil-default-cursor t
+        evil-want-visual-char-semi-exclusive t
+        evil-move-cursor-back nil
+        evil-want-C-u-scroll t
+        evil-ex-hl-update-delay 0.01)
 
-(setq evil-insert-state-cursor '("ForestGreen" bar)
-      evil-normal-state-cursor '("magenta" box)
-      evil-visual-state-cursor '("cyan" box)
-      evil-default-cursor t
-      evil-want-visual-char-semi-exclusive t
-      evil-move-cursor-back nil
-      evil-want-C-u-scroll t
-      evil-ex-hl-update-delay 0.01)
+  (setq-default evil-escape-key-sequence "fd")
+  (setq-default evil-escape-delay 0.2))
 
-(setq-default evil-escape-key-sequence "fd")
-(setq-default evil-escape-delay 0.2)
-
-(add-hook 'evil-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-map ")" 'sentence-nav-evil-forward)
-            (define-key evil-normal-state-map "(" 'sentence-nav-evil-backward)
-            (define-key evil-normal-state-map "g)" 'sentence-nav-evil-forward-end)
-            (define-key evil-normal-state-map "g(" 'sentence-nav-evil-backward-end)
-            (define-key evil-outer-text-objects-map "s" 'sentence-nav-evil-outer-sentence)
-            (define-key evil-inner-text-objects-map "s" 'sentence-nav-evil-inner-sentence)))
-
-(add-hook 'clojure-mode-hook #'evil-local-mode)
-(add-hook 'lisp-mode-hook #'evil-local-mode)
+(use-package evil-leader
+  :ensure t
+  :hook (evil-mode)
+  :config
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key "s" 'yas-insert-snippet)
+  (evil-leader/set-key "a" 'counsel-ag)
+  (evil-leader/set-key "g" 'magit-status)
+  (evil-leader/set-key "w" 'ace-window)
+  (evil-leader/set-key "B" 'list-buffers)
+  (evil-leader/set-key "i" 'counsel-imenu)
+  (evil-leader/set-key "k" 'kill-buffer)
+  (evil-leader/set-key "l" 'next-buffer)
+  (evil-leader/set-key "I" 'indent-region)
+  (evil-leader/set-key "l" 'load-theme)
+  (evil-leader/set-key "L" 'disable-theme))
 
 (dolist (mode '(clojure-mode-hook
                 lisp-mode-hook
@@ -187,7 +188,6 @@
 ;; Org
 ;;{{{ 
 (use-package org)
-(use-package ox-reveal)
 
 (setq org-directory "~/Dropbox/org/"
       org-agenda-files '("work.org" "life.org")
@@ -196,6 +196,7 @@
       org-default-notes-file "~/Dropbox/org/work.org"
       org-mobile-directory "~/Dropbox/MobileOrg"
       org-cycle-separator-lines 1
+      org-log-done 'time
       org-agenda-window-setup 'current-window)
 
 (defun my/org-config ()
@@ -208,6 +209,7 @@
   (set-face-attribute 'org-level-2 nil :height 1.2)
   (set-face-attribute 'org-level-3 nil :height 1.15)
   (set-face-attribute 'org-level-4 nil :height 1.1)
+  (doom-themes-org-config)
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
@@ -220,26 +222,43 @@
 
 ;; Projectile
 ;;{{{  
-(persp-mode)
-(use-package projectile)
-(add-to-list 'projectile-globally-ignored-directories "elpa")
-(add-to-list 'projectile-globally-ignored-directories ".cache")
-(add-to-list 'projectile-globally-ignored-directories "node_modules")
-(add-to-list 'projectile-globally-ignored-directories ".cask")
-(add-to-list 'projectile-globally-ignored-directories ".cabal-sandbox")
-(add-to-list 'projectile-globally-ignored-directories ".python-environments")
-(add-to-list 'projectile-globally-ignored-directories "build")
-(add-to-list 'projectile-globally-ignored-directories "bin")
-(add-to-list 'projectile-globally-ignored-directories ".git")
-(add-to-list 'projectile-globally-ignored-directories "quelpa")
-(add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
-(add-to-list 'projectile-globally-ignored-directories "target")
-(add-to-list 'projectile-globally-ignored-directories "project/project")
-(add-to-list 'projectile-globally-ignored-directories "project/target")
-(setq projectile-indexing-method 'alien)
+(use-package projectile
+  :ensure t
+  :config
+  (add-to-list 'projectile-globally-ignored-directories "elpa")
+  (add-to-list 'projectile-globally-ignored-directories ".cache")
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories ".cask")
+  (add-to-list 'projectile-globally-ignored-directories ".cabal-sandbox")
+  (add-to-list 'projectile-globally-ignored-directories ".python-environments")
+  (add-to-list 'projectile-globally-ignored-directories "build")
+  (add-to-list 'projectile-globally-ignored-directories "bin")
+  (add-to-list 'projectile-globally-ignored-directories ".git")
+  (add-to-list 'projectile-globally-ignored-directories "quelpa")
+  (add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
+  (add-to-list 'projectile-globally-ignored-directories "target")
+  (add-to-list 'projectile-globally-ignored-directories "project/project")
+  (add-to-list 'projectile-globally-ignored-directories "project/target")
+  (projectile-global-mode)
+  (counsel-projectile-mode)
+  (persp-mode)
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-enable-caching t)
+  (evil-leader/set-key "f" 'projectile-find-file)
+  (evil-leader/set-key "p" 'projectile-persp-switch-project)
+  (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
+  (evil-leader/set-key "T" 'projectile-find-test-file)
+  (evil-leader/set-key "A" 'counsel-projectile-ag)
+  (evil-leader/set-key "b" 'projectile-switch-to-buffer))
 
-(helm-projectile-on)
 ;;}}}
+
+(use-package perspective
+  :config
+  (evil-leader/set-key "x" 'persp-switch)
+  (evil-leader/set-key "X" 'persp-switch-last)
+  )
 
 ;; Racket
 ;;{{{
@@ -327,56 +346,61 @@
 ;; Diminish
 ;;{{{
 
-(use-package diminish)
-
-(diminish 'aggressive-indent-mode)
-(diminish 'helm-mode)
-(diminish 'auto-revert-mode)
-(diminish 'paredit-mode)
-(diminish 'evil-escape-mode)
-(diminish 'undo-tree-mode)
-(diminish 'rainbow-delimiters-mode)
-(diminish 'rainbow-mode)
-(diminish 'eldoc-mode)
-(diminish 'yas-minor-mode)
-(diminish 'projectile-mode "Proj")
+(use-package diminish
+  :ensure t
+  :init
+  (diminish 'aggressive-indent-mode)
+  (diminish 'helm-mode)
+  (diminish 'auto-revert-mode)
+  (diminish 'paredit-mode)
+  (diminish 'evil-escape-mode)
+  (diminish 'undo-tree-mode)
+  (diminish 'rainbow-delimiters-mode)
+  (diminish 'rainbow-mode)
+  (diminish 'eldoc-mode)
+  (diminish 'yas-minor-mode)
+  (diminish 'counsel-mode)
+  (diminish 'ivy-mode)
+  (diminish 'flycheck-mode "!")
+  (diminish 'projectile-mode "Proj"))
 
 ;;}}}
 
 ;; Idris
 
-(defun my-idris-hook ()
-  (evil-local-mode)
-  (company-mode))
-
-(add-hook 'idris-mode-hook #'my-idris-hook)
+(use-package idris-mode
+  :ensure t)
 
 ;; SSH
 ;;{{{
 
-(autoload 'ssh-config-mode "ssh-config-mode" t)
-(add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
-(add-to-list 'auto-mode-alist '("/sshd?_config\\'"      . ssh-config-mode))
-(add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
-(add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode))
-(add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+(use-package ssh-config-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/sshd?_config\\'"      . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
+  (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode)))
 
 ;;}}}
 
 ;; Erlang
 ;;{{{
 
-(add-hook 'erlang-mode-hook #'company-erlang-init)
+(use-package erlang
+  :ensure t
+  :config
+  (add-hook 'erlang-mode-hook #'company-erlang-init))
 
 ;;}}}
 
 ;; Elm
 ;;{{{
-
-(add-hook 'elm-mode-hook
-          (lambda ()
-            (company-mode)
-            (add-to-list 'company-backends 'company-elm))) 
+(use-package elm-mode
+  :ensure t
+  :config
+  (add-hook 'elm-mode-hook  #'company-mode)
+  :init (add-to-list 'company-backends 'company-elm))
 ;;}}}
 
 
@@ -384,31 +408,71 @@
 
 ;;{{{
 
-(add-to-list 'auto-mode-alist '("\\.scss" . scss-mode))
-
-(add-hook 'scss-mode-hook
-          (lambda ()
-            (company-mode)))
+(use-package scss-mode
+  :ensure t
+  :config
+  (add-hook 'scss-mode-hook #''company-mode)
+  :init
+  (add-to-list 'auto-mode-alist '("\\.scss" . scss-mode)))
 
 ;;}}}
 
-(add-hook 'imenu-list-minor-mode-hook
-          (lambda ()
-            (setq imenu-list-focus-after-activation t)))
-
 ;; Yaml
 ;;{{{
-(add-hook 'yaml-mode-hook
-          (lambda ()
-            (abbrev-mode)
-            (flycheck-mode)))
-
+(use-package yaml-mode
+  :ensure t
+  :config
+  (add-hook 'yaml-mode-hook #'abbrev-mode)
+  (add-hook 'yaml-mode-hook #'flycheck-mode))
 ;;}}}
 
 
 ;; PlantUML
 ;;{{{
-(setq plantuml-jar-path "/usr/local/lib/plantuml.jar")
-(add-to-list 'auto-mode-alist '("\\.diag\\'" . plantuml-mode))
-(add-hook 'plantuml-mode-hook #'flycheck-plantuml-setup)
+(use-package plantuml-mode
+  :ensure t
+  :init
+  (setq plantuml-jar-path "/usr/local/lib/plantuml.jar")
+  (add-to-list 'auto-mode-alist '("\\.diag\\'" . plantuml-mode)))
 ;;}}}
+
+
+;;; Scala & Ensime
+
+(use-package ensime
+  :ensure t)
+
+(use-package scala-mode
+  :init
+  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra))
+
+(use-package sbt-mode
+  :init
+  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
+  (evil-leader/set-key-for-mode 'scala-mode "s t" 'ensime-type-at-point)
+  (evil-leader/set-key-for-mode 'scala-mode "s r" 'ensime-typecheck-current-buffer)
+  (evil-leader/set-key-for-mode 'scala-mode "r r" 'ensime-refactor-diff-rename)
+  (evil-leader/set-key-for-mode 'scala-mode "r v" 'ensime-refactor-add-type-annotation)
+  :config
+  (add-hook 'sbt-mode-hook #'visual-line-mode))
+
+(use-package shackle
+  :ensure t
+  :config
+  (setq shackle-default-rule '(:select t))
+  (shackle-mode))
+
+(use-package neotree
+  :ensure t
+  :bind ("<f8>" . neotree-toggle)
+  :config
+  (setq neo-window-position 1)
+  (setq neo-theme 'arrow)
+  (setq neo-smart-open t)
+  )
+
+(use-package company-go
+  :config
+  (add-hook 'go-mode-hook (lambda ()
+                            (set (make-local-variable 'company-backends) '(company-go))
+                            (company-mode))))

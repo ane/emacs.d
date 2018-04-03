@@ -1,6 +1,8 @@
 (add-to-list 'package-pinned-packages '(evil-escape . "melpa-stable") t)
 (add-to-list 'package-pinned-packages '(smex . "melpa-stable") t)
-
+(add-to-list 'package-pinned-packages '(projectile . "melpa-stable") t)
+(add-to-list 'package-pinned-packages '(helm-projectile . "melpa-stable") t)
+(add-to-list 'package-pinned-packages '(helm . "melpa-stable") t)
 (defvar autoinstall-packages
   '(
     ace-window
@@ -13,6 +15,7 @@
     company-go
     company-ghc
     diminish
+    doom-themes
     evil
     evil-escape
     evil-leader
