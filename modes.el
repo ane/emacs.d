@@ -343,6 +343,12 @@
             (setq calendar-week-start-day 1)))
 ;;}}}
 
+(use-package ivy
+  :ensure t)
+(use-package counsel
+  :ensure t)
+(use-package counsel-projectile
+  :ensure t)
 ;; Diminish
 ;;{{{
 
@@ -455,12 +461,6 @@
   (evil-leader/set-key-for-mode 'scala-mode "r v" 'ensime-refactor-add-type-annotation)
   :config
   (add-hook 'sbt-mode-hook #'visual-line-mode))
-
-(use-package shackle
-  :ensure t
-  :config
-  (setq shackle-default-rule '(:select t))
-  (shackle-mode))
 
 (use-package neotree
   :ensure t
