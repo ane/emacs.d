@@ -167,6 +167,10 @@
             (paredit-mode)
             (yas/minor-mode)))
 
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (rainbow-delimiters-mode)
+            (paredit-mode)))
 ;;}}}
 
 ;; Text
