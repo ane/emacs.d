@@ -182,6 +182,10 @@
               (rainbow-delimiters-mode)
               (paredit-mode))))
 
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (rainbow-delimiters-mode)
+            (paredit-mode)))
 ;;}}}
 
 ;; Text
@@ -363,6 +367,12 @@
             (setq calendar-week-start-day 1)))
 ;;}}}
 
+(use-package ivy
+  :ensure t)
+(use-package counsel
+  :ensure t)
+(use-package counsel-projectile
+  :ensure t)
 ;; Diminish
 ;;{{{
 

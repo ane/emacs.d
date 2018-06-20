@@ -91,7 +91,7 @@
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
-                     ('x 13.0)
+                     ('x 11.0)
                      ('ns 13.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
