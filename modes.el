@@ -8,6 +8,10 @@
 (require 'clojure-mode-extra-font-locking)
 (cljr-add-keybindings-with-prefix "C-c C-m")
 
+;; Emacs 26 workaround
+(when (not (fboundp 'make-variable-frame-local))
+  (defun make-variable-frame-local (variable) variable))
+
 ;; Clojure
 ;;{{{  
 (defun setup-clojure ()
@@ -99,6 +103,7 @@
                 scss-mode-hook
                 plantuml-mode-hook
                 css-mode-hook
+                conf-unix-mode-hook
                 text-mode-hook))
   (add-hook mode #'evil-local-mode))
 
@@ -152,20 +157,30 @@
 ;; Common Lisp
 ;;{{{ 
 
-(let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-  (when (file-exists-p slime-helper)
-    (load slime-helper)))
+(use-package slime-company
+  :ensure t)
 
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
-(setq slime-contribs '(slime-fancy slime-company))
 
-(add-hook 'slime-mode-hook
-          (lambda ()
-            (company-mode)
-            (flycheck-mode)
-            (rainbow-delimiters-mode)
-            (paredit-mode)
-            (yas/minor-mode)))
+(use-package slime
+  :ensure t
+  :config
+  (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+    (when (file-exists-p slime-helper)
+      (load slime-helper)))
+
+  (setq slime-contribs '(slime-fancy slime-company))
+  (add-hook 'slime-mode-hook
+            (lambda ()
+              (company-mode)
+              (flycheck-mode)
+              (rainbow-delimiters-mode)
+              (paredit-mode)
+              (yas/minor-mode)))
+  (add-hook 'slime-repl-mode-hook
+            (lambda ()
+              (rainbow-delimiters-mode)
+              (paredit-mode))))
 
 ;;}}}
 
@@ -221,7 +236,11 @@
 ;;}}}
 
 ;; Projectile
-;;{{{  
+;;{{{
+
+(use-package counsel-projectile
+  :ensure t)
+
 (use-package projectile
   :ensure t
   :config
@@ -244,13 +263,14 @@
   (persp-mode)
   (setq projectile-completion-system 'ivy)
   (setq projectile-indexing-method 'alien)
-  (setq projectile-enable-caching t)
   (evil-leader/set-key "f" 'projectile-find-file)
   (evil-leader/set-key "p" 'projectile-persp-switch-project)
   (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
   (evil-leader/set-key "T" 'projectile-find-test-file)
   (evil-leader/set-key "A" 'counsel-projectile-ag)
   (evil-leader/set-key "b" 'projectile-switch-to-buffer))
+
+
 
 ;;}}}
 
@@ -446,6 +466,15 @@
   :init
   (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra))
 
+(defun align-params ()
+  (interactive)
+  (align-regexp (region-beginning) (region-end) ": \\(\s*\\)" 1 0))
+
+(defun bap ()
+  (interactive)
+  (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)\\(<-\\|=\\)")
+  (align-regexp (region-beginning) (region-end) "\\(<-\\|=\\)\\(\\s-*\\)" 2))
+
 (use-package sbt-mode
   :init
   (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
@@ -456,23 +485,42 @@
   :config
   (add-hook 'sbt-mode-hook #'visual-line-mode))
 
-(use-package shackle
-  :ensure t
-  :config
-  (setq shackle-default-rule '(:select t))
-  (shackle-mode))
-
 (use-package neotree
   :ensure t
   :bind ("<f8>" . neotree-toggle)
   :config
-  (setq neo-window-position 1)
+  (setq neo-window-position 'right)
   (setq neo-theme 'arrow)
   (setq neo-smart-open t)
   )
 
 (use-package company-go
+  :ensure t
   :config
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'company-backends) '(company-go))
                             (company-mode))))
+
+(use-package smex
+  :ensure t)
+
+(use-package org-jira
+  :ensure t
+  :config
+  (setq jiralib-url "https://extranet-sd.qvantel.com")
+  (setq request-log-level 'debug))
+
+(use-package ponylang-mode
+  :ensure t
+  :config
+  (progn
+    (add-hook
+     'ponylang-mode-hook
+     (lambda ()
+       (set-variable 'indent-tabs-mode nil)
+       (set-variable 'tab-width 2)))))
+
+(use-package flycheck-pony
+  :ensure t
+  :config
+  (setq create-lockfiles nil))

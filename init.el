@@ -86,7 +86,7 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'doom-vibrant t)
+(load-theme 'kaolin-mono-dark t)
 
 (defun setup-interface ()
   (interactive)
@@ -214,8 +214,8 @@
 (global-set-key (kbd "C-o") 'vi-open-line-below)
 (global-set-key (kbd "C-S-o") 'vi-open-line-above)
 
-(global-set-key (kbd "H-f") 'projectile-find-file)
-(global-set-key (kbd "H-x") 'projectile-persp-switch-project)
+(global-set-key (kbd "s-f") 'projectile-find-file)
+(global-set-key (kbd "s-x") 'projectile-persp-switch-project)
 
 (add-hook 'paredit-mode-hook (lambda ()
                                (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
@@ -245,7 +245,9 @@
 (global-set-key (kbd "C-c C-d") #'insert-date-time)
 
 (global-set-key (kbd "s-<left>") #'previous-buffer)
+(global-set-key (kbd "<wheel-left>") #'previous-buffer)
 (global-set-key (kbd "s-<right>") #'next-buffer)
+(global-set-key (kbd "<wheel-right>") #'next-buffer)
 (global-set-key (kbd "s-<escape>") #'delete-other-windows)
 
 (defun ane/open-emacs.d-init.el ()
