@@ -84,7 +84,7 @@
   (evil-leader/set-key "l" 'next-buffer)
   (evil-leader/set-key "I" 'indent-region)
   (evil-leader/set-key "l" 'load-theme)
-  (evil-leader/set-key "L" 'disable-theme))
+  (evil-leader/set-key "m" 'disable-theme))
 
 (dolist (mode '(clojure-mode-hook
                 lisp-mode-hook
@@ -104,6 +104,7 @@
                 plantuml-mode-hook
                 css-mode-hook
                 conf-unix-mode-hook
+                ponylang-mode-hook
                 text-mode-hook))
   (add-hook mode #'evil-local-mode))
 

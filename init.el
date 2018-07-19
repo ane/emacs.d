@@ -86,7 +86,7 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'kaolin-mono-dark t)
+(load-theme 'kaolin-valley-dark t)
 
 (defun setup-interface ()
   (interactive)
