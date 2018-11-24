@@ -86,14 +86,14 @@
 (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 (setq spaceline-workspace-numbers-unicode t)
 (setq spaceline-window-numbers-unicode t)
-(load-theme 'kaolin-valley-dark t)
+(load-theme 'kaolin-bubblegum t)
 
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
                      ('x 11.0)
-                     ('ns 13.0))))
-    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
+                     ('ns 15.0))))
+    (set-default-font (font-spec :family "Hasklig" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)
@@ -348,6 +348,18 @@ Example: 2010-11-29T23:23:35-08:00"
   (progn
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
+
+;; align stuff
+(defun my/align ()
+  (interactive)
+  (align-regexp
+   (region-beginning)
+   (region-end)
+   "\\(\\s-*\\)\\(<-\\|=\\|\\$\\|::\\|->\\)"
+   1
+   align-default-spacing
+   nil))
+
 
 ;;; ivy and counsel
 (ivy-mode 1)

@@ -98,6 +98,8 @@
                 yaml-mode-hook
                 ruby-mode-hook
                 scala-mode-hook
+                javascript-mode-hook
+                typescript-mode-hook
                 elm-mode-hook
                 web-mode-hook
                 scss-mode-hook
@@ -113,45 +115,59 @@
 ;; Haskell
 ;;{{{ 
 
-(let ((my-cabal-path (expand-file-name "~/.cabal/bin"))
-      (local-bin-path (expand-file-name "~/.local/bin")))
-  (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
-  (setenv "PATH" (concat local-bin-path ":" (getenv "PATH")))
-  (add-to-list 'exec-path my-cabal-path)
-  (add-to-list 'exec-path local-bin-path))
+;; (let ((my-cabal-path (expand-file-name "~/.cabal/bin"))
+;;       (local-bin-path (expand-file-name "~/.local/bin")))
+;;   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
+;;   (setenv "PATH" (concat local-bin-path ":" (getenv "PATH")))
+;;   (add-to-list 'exec-path my-cabal-path)
+;;   (add-to-list 'exec-path local-bin-path))
 
-(evil-define-key 'insert haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
-(evil-define-key 'normal haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
+;; (evil-define-key 'insert haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
+;; (evil-define-key 'normal haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
 
-(add-hook 'speedbar-load-hook (lambda ()
-                                (push ".hs" speedbar-supported-extension-expressions)))
+;; (add-hook 'speedbar-load-hook (lambda ()
+;;                                 (push ".hs" speedbar-supported-extension-expressions)))
 
-(custom-set-variables
- '(haskell-process-suggest-hoogle-imports t)
- '(haskell-process-suggest-remove-import-lines t)
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-type 'stack-ghci))
+;; (custom-set-variables
+;;  '(haskell-process-suggest-hoogle-imports t)
+;;  '(haskell-process-suggest-remove-import-lines t)
+;;  '(haskell-process-auto-import-loaded-modules t)
+;;  '(haskell-process-log t)
+;;  '(haskell-process-type 'stack-ghci))
 
-(add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
-(evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
-(evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
-(evil-leader/set-key-for-mode 'haskell-mode "h i" 'haskell-process-do-info)
-(evil-leader/set-key-for-mode 'haskell-mode "h c" 'haskell-process-cabal-build)
-(evil-leader/set-key-for-mode 'haskell-mode "h k" 'haskell-interactive-mode-clear)
-(evil-leader/set-key-for-mode 'haskell-mode "h l" 'haskell-process-load-or-reload)
+;; (add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h i" 'haskell-process-do-info)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h c" 'haskell-process-cabal-build)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h k" 'haskell-interactive-mode-clear)
+;; (evil-leader/set-key-for-mode 'haskell-mode "h l" 'haskell-process-load-or-reload)
 
-(defun my/setup-haskell ()
-  (company-mode)
-  (flycheck-mode)
-  (haskell-indentation-mode)
-  (flycheck-haskell-setup)
+;; (defun my/setup-haskell ()
+;;   (company-mode)
+;;   (flycheck-mode)
+;;   (haskell-indentation-mode)
+;;   (flycheck-haskell-setup)
+;;   (rainbow-delimiters-mode)
+;;   (haskell-doc-mode)
+;;   (interactive-haskell-mode)) 
+
+;; (add-hook 'haskell-mode-hook 'my/setup-haskell)
+;; (add-hook 'haskell-interactive-mode-hook 'company-mode)
+
+(use-package haskell-mode
+  :ensure t
+  :config
   (rainbow-delimiters-mode)
-  (haskell-doc-mode)
-  (interactive-haskell-mode)) 
-
-(add-hook 'haskell-mode-hook 'my/setup-haskell)
-(add-hook 'haskell-interactive-mode-hook 'company-mode)
+  (add-hook 'haskell-mode-hook 'hasklig-mode)
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (define-key haskell-mode-map (kbd "<f3>") #'my/align)))
+  (use-package intero
+    :ensure t
+    :config
+    (progn
+      (add-hook 'haskell-mode-hook 'intero-mode))))
 
 ;;}}}
 
@@ -207,7 +223,15 @@
 
 ;; Org
 ;;{{{ 
-(use-package org)
+(use-package org
+  :ensure t
+  :config
+  (progn
+    (setq org-plantuml-jar-path "/usr/local/lib/plantuml.jar")
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 '((plantuml . t)))
+    (setq org-confirm-babel-evaluate nil)
+    ))
 
 (setq org-directory "~/Dropbox/org/"
       org-agenda-files '("work.org" "life.org")
@@ -217,6 +241,7 @@
       org-mobile-directory "~/Dropbox/MobileOrg"
       org-cycle-separator-lines 1
       org-log-done 'time
+      org-display-inline-images t
       org-agenda-window-setup 'current-window)
 
 (defun my/org-config ()
@@ -235,6 +260,7 @@
                                  (org-agenda-maybe-redo)))
             (auto-revert-mode 1))
   (org-indent-mode))
+
 (add-hook 'org-mode-hook #'my/org-config)
 (setq org-journal-dir "~/Dropbox/org/journal/")
 
@@ -389,11 +415,14 @@
   (diminish 'rainbow-delimiters-mode)
   (diminish 'rainbow-mode)
   (diminish 'eldoc-mode)
+  (diminish 'hasklig-mode)
   (diminish 'yas-minor-mode)
   (diminish 'counsel-mode)
   (diminish 'ivy-mode)
+  (diminish 'company-mode "C")
+  (diminish 'intero-mode "I")
   (diminish 'flycheck-mode "!")
-  (diminish 'projectile-mode "Proj"))
+  (diminish 'projectile-mode "Pro"))
 
 ;;}}}
 
@@ -535,3 +564,40 @@
   :ensure t
   :config
   (setq create-lockfiles nil))
+
+
+;;; js2/tsx
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save))
+  :config
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode))))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "jsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode)))))
+
+(use-package hasklig-mode
+  :ensure t)
