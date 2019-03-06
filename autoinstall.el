@@ -14,6 +14,7 @@
     company
     company-go
     company-ghc
+    counsel
     diminish
     doom-themes
     evil
@@ -31,6 +32,7 @@
     helm-ag
     helm-projectile
     hi2
+    ivy
     kaolin-themes
     magit
     magit-gitflow
