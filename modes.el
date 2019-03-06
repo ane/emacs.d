@@ -128,12 +128,6 @@
 ;; (add-hook 'speedbar-load-hook (lambda ()
 ;;                                 (push ".hs" speedbar-supported-extension-expressions)))
 
-;; (custom-set-variables
-;;  '(haskell-process-suggest-hoogle-imports t)
-;;  '(haskell-process-suggest-remove-import-lines t)
-;;  '(haskell-process-auto-import-loaded-modules t)
-;;  '(haskell-process-log t)
-;;  '(haskell-process-type 'stack-ghci))
 
 ;; (add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
 ;; (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
@@ -150,7 +144,8 @@
 ;;   (flycheck-haskell-setup)
 ;;   (rainbow-delimiters-mode)
 ;;   (haskell-doc-mode)
-;;   (interactive-haskell-mode)) 
+;;   (interactive-haskell-mode)
+;;  ) 
 
 ;; (add-hook 'haskell-mode-hook 'my/setup-haskell)
 ;; (add-hook 'haskell-interactive-mode-hook 'company-mode)
@@ -158,10 +153,16 @@
 (use-package haskell-mode
   :ensure t
   :config
-  (rainbow-delimiters-mode)
-  (add-hook 'haskell-mode-hook 'hasklig-mode)
+  (custom-set-variables
+   '(haskell-process-suggest-hoogle-imports t)
+   '(haskell-process-suggest-remove-import-lines t)
+   '(haskell-process-auto-import-loaded-modules t)
+   '(haskell-process-log t)
+   '(haskell-process-type 'stack-ghci))
   (add-hook 'haskell-mode-hook
             (lambda ()
+              (rainbow-delimiters-mode)
+              (haskell-indentation-mode)
               (define-key haskell-mode-map (kbd "<f3>") #'my/align)))
   (use-package intero
     :ensure t
@@ -211,11 +212,11 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 (defun text-mode-settings ()
-  (setq fill-column 100)
+  (setq fill-column 80)
+  (flyspell-mode)
   (auto-fill-mode))
 
-(add-hook 'markdown-mode-hook #'text-mode-settings)
-(add-hook 'rst-mode-hook #'text-mode-settings)
+(add-hook 'text-mode-hook #'text-mode-settings)
 
 (setq markdown-command "kramdown")
 
@@ -357,12 +358,6 @@
 
 ;; Text
 ;;{{{ 
-(add-hook 'text-mode-hook #'setup-text-mode)
-
-(defun setup-text-mode ()
-  (setq fill-column 80)
-  (auto-fill-mode))
-
 ;;}}}
 
 ;; Web
@@ -460,7 +455,19 @@
   :ensure t
   :config
   (add-hook 'elm-mode-hook  #'company-mode)
-  :init (add-to-list 'company-backends 'company-elm))
+  (add-hook 'elm-mode-hook  #'flycheck-mode)
+  (add-to-list 'company-backends 'company-elm)
+  (use-package flycheck-elm
+    :ensure t
+    :config
+    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
+  :init
+  (progn 
+    (custom-set-variables
+     '(elm-interactive-command '("elm" "repl"))
+     '(elm-reactor-command '("elm" "reactor"))
+     '(elm-package-json "elm.json")
+     '(elm-compile-arguments '("--output=elm.js" "--debug")))))
 ;;}}}
 
 

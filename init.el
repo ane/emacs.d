@@ -63,6 +63,7 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-underline-at-descent-line t
+      line-spacing 3
       xterm-mouse-mode t)
 
 
@@ -92,8 +93,8 @@
   (interactive)
   (let ((font-size (pcase window-system
                      ('x 11.0)
-                     ('ns 15.0))))
-    (set-default-font (font-spec :family "Hasklig" :weight 'medium :size font-size)))
+                     ('ns 16.0))))
+    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-evil-leader-mode +1)
   (evil-escape-mode +1)
   (smooth-scrolling-mode)
@@ -151,7 +152,10 @@
 (setq flycheck-check-syntax-automatically '(save))
 (setq flycheck-check-syntax-automatically '(save)) 
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
+      browse-url-generic-program
+      (pcase window-system
+        ('ns "/Applications/Firefox.app/Contents/MacOS/firefox --new-tab")
+        ('x "firefox")))
 
 (defun my-compilation-finish-function (buf str) 
   (if (null (string-match ".*exited abnormally.*" str))
