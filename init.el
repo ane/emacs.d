@@ -1,10 +1,32 @@
 ;; Bootstrap
 ;;{{{
 (defconst emacs-start-time (current-time))
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+
+(require 'package)
+
+;;
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+
+;; for latest org-mode and org-plus-contrib
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+
+;; https://github.com/purcell/emacs.d/blob/master/lisp/init-elpa.el#L64
+;; (setq package-enable-at-startup nil)
 (package-initialize)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+;; install packages automatically if not already present on your
+;; system to be global for all packages
+(require 'use-package-ensure)
+
+(setq use-package-always-ensure t)
+
 
 (setq refreshed nil)
 (dolist (base-pkg '(use-package s f dash dash-functional))
@@ -16,8 +38,6 @@
   (require base-pkg))
 
 (setq custom-file "~/.emacs.d/custom.el")
-
-(load "~/.emacs.d/autoinstall")
 
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -34,19 +54,14 @@
 
 ;; Settings
 ;;{{{
-(use-package yasnippet)
-(use-package company)
-(use-package flycheck)
-
 (column-number-mode t)
 (show-paren-mode 1)
 (global-font-lock-mode t)
-(global-hl-line-mode -1)
 (winner-mode t)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(rainbow-mode)
+
 
 (setq display-time-24hr-format t
       display-time-default-load-average nil
@@ -54,7 +69,6 @@
       cursor-type 'bar
       calendar-week-start-day 1
       auto-save-default nil
-      company-tooltip-align-annotations t
       initial-scratch-message nil
       isearch-lazy-highlight nil
       linum-format "%3d "
@@ -63,40 +77,18 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-underline-at-descent-line t
-      line-spacing 3
       xterm-mouse-mode t)
 
-
 (setq-default indent-tabs-mode nil)
-(setq speedbar-show-unknown-files t)
-(setq speedbar-use-images nil)
-(setq speedbar-frame-parameters '((minibuffer)
-                                  (width . 40)
-                                  (border-width . 0)
-                                  (menu-bar-lines . 0)
-                                  (tool-bar-lines . 0)
-                                  (unsplittable . t)
-                                  (left-fringe . 0)))
 (setq ns-right-alternate-modifier nil)
 
-
-
-(require 'spaceline-config)
-(setq powerline-default-separator 'wave)
-(spaceline-emacs-theme)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-(setq spaceline-workspace-numbers-unicode t)
-(setq spaceline-window-numbers-unicode t)
-(load-theme 'kaolin-bubblegum t)
 
 (defun setup-interface ()
   (interactive)
   (let ((font-size (pcase window-system
-                     ('x 14.0)
-                     ('ns 15.0))))
+                     ('x 15.0)
+                     ('ns 16.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
-  (global-evil-leader-mode +1)
-  (evil-escape-mode +1)
   (smooth-scrolling-mode)
   (global-hl-line-mode)
   (setq browse-url-browser-function 'browse-url-default-browser))
@@ -133,7 +125,6 @@
 
 ;; more memory is fun
 (setq gc-cons-threshold 20000000)
-(setq comment-auto-fill-only-comments t)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
@@ -146,11 +137,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
-
-(setq flycheck-check-syntax-automatically '(save))
-(setq flycheck-check-syntax-automatically '(save)) 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program
       (pcase window-system
@@ -168,38 +154,13 @@
 
 (setq compilation-finish-function 'my-compilation-finish-function)
 
-(when (eq 'ns (window-system))
-  (exec-path-from-shell-initialize))
-
-(global-set-key (kbd "M-o") 'yas-expand)
-(setq eldoc-idle-delay 0.1)
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
 
 ;; company settings
-(setq company-idle-delay 0.2
-      company-minimum-prefix-length 2
-      company-selection-wrap-around t)
 
-(add-to-list 'company-backends 'company-files)
 (setq tramp-default-method "ssh")
 
 (setq make-backup-files nil)
-
-;; set some sr-speedbar defaults
-(setq sr-speedbar-width 30)
-
-;; helm things
-(setq helm-split-window-in-side-p t
-      helm-ff-file-name-history-use-recentf t
-      helm-M-x-fuzzy-match t
-      helm-recentf-fuzzy-match t
-      helm-buffers-fuzzy-matching t
-      helm-locate-fuzzy-match nil
-      helm-imenu-fuzzy-match t
-      helm-apropos-fuzzy-match t)
-
-;; (helm-mode)
-;;}}}
 
 ;; bindings
 ;;{{{
@@ -221,16 +182,6 @@
 (global-set-key (kbd "s-f") 'projectile-find-file)
 (global-set-key (kbd "s-x") 'projectile-persp-switch-project)
 
-(add-hook 'paredit-mode-hook (lambda ()
-                               (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
-                               (define-key paredit-mode-map (kbd "M-;") 'paredit-backward-slurp-sexp)
-                               (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
-                               (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp)))
-
-(add-hook 'flycheck-mode-hook
-          (lambda ()
-            (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
-            (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error)))
 
 ;; make CxCm act as M-x
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -270,29 +221,11 @@
   (interactive) 
   (find-file (expand-file-name "~/Dropbox/org/blog.org")))
 
-(setq bibtex-completion-bibliography
-      '("~/Dropbox/org/personal.org"))
-
-(setq reftex-default-bibliography '("~/Dropbox/org/personal.bib"))
-
-(setq org-ref-bibliography-notes "~/Dropbox/org/notes.org"
-      org-ref-default-bibliography '("~/Dropbox/org/personal.bib"))
 
 
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
 
-(setq w32-pass-apps-to-system nil)
-(setq w32-apps-modifier 'hyper) ; Menu/App key
-
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-
-(define-key evil-normal-state-map (kbd "M-.") nil)
-(define-key evil-normal-state-map (kbd "q") nil)
-(define-key evil-operator-state-map (kbd "q") nil)
-
-(setq-default evil-symbol-word-search t)
-(windmove-default-keybindings)
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -304,24 +237,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-(global-set-key [escape] 'evil-exit-emacs-state)
-
-;; neotree
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-;;}}}
 
 ;; Custom functions
 ;;{{{
@@ -345,14 +265,6 @@ Example: 2010-11-29T23:23:35-08:00"
 ;;}}}
 ;; packages
 
-(use-package flycheck-yamllint
-  :ensure t
-  :defer t
-  :init
-  (progn
-    (eval-after-load 'flycheck
-      '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
-
 ;; align stuff
 (defun my/align ()
   (interactive)
@@ -364,12 +276,9 @@ Example: 2010-11-29T23:23:35-08:00"
    align-default-spacing
    nil))
 
-
-;;; ivy and counsel
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(counsel-mode)
+(add-hook 'text-mode-hook
+          (lambda ()
+            (auto-fill-mode)))
 
 ;; Additional loads
 ;;{{{
@@ -377,5 +286,3 @@ Example: 2010-11-29T23:23:35-08:00"
 (load "~/.emacs.d/asciidoc")
 ;;}}}
 ;; config.el ends here
-
-
