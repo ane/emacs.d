@@ -16,9 +16,9 @@
                                  (rainbow-delimiters-mode)
                                  (eldoc-mode))))
 
-(use-package exec-path
+(use-package exec-path-from-shell
   :config
-  (when (eq 'ns (window-system))
+  (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
 (use-package ace-window
