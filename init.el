@@ -93,6 +93,7 @@
   (interactive)
   (let ((font-size (pcase window-system
                      ('x 15.0)
+                     ('mac 16.0)
                      ('ns 16.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-hl-line-mode)
