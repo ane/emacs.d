@@ -311,18 +311,11 @@
         org-confirm-babel-evaluate nil
         org-display-inline-images t
         org-publish-cache nil
+        org-html-htmlize-output-type 'css
         org-journal-dir "~/Dropbox/org/journal"
         org-agenda-window-setup 'current-window)
   :config
   ;; babel
-  (define-key org-mode-map (kbd "<f3>")
-    (lambda ()
-      (interactive)
-      (save-excursion
-        (when (string-suffix-p ".org" (buffer-file-name))
-          (set-buffer-modified-p t)
-          (save-buffer))
-        (org-publish-project "blog"))))
   (use-package htmlize)
   (require 'org-tempo)
   (require 'ox-confluence)
@@ -422,7 +415,7 @@
 
 
 (use-package web-mode
-  :config
+  :init
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
@@ -433,10 +426,26 @@
   (electric-pair-mode -1)
   (setq web-mode-enable-auto-quoting t)
 
-  (add-hook 'web-mode-hook #'company-mode)
+  (setq web-mode-content-types-alist
+        '(("jsx" . "\\.js[x]?\\'")
+          ("tsx" . "\\.ts[x]?\\'")))
 
   (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.html" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+
+  :config
+  (add-hook 'web-mode-hook #'company-mode)
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode))))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "jsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode))))
+  )
 
 ;;}}}
 
@@ -694,20 +703,9 @@
   :ensure t
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save))
+         (typescript-mode . tide-hl-identifier-mode))
   :config
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode))))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "jsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode)))))
+  (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 (use-package hasklig-mode
   :ensure t)
