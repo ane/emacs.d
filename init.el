@@ -77,21 +77,28 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-underline-at-descent-line t
-      xterm-mouse-mode t)
+      xterm-mouse-mode t
+
+      user-mail-address "ane@iki.fi"
+      user-full-name "Antoine Kalmbach"
+
+      mac-option-modifier 'meta
+      mac-command-modifier 'super)
 
 (setq-default indent-tabs-mode nil)
 (setq ns-right-alternate-modifier nil)
 
 
 (defun setup-interface ()
-  (interactive)
-  (let ((font-size (pcase window-system
-                     ('x 15.0)
-                     ('ns 16.0))))
-    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
-  (smooth-scrolling-mode)
-  (global-hl-line-mode)
-  (setq browse-url-browser-function 'browse-url-default-browser))
+(interactive)
+(let ((font-size (pcase window-system
+                   ('x 15.0)
+                   ('ns 16.0)
+                   ('mac 16))))
+  (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
+(smooth-scrolling-mode)
+(global-hl-line-mode))
+(setq browse-url-browser-function 'browse-url-default-browser)
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)

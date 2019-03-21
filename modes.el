@@ -1,4 +1,3 @@
-
 (setq  use-package-always-ensure t)
 (use-package cider
   :config
@@ -16,7 +15,7 @@
                                  (rainbow-delimiters-mode)
                                  (eldoc-mode))))
 
-(use-package exec-path
+(use-package exec-path-from-shell
   :config
   (when (eq 'ns (window-system))
     (exec-path-from-shell-initialize)))
@@ -37,6 +36,9 @@
 (use-package rainbow-delimiters)
 
 ;;}}}
+
+(use-package eros
+  :hook (emacs-lisp-mode . eros-mode))
 
 ;; Emacs Lisp
 ;;{{{ 
@@ -118,6 +120,10 @@
   :config
   (evil-escape-mode 1)) 
 
+(use-package evil-goggles
+  :after evil
+  :hook (evil-mode . evil-goggles-mode))
+
 (use-package yasnippet)
 
 (use-package kaolin-themes
@@ -126,7 +132,7 @@
 
 (use-package spaceline
   :init
-  (setq powerline-default-separator 'butt) ;; butt... LOL
+  (setq powerline-default-separator 'wave) ;; butt... LOL
   (setq powerline-height 32)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (setq spaceline-workspace-numbers-unicode t)
@@ -282,69 +288,9 @@
 ;;}}}
 
 
-(defun blog-publish-html (plist filename pub-dir)
-  "Same as `org-html-publish-to-html' but modifies html before finishing."
-  (let ((file-path (org-html-publish-to-html plist filename pub-dir)))
-    (with-current-buffer (find-file-noselect file-path)
-      (goto-char (point-min))
-      (search-forward "<body>")
-      (insert "\n<div class=\"container\">\n")
-      (goto-char (point-max))
-      (search-backward "</body>")
-      (insert "\n</div>")
-      (save-buffer)
-      (kill-buffer))
-    file-path))
-
-(defun blog-html-preamble-fmt (plist)
-  (when (plist-get plist :title)
-    (let*
-        ((dir (plist-get plist :publishing-directory))
-         (path (file-relative-name (plist-get plist :output-file) dir)))
-      
-      (format
-       "<h1 class=\"page-header\">
-  <a href=\"/%s\">%s</a>
-</h1><p class=\"text-muted post-meta\">%s</p>"
-       path
-       (car (plist-get plist :title))
-       (org-timestamp-format (car (plist-get plist :date)) "%d %B %Y")))))
 
 
-(defun org-blog-prepare (project-plist)
-  "With help from `https://github.com/howardabrams/dot-files'.
-  Touch `index.org' to rebuilt it.
-  Argument `PROJECT-PLIST' contains information about the current project."
-  (progn
-    (org-publish-remove-all-timestamps)
-    (let* ((base-directory (plist-get project-plist :base-directory))
-           (buffer (find-file-noselect (expand-file-name "index.org" base-directory) t)))
-      (with-current-buffer buffer
-        (set-buffer-modified-p t)
-        (save-buffer 0))
-      (kill-buffer buffer))))
 
-(defun org-blog-sitemap-format-entry (entry _style project)
-  "Return string for each ENTRY in PROJECT."
-  (when (s-starts-with-p "posts/" entry)
-    (let ((subtitle (car (org-publish-find-property entry :subtitle project 'html))))
-      (format "@@html:<h3>@@ [[file:%s][%s]] @@html:<small class=\"text-muted\">@@ %s @@html:</small><h3><p class=\"post-excerpt\">@@ %s @@html:</p>@@"
-              entry
-              (org-publish-find-title entry project)
-              (format-time-string "%h %d, %Y"
-                                  (org-publish-find-date entry project))
-              subtitle))))
-
-(defun org-blog-sitemap-function (title list)
-  "Return sitemap using TITLE and LIST returned by `org-blog-sitemap-format-entry'."
-  (concat "#+TITLE: " title "\n"
-          "#+OPTIONS: html-preamble:nil" "\n\n"
-          "\n#+begin_archive\n"
-          (mapconcat (lambda (li)
-                       (format "@@html:<article>@@ %s @@html:</article>@@" (car li)))
-                     (seq-filter #'car (cdr list))
-                     "\n")
-          "\n#+end_archive\n"))
 
 ;;{{{ 
 (use-package org
@@ -369,15 +315,22 @@
         org-agenda-window-setup 'current-window)
   :config
   ;; babel
-  (define-key org-mode-map (kbd "<f3>") (lambda ()
-                                          (interactive)
-                                          (org-publish-project "blog")))
+  (define-key org-mode-map (kbd "<f3>")
+    (lambda ()
+      (interactive)
+      (save-excursion
+        (when (string-suffix-p ".org" (buffer-file-name))
+          (set-buffer-modified-p t)
+          (save-buffer))
+        (org-publish-project "blog"))))
   (use-package htmlize)
   (require 'org-tempo)
   (require 'ox-confluence)
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((plantuml . t)
                                  (ditaa . t)
+                                 (dot . t)
+                                 (shell . t)
                                  (python . t)
                                  (R . t)))
 
@@ -400,95 +353,7 @@
   (add-hook 'after-save-hook (lambda ()
                                (when (fboundp 'org-agenda-maybe-redo)
                                  (org-agenda-maybe-redo)))
-            (auto-revert-mode 1))
-
-  (setq blog-html-head-extra
-        "<link rel=\"stylesheet\" href=\"/assets/style.css\" type=\"text/css\">
-         <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">")
-
-  (setq blog-html-preamble
-        "<h1 class=\"page-header\">%t</h1><p class=\"text-muted\">%d</p>")
-
-  (setq blog-html-up
-        "
-<h1 class=\"my-3 mt-sm-5 h3 text-center\">Antoine Kalmbach</h1>
-<ul class=\"nav justify-content-center mb-5\">
-  <li class=\"nav-item\">
-   <a class=\"nav-link\" href=\"%s\">Index</a>
-  </li>
-  <li class=\"nav-item\">
-   <a class=\"nav-link\" href=\"/about.html\">About</a>
-  </li>
-</ul>
-")
-
-  (setq blog-html-down
-        "<hr><address>Last modified on %T. Content licensed under <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\">CC BY-NC-SA 4.0</a>.")
-
-  ;; publishing
-  (setq org-publish-project-alist
-        `(("posts"
-           :base-directory "~/code/org/src/"
-           :exclude ".*drafts/.*"
-           :base-extension "org"
-
-           :publishing-directory "~/code/org/out"
-           :publishing-function blog-publish-html
-
-           :preparation-function org-blog-prepare
-           :recursive t
-
-           :html-link-home "/"
-           :html-link-up "/"
-           :html-head ,blog-html-head-extra
-           :html-head-include-scripts t
-           :html-head-include-default-style nil
-           :html-home/up-format ,blog-html-up
-           :html-preamble blog-html-preamble-fmt
-           :html-postamble ,blog-html-down
-           :html-metadata-timestamp-format "%e %B %Y"
-
-           :with-toc nil
-           :with-title nil
-           :with-date t
-           :section-numbers nil
-           :html-doctype "html5"
-           :html-html5-fancy t
-           :htmlized-source t
-           ;; :html-head-extra ,org-blog-head
-           ;; :html-preamble org-blog-preamble
-           ;; :html-postamble org-blog-postamble
-
-           :auto-sitemap t
-           :sitemap-filename "index.org"
-           :sitemap-title "Index"
-           :sitemap-style list
-           
-           :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry org-blog-sitemap-format-entry
-           :sitemap-function org-blog-sitemap-function
-           ;; )))
-           )
-          ("assets"
-           :base-directory "~/code/org/src/assets/"
-           :base-extension "png\\|css\\|svg"
-           :publishing-directory "~/code/org/out/assets/"
-           :publishing-function org-publish-attachment
-           :recursive t)
-          ("archive"
-           :base-directory "~/code/org/src/"
-           :base-extension "org"
-
-           :publishing-directory "~/code/org/out"
-           :auto-sitemap t
-           :sitemap-filename "archive.org"
-           :sitemap-title "Archive"
-           :sitemap-style list
-           
-           :sitemap-sort-files anti-chronologically
-           )
-          ("blog"
-           :components ("posts" "assets" "archive")))))
+            (auto-revert-mode 1)))
 
 (use-package ox-asciidoc
   :ensure t
@@ -554,9 +419,10 @@
 ;;}}}
 
 ;; Web
-;;{{{ 
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
+
+
+(use-package web-mode
+  :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
@@ -566,12 +432,12 @@
   (setq web-mode-enable-auto-pairing t)
   (electric-pair-mode -1)
   (setq web-mode-enable-auto-quoting t)
-  (company-mode))
 
-(add-hook 'web-mode-hook  'my-web-mode-hook)
+  (add-hook 'web-mode-hook #'company-mode)
 
-(add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html" . web-mode)))
+
 ;;}}}
 
 ;; Misc
@@ -853,3 +719,6 @@
   (progn
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
+
+(use-package ess
+  :init (require 'ess-site))
