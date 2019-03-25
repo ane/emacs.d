@@ -1,4 +1,12 @@
-(setq  use-package-always-ensure t)
+;; Built in crap
+
+(add-hook 'inferior-lisp-mode-hook
+          (lambda ()
+            (paredit-mode)
+            (rainbow-delimiters-mode)))
+
+(setq use-package-always-ensure t)
+
 (use-package cider
   :config
   (use-package clojure-mode-extra-font-locking)
@@ -27,10 +35,6 @@
 (use-package rainbow-mode
   :config
   (rainbow-mode))
-
-(use-package smooth-scrolling
-  :config
-  (smooth-scrolling-mode 1))
 
 (use-package aggressive-indent)
 (use-package rainbow-delimiters)
@@ -62,7 +66,12 @@
   (setq company-idle-delay 0.2
         company-tooltip-align-annotations t
         company-minimum-prefix-length 2
-        company-selection-wrap-around t))
+        company-selection-wrap-around t)
+  (add-hook 'css-mode-hook #'company-mode))
+
+(add-hook 'css-mode-hook
+          (lambda ()
+            (electric-pair-mode)))
 
 
 (use-package paredit
@@ -92,7 +101,12 @@
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-normal-state-map (kbd "q") nil)
   (define-key evil-operator-state-map (kbd "q") nil)
-  (evil-mode 1))
+  (evil-mode 1)
+
+  ;; Disable evil for some modes.
+  (evil-set-initial-state 'comint-mode 'emacs)
+  (evil-set-initial-state 'eshell-mode 'emacs)
+  )
 
 (use-package evil-leader
   :after evil
@@ -128,7 +142,7 @@
 
 (use-package kaolin-themes
   :config
-  (load-theme 'kaolin-bubblegum t))
+  (load-theme 'kaolin-ocean t))
 
 (use-package spaceline
   :init
@@ -237,40 +251,6 @@
 
 ;;}}}
 
-;; Common Lisp
-;;{{{ 
-
-(use-package slime-company
-  :ensure t)
-
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
-
-(use-package slime
-  :ensure t
-  :config
-  (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-    (when (file-exists-p slime-helper)
-      (load slime-helper)))
-
-  (setq slime-contribs '(slime-fancy slime-company))
-  (add-hook 'slime-mode-hook
-            (lambda ()
-              (company-mode)
-              (flycheck-mode)
-              (rainbow-delimiters-mode)
-              (paredit-mode)
-              (yas/minor-mode)))
-  (add-hook 'slime-repl-mode-hook
-            (lambda ()
-              (rainbow-delimiters-mode)
-              (paredit-mode))))
-
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            (rainbow-delimiters-mode)
-            (paredit-mode)))
-;;}}}
-
 ;; Text
 ;;{{{ 
 
@@ -286,11 +266,6 @@
 (setq markdown-command "kramdown")
 
 ;;}}}
-
-
-
-
-
 
 ;;{{{ 
 (use-package org
@@ -384,7 +359,8 @@
   (counsel-projectile-mode)
   (persp-mode)
   (setq projectile-completion-system 'ivy)
-  (setq projectile-indexing-method 'alien)
+  (setq projectile-indexing-method 'hybrid)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (evil-leader/set-key "f" 'projectile-find-file)
   (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
   (evil-leader/set-key "T" 'projectile-find-test-file)
@@ -398,11 +374,16 @@
 (use-package perspective
   :config
   (evil-leader/set-key "x" 'persp-switch)
-  (evil-leader/set-key "X" 'persp-switch-last)
+  (evil-leader/set-key "z" 'persp-switch-last)
+  (evil-leader/set-key "r" (lambda ()
+                             (interactive)
+                             (persp-remove-buffer (current-buffer))))
   )
 
 (use-package persp-projectile
   :config
+  (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
+  (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
   (evil-leader/set-key "p" 'projectile-persp-switch-project))
 
 ;;}}}
@@ -462,7 +443,8 @@
   :init
   (setq ivy-use-virtual-buffers t)
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (setq ivy-height 15))
 
 (use-package counsel
   :after ivy
@@ -521,9 +503,7 @@
 ;;{{{
 
 (use-package erlang
-  :ensure t
-  :config
-  (add-hook 'erlang-mode-hook #'company-erlang-init))
+  :ensure t)
 
 ;;}}}
 
@@ -586,7 +566,9 @@
 
 (use-package scala-mode
   :init
-  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra))
+  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
+  :config
+  (add-hook 'scala-mode-hook (lambda () (electric-pair-mode +1))))
 
 (defun align-params ()
   (interactive)
@@ -720,3 +702,17 @@
 
 (use-package ess
   :init (require 'ess-site))
+
+(use-package tuareg)
+
+(use-package fennel-mode
+  :config
+  (add-hook 'fennel-mode-hook
+            (lambda ()
+              (interactive)
+              (rainbow-delimiters-mode)
+              (paredit-mode +1))))
+
+(use-package graphviz-dot-mode)
+
+(garbage-collect)

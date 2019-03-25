@@ -21,15 +21,15 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+(setq use-package-always-ensure t)
+(setq use-package-enable-imenu-support t)
 ;; install packages automatically if not already present on your
 ;; system to be global for all packages
 (require 'use-package-ensure)
 
-(setq use-package-always-ensure t)
-
-
 (setq refreshed nil)
-(dolist (base-pkg '(use-package s f dash dash-functional))
+
+(dolist (base-pkg '(s f dash dash-functional))
   (when (not (package-installed-p base-pkg))
     (unless refreshed
       (package-refresh-contents)
@@ -77,11 +77,10 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-underline-at-descent-line t
+      line-spacing 0.2
       xterm-mouse-mode t
-
       user-mail-address "ane@iki.fi"
       user-full-name "Antoine Kalmbach"
-
       mac-option-modifier 'meta
       mac-command-modifier 'super)
 
@@ -97,6 +96,8 @@
                      ('ns 16.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-hl-line-mode)
+  (setq line-spacing 0.2)
+  (redraw-frame (selected-frame))
   (setq browse-url-browser-function 'browse-url-default-browser))
 
 (add-hook 'after-make-frame-functions
@@ -106,6 +107,7 @@
 
 (setup-interface)
 (global-auto-revert-mode 1)
+(global-display-line-numbers-mode 1)
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
@@ -213,11 +215,15 @@
 
 (defun ane/open-emacs.d-init.el ()
   (interactive)
-  (find-file (expand-file-name "~/.emacs.d/init.el")))
+  (let ((projectile-switch-project-action 'ignore))
+    (projectile-persp-switch-project "~/.emacs.d")
+    (find-file (expand-file-name "~/.emacs.d/init.el"))))
 
 (defun ane/open-emacs.d-modes.el ()
   (interactive)
-  (find-file (expand-file-name "~/.emacs.d/modes.el")))
+  (let ((projectile-switch-project-action 'ignore))
+    (projectile-persp-switch-project "~/.emacs.d")
+    (find-file (expand-file-name "~/.emacs.d/modes.el"))))
 
 (defun ane/open-work-org ()
   (interactive)
