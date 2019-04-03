@@ -73,14 +73,19 @@
           (lambda ()
             (electric-pair-mode)))
 
+(use-package company-flx
+  :after company
+  :config
+  (company-flx-mode +1))
 
 (use-package paredit
   :init
-  (add-hook 'paredit-mode-hook (lambda ()
-                                 (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
-                                 (define-key paredit-mode-map (kbd "M-;") 'paredit-backward-slurp-sexp)
-                                 (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
-                                 (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp))))
+  (add-hook 'paredit-mode-hook
+            (lambda ()
+              (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
+              (define-key paredit-mode-map (kbd "M-;") 'paredit-backward-slurp-sexp)
+              (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
+              (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp))))
 
 (use-package magit)
 ;; Evil
@@ -391,7 +396,9 @@
                              (persp-remove-buffer (current-buffer)))))
 
 (use-package persp-projectile
-  :bind (("s-c" . projectile-persp-switch-project))
+  :bind (("s-c" . projectile-persp-switch-project)
+         ("s-." . projectile-next-project-buffer)
+         ("s-," . projectile-previous-project-buffer))
   :config
   (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
   (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
