@@ -101,7 +101,7 @@
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-normal-state-map (kbd "q") nil)
   (define-key evil-operator-state-map (kbd "q") nil)
-  (evil-mode 1)
+  ;;(evil-mode 1)
 
   ;; Disable evil for some modes.
   (evil-set-initial-state 'comint-mode 'emacs)
@@ -148,37 +148,37 @@
   :init
   (setq powerline-default-separator 'wave) ;; butt... LOL
   (setq powerline-height 32)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified)
   (setq spaceline-workspace-numbers-unicode t)
   (setq spaceline-window-numbers-unicode t)
   :config
   (require 'spaceline-config)
   (spaceline-emacs-theme))
 
-(dolist (mode '(clojure-mode-hook
-                lisp-mode-hook
-                emacs-lisp-mode-hook
-                haskell-mode-hook
-                erlang-mode-hook
-                racket-mode-hook
-                fundamental-mode-hook
-                scheme-mode-hook
-                python-mode-hook
-                yaml-mode-hook
-                ruby-mode-hook
-                scala-mode-hook
-                javascript-mode-hook
-                typescript-mode-hook
-                elm-mode-hook
-                web-mode-hook
-                scss-mode-hook
-                plantuml-mode-hook
-                css-mode-hook
-                conf-unix-mode-hook
-                ponylang-mode-hook
-                rust-mode-hook
-                text-mode-hook))
-  (add-hook mode #'evil-local-mode))
+;;(dolist (mode '(clojure-mode-hook
+;;                lisp-mode-hook
+;;                emacs-lisp-mode-hook
+;;                haskell-mode-hook
+;;                erlang-mode-hook
+;;                racket-mode-hook
+;;                fundamental-mode-hook
+;;                scheme-mode-hook
+;;                python-mode-hook
+;;                yaml-mode-hook
+;;                ruby-mode-hook
+;;                scala-mode-hook
+;;                javascript-mode-hook
+;;                typescript-mode-hook
+;;                elm-mode-hook
+;;                web-mode-hook
+;;                scss-mode-hook
+;;                plantuml-mode-hook
+;;                css-mode-hook
+;;                conf-unix-mode-hook
+;;                ponylang-mode-hook
+;;                rust-mode-hook
+;;                text-mode-hook))
+;;  (add-hook mode #'evil-local-mode))
 
 ;; Flycheck
 
@@ -333,10 +333,17 @@
 ;;{{{
 
 (use-package counsel-projectile
-  :ensure t)
+  :ensure t
+  :bind (("s-g" . counsel-projectile-ag))
+  :config
+  (counsel-projectile-mode))
 
 (use-package projectile
   :ensure t
+  :bind (("s-t" . projectile-toggle-between-implementation-and-test)
+         ("s-T" . projectile-find-test-file)
+         ("s-b" . projectile-switch-to-buffer)
+         ("s-f" . projectile-find-file))
   :init
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
@@ -356,7 +363,6 @@
   (add-to-list 'projectile-globally-ignored-directories "project/project")
   (add-to-list 'projectile-globally-ignored-directories "project/target")
   (projectile-global-mode)
-  (counsel-projectile-mode)
   (persp-mode)
   (setq projectile-completion-system 'ivy)
   (setq projectile-indexing-method 'hybrid)
@@ -372,15 +378,20 @@
 ;;}}}
 
 (use-package perspective
+  :bind (("s-x" . persp-switch)
+         ("s-z" . persp-switch-last)
+         ("s-r" . (lambda ()
+                    (interactive)
+                    (persp-remove-buffer (current-buffer)))))
   :config
   (evil-leader/set-key "x" 'persp-switch)
   (evil-leader/set-key "z" 'persp-switch-last)
   (evil-leader/set-key "r" (lambda ()
                              (interactive)
-                             (persp-remove-buffer (current-buffer))))
-  )
+                             (persp-remove-buffer (current-buffer)))))
 
 (use-package persp-projectile
+  :bind (("s-c" . projectile-persp-switch-project))
   :config
   (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
   (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
@@ -449,11 +460,13 @@
 (use-package counsel
   :after ivy
   :config
-  (counsel-mode 1))
+  (counsel-mode 1)
+  :bind (("s-a" . counsel-ag)))
 
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile))
+(use-package swiper
+  :bind (("C-s" . swiper)))
+
+
 ;; Diminish
 ;;{{{
 
@@ -630,8 +643,9 @@
   :ensure t
   :bind ("<f8>" . neotree-toggle)
   :config
-  (setq neo-window-position 'right)
+  (setq neo-window-position 'left)
   (setq neo-theme 'arrow)
+  (setq neo-window-width 40)
   (setq neo-smart-open t)
   )
 
@@ -706,6 +720,8 @@
 (use-package tuareg)
 
 (use-package fennel-mode
+  :init
+  (add-to-list 'safe-local-variable-values '(inferior-lisp-program . "love ."))
   :config
   (add-hook 'fennel-mode-hook
             (lambda ()
@@ -714,5 +730,18 @@
               (paredit-mode +1))))
 
 (use-package graphviz-dot-mode)
+
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c @" . mc/mark-all-symbols-like-this)
+         ("C-c M->" . mc/mark-next-like-this-symbol)
+         ("C-c M-<" . mc/mark-previous-like-this-symbol)
+         ("C-c C->" . mc/mark-next-like-this-word)
+         ("C-c C-<" . mc/mark-previous-like-this-word)))
+
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 (garbage-collect)
