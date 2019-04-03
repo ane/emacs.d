@@ -62,169 +62,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(setq-default indent-tabs-mode nil)
-(setq ns-right-alternate-modifier nil)
-
-
-(defun setup-interface ()
-  (interactive)
-  (let ((font-size (pcase window-system
-                     ('x 15.0)
-                     ('mac 16.0)
-                     ('ns 16.0))))
-    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
-  (global-hl-line-mode)
-  (setq line-spacing 0.2)
-  (redraw-frame (selected-frame))
-  (setq browse-url-browser-function 'browse-url-default-browser))
-
-(add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (select-frame frame)
-            (setup-interface)))
-
-(setup-interface)
-(global-auto-revert-mode 1)
-(global-display-line-numbers-mode 1)
-
-;; UTF8
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq-default buffer-file-coding-system 'utf-8-unix)
-(setq-default default-buffer-file-coding-system 'utf-8-unix)
-(set-default-coding-systems 'utf-8-unix)
-(prefer-coding-system 'utf-8-unix)
-
-(setq system-time-locale "C")
-(setq abbrev-file-name "~/Dropbox/abbrev_defs")
-(setq save-abbrevs t)
-(setq auto-revert-verbose nil
-      global-auto-revert-non-file-buffers t
-      auto-save-default nil)
-;; column width is 80, not 72
-(setq fill-column 80)
-;; don't word wrap
-(setq-default truncate-lines t)
-
-;; more memory is fun
-(setq gc-cons-threshold 20000000)
-(setq confirm-nonexistent-file-or-buffer nil)
-(setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function kill-buffer-query-functions))
-
-;; electric indent 
-(electric-indent-mode +1)
-(electric-pair-mode +1)
-(electric-layout-mode +1)
-
-(setq default-tab-width 4)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program
-      (pcase window-system
-        ('ns "/Applications/Firefox.app/Contents/MacOS/firefox --new-tab")
-        ('x "firefox")))
-
-(defun my-compilation-finish-function (buf str) 
-  (if (null (string-match ".*exited abnormally.*" str))
-      ;;no errors, make the compilation window go away in a few seconds
-      (progn
-        (run-at-time
-         "2 sec" nil 'delete-windows-on
-         (get-buffer-create "*compilation*"))
-        (message "No Compilation Errors!"))))
-
-(setq compilation-finish-function 'my-compilation-finish-function)
-
-(add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
-
-;; company settings
-
-(setq tramp-default-method "ssh")
-
-(setq make-backup-files nil)
-
-;; bindings
-;;{{{
-(global-unset-key (kbd "C-x f"))
-
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(define-key global-map "\C-cc" 'org-capture)
-
-(global-set-key (kbd "C-S-l") 'windmove-right)
-(global-set-key (kbd "C-S-k") 'windmove-up)
-(global-set-key (kbd "C-S-j") 'windmove-down)
-(global-set-key (kbd "C-S-h") 'windmove-left) 
-(global-set-key (kbd "M-SPC") 'company-complete)
-;; Bootstrap
-;;{{{
-(defconst emacs-start-time (current-time))
-
-(require 'package)
-
-;;
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-
-;; for latest org-mode and org-plus-contrib
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-
-;; https://github.com/purcell/emacs.d/blob/master/lisp/init-elpa.el#L64
-;; (setq package-enable-at-startup nil)
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(setq use-package-always-ensure t)
-(setq use-package-enable-imenu-support t)
-;; install packages automatically if not already present on your
-;; system to be global for all packages
-(require 'use-package-ensure)
-
-(setq refreshed nil)
-
-(dolist (base-pkg '(s f dash dash-functional))
-  (when (not (package-installed-p base-pkg))
-    (unless refreshed
-      (package-refresh-contents)
-      (setq refreshed t))
-    (package-install base-pkg))
-  (require base-pkg))
-
-(setq custom-file "~/.emacs.d/custom.el")
-
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-(when window-system
-  (add-hook 'after-init-hook
-            `(lambda ()
-               (let ((elapsed (float-time (time-subtract (current-time)
-                                                         emacs-start-time))))
-                 (message "Loading %s...done (%.3fs) [after-init]"
-                          ,load-file-name elapsed)))
-            t))
-;;}}}
-
-;; Settings
-;;{{{
-(column-number-mode t)
-(show-paren-mode 1)
-(global-font-lock-mode t)
-(winner-mode t)
-(menu-bar-mode 1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
 
 (setq display-time-24hr-format t
       display-time-default-load-average nil
@@ -239,18 +76,17 @@
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       x-underline-at-descent-line t
-      line-spacing 0.2
       xterm-mouse-mode t
       user-mail-address "ane@iki.fi"
       user-full-name "Antoine Kalmbach"
       mac-option-modifier 'meta
       mac-command-modifier 'super
-
       set-mark-command-repeat-pop t)
 
 (setq-default indent-tabs-mode nil)
 (setq ns-right-alternate-modifier nil)
 
+(fringe-mode '(4 . 0))
 
 (defun setup-interface ()
   (interactive)
@@ -260,7 +96,6 @@
                      ('ns 16.0))))
     (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
   (global-hl-line-mode)
-  (setq line-spacing 0.2)
   (redraw-frame (selected-frame))
   (setq browse-url-browser-function 'browse-url-default-browser))
 
@@ -294,6 +129,9 @@
 (setq fill-column 80)
 ;; don't word wrap
 (setq-default truncate-lines t)
+
+;; line spacing
+(setq-default line-spacing 0.2)
 
 ;; more memory is fun
 (setq gc-cons-threshold 20000000)

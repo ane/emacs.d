@@ -659,12 +659,6 @@
 (use-package smex
   :ensure t)
 
-(use-package org-jira
-  :ensure t
-  :config
-  (setq jiralib-url "https://extranet-sd.qvantel.com")
-  (setq request-log-level 'debug))
-
 (use-package ponylang-mode
   :ensure t
   :config
