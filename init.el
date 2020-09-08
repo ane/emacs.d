@@ -1,15 +1,15 @@
-;; Bootstrap
 ;;{{{
+;; Bootstrap
 (defconst emacs-start-time (current-time))
 
 (require 'package)
 
+(setq package-enable-at-startup nil)
 ;;
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-
-;; for latest org-mode and org-plus-contrib
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org"          . "https://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/"))
 
 ;; https://github.com/purcell/emacs.d/blob/master/lisp/init-elpa.el#L64
 ;; (setq package-enable-at-startup nil)
@@ -28,6 +28,14 @@
 (require 'use-package-ensure)
 
 (setq refreshed nil)
+
+(set-face-attribute 'default nil
+                    :family "Cascadia Code"
+                    :height 160
+                    :weight 'normal
+                    :width 'normal)
+(set-face-attribute 'fixed-pitch nil :family "Cascadia Code")
+
 
 (dolist (base-pkg '(s f dash dash-functional))
   (when (not (package-installed-p base-pkg))
@@ -63,19 +71,11 @@
 (scroll-bar-mode -1)
 
 
-(setq display-time-24hr-format t
-      display-time-default-load-average nil
-      info-use-header-line nil
-      calendar-week-start-day 1
+(setq calendar-week-start-day 1
       auto-save-default nil
-      initial-scratch-message nil
-      isearch-lazy-highlight nil
-      linum-format "%3d "
-      show-trailing-whitespace t
       uniquify-buffer-name-style 'forward
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
-      x-underline-at-descent-line t
       xterm-mouse-mode t
       user-mail-address "ane@iki.fi"
       user-full-name "Antoine Kalmbach"
@@ -83,19 +83,14 @@
       mac-command-modifier 'super
       set-mark-command-repeat-pop t)
 
+(setq-default cursor 't)
 (setq-default indent-tabs-mode nil)
 (setq ns-right-alternate-modifier nil)
-
-(fringe-mode '(4 . 0))
+(setq ns-right-command-modifier 'control)
+(setq ns-right-option-modifier 'hyper)
 
 (defun setup-interface ()
   (interactive)
-  (let ((font-size (pcase window-system
-                     ('x 15.0)
-                     ('mac 16.0)
-                     ('ns 16.0))))
-    (set-default-font (font-spec :family "Fira Code" :weight 'medium :size font-size)))
-  (global-hl-line-mode)
   (redraw-frame (selected-frame))
   (setq browse-url-browser-function 'browse-url-default-browser))
 
@@ -106,7 +101,8 @@
 
 (setup-interface)
 (global-auto-revert-mode 1)
-(global-display-line-numbers-mode 1)
+(global-hl-line-mode 1)
+(display-time-mode 1)
 
 ;; UTF8
 (setq locale-coding-system 'utf-8)
@@ -125,13 +121,14 @@
 (setq auto-revert-verbose nil
       global-auto-revert-non-file-buffers t
       auto-save-default nil)
+
 ;; column width is 80, not 72
 (setq fill-column 80)
 ;; don't word wrap
 (setq-default truncate-lines t)
 
 ;; line spacing
-(setq-default line-spacing 0.2)
+(setq-default line-spacing 0.25)
 
 ;; more memory is fun
 (setq gc-cons-threshold 20000000)
@@ -153,22 +150,7 @@
         ('ns "/Applications/Firefox.app/Contents/MacOS/firefox --new-tab")
         ('x "firefox")))
 
-(defun my-compilation-finish-function (buf str) 
-  (if (null (string-match ".*exited abnormally.*" str))
-      ;;no errors, make the compilation window go away in a few seconds
-      (progn
-        (run-at-time
-         "2 sec" nil 'delete-windows-on
-         (get-buffer-create "*compilation*"))
-        (message "No Compilation Errors!"))))
-
-(setq compilation-finish-function 'my-compilation-finish-function)
-
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
-
-;; company settings
-
-(setq tramp-default-method "ssh")
 
 (setq make-backup-files nil)
 
@@ -176,14 +158,19 @@
 ;;{{{
 (global-unset-key (kbd "C-x f"))
 
+(global-set-key (kbd "s-w") 'delete-window)
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cc" 'org-capture)
 
-(global-set-key (kbd "C-S-l") 'windmove-right)
-(global-set-key (kbd "C-S-k") 'windmove-up)
-(global-set-key (kbd "C-S-j") 'windmove-down)
-(global-set-key (kbd "C-S-h") 'windmove-left) 
+(global-set-key (kbd "C-S-g") 'magit)
+
+(global-set-key (kbd "s-<left>")  'windmove-left) 
+(global-set-key (kbd "s-<right>") 'windmove-right)
+(global-set-key (kbd "s-<up>")    'windmove-up)
+(global-set-key (kbd "s-<down>")  'windmove-down)
+
 (global-set-key (kbd "M-SPC") 'company-complete)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 
@@ -205,32 +192,25 @@
 (global-set-key (kbd "C-M-j") 'delete-indentation)
 
 (global-set-key (kbd "<f2>") #'switch-to-buffer)
-(global-set-key (kbd "<f9>") #'evil-local-mode)
+(global-set-key (kbd "<f9>") #'rmail)
+(global-set-key (kbd "S-<f9>") (lambda ()
+                                 (interactive)
+                                 (rmail-input "~/Dropbox/mail/out/sent.mbox")))
 (global-set-key (kbd "<f6>") #'ane/open-emacs.d-init.el)
 (global-set-key (kbd "<S-f6>") #'ane/open-emacs.d-modes.el)
 (global-set-key (kbd "<f7>") #'ane/open-work-org)
 (global-set-key (kbd "<S-f7>") #'ane/open-blog-org)
-(global-set-key (kbd "<f10>") #'imenu-list-smart-toggle)
+(global-set-key (kbd "<f5>") 'calendar)
 
 (global-set-key (kbd "C-c C-d") #'insert-date-time)
 
-(global-set-key (kbd "s-<left>") #'previous-buffer)
-(global-set-key (kbd "<wheel-left>") #'previous-buffer)
-(global-set-key (kbd "s-<right>") #'next-buffer)
-(global-set-key (kbd "<wheel-right>") #'next-buffer)
-(global-set-key (kbd "s-<escape>") #'delete-other-windows)
-
 (defun ane/open-emacs.d-init.el ()
   (interactive)
-  (let ((projectile-switch-project-action 'ignore))
-    (projectile-persp-switch-project "~/.emacs.d")
-    (find-file (expand-file-name "~/.emacs.d/init.el"))))
+  (find-file (expand-file-name "~/.emacs.d/init.el")))
 
 (defun ane/open-emacs.d-modes.el ()
   (interactive)
-  (let ((projectile-switch-project-action 'ignore))
-    (projectile-persp-switch-project "~/.emacs.d")
-    (find-file (expand-file-name "~/.emacs.d/modes.el"))))
+  (find-file (expand-file-name "~/.emacs.d/modes.el")))
 
 (defun ane/open-work-org ()
   (interactive)
@@ -240,11 +220,12 @@
   (interactive) 
   (find-file (expand-file-name "~/Dropbox/org/blog.org")))
 
-
+(savehist-mode)
 
 ;; yeah, I hate myself
 (mapc 'global-unset-key [[up] [down] [left] [right]])
 
+(global-tab-line-mode 1)
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -261,6 +242,46 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+(desktop-save-mode 1)
+(setq desktop-save 'if-exists)
+(setq desktop-path (list (expand-file-name "~/Dropbox/Private/Emacs/desktop/")))
+
+;;
+(add-to-list 'auth-sources 'macos-keychain-internet)
+(add-to-list 'auth-sources 'macos-keychain-generic)
+
+;;; Rmail
+
+(require 'mairix)
+
+(setq
+ rmail-primary-inbox-list '("imaps://anhekalm%40gmail.com@imap.gmail.com")
+ rmail-remote-password-required t
+ rmail-preserve-inbox nil
+ rmail-file-name "~/Dropbox/mail/inbox.mbox"
+ mail-default-headers "FCC: ~/Dropbox/mail/out/sent.mbox"
+ rmail-displayed-headers "^\\(?:Cc\\|Date\\|From\\|Subject\\|To\\):"
+ rmail-output-file-alist '(("\\[IKI\\]" . "~/Dropbox/mail/old/iki.mbox")
+                           (".*" . "~/Dropbox/mail/old/old.mbox"))
+ rmail-delete-after-output t
+
+ mairix-file-path "~/Dropbox/mail/"
+ mairix-search-file "search.mbox")
+
+ (setq sendmail-program "msmtp"
+       message-send-mail-function 'message-send-mail-with-sendmail
+       message-sendmail-extra-arguments '("--read-envelope-from")
+       message-sendmail-envelope-from 'header
+       message-sendmail-f-is-evil t
+       message-interactive t
+       message-kill-buffer-on-exit t
+       message-signature "Antoine Kalmbach")
+
+(setq mail-personal-alias-file "~/Dropbox/mail/aliases")
+
+(add-hook 'message-setup-hook #'mail-abbrevs-setup)
+
 
 ;; Custom functions
 ;;{{{
@@ -283,17 +304,6 @@ Example: 2010-11-29T23:23:35-08:00"
      (format-time-string "%z")))))
 ;;}}}
 ;; packages
-
-;; align stuff
-(defun my/align ()
-  (interactive)
-  (align-regexp
-   (region-beginning)
-   (region-end)
-   "\\(\\s-*\\)\\(<-\\|=\\|\\$\\|::\\|->\\)"
-   1
-   align-default-spacing
-   nil))
 
 (add-hook 'text-mode-hook
           (lambda ()

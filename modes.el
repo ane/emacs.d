@@ -5,8 +5,6 @@
             (paredit-mode)
             (rainbow-delimiters-mode)))
 
-(setq use-package-always-ensure t)
-
 (use-package cider
   :config
   (use-package clojure-mode-extra-font-locking)
@@ -26,6 +24,7 @@
 (use-package exec-path-from-shell
   :config
   (when (memq window-system '(mac ns x))
+    (setq exec-path-from-shell-variables '("PATH" "CLASSPATH" "JAVA_HOME"))
     (exec-path-from-shell-initialize)))
 
 (use-package ace-window
@@ -33,15 +32,18 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package rainbow-mode
+  :diminish rainbow-mode
   :config
   (rainbow-mode))
 
-(use-package aggressive-indent)
+(use-package aggressive-indent
+  :diminish "")
 (use-package rainbow-delimiters)
 
 ;;}}}
 
 (use-package eros
+  :diminish eros-mode
   :hook (emacs-lisp-mode . eros-mode))
 
 ;; Emacs Lisp
@@ -58,8 +60,8 @@
             (paredit-mode)
             (set (make-local-variable 'company-backends) '(company-capf))))
 ;;}}}
-
 (use-package company
+  :diminish "C"
   :config
   (add-to-list 'company-backends 'company-files)
   (add-to-list 'company-backends 'company-capf)
@@ -67,18 +69,15 @@
         company-tooltip-align-annotations t
         company-minimum-prefix-length 2
         company-selection-wrap-around t)
-  (add-hook 'css-mode-hook #'company-mode))
+  (add-hook 'css-mode-hook #'company-mode)
+  (add-hook 'java-mode-hook #'company-mode))
 
 (add-hook 'css-mode-hook
           (lambda ()
             (electric-pair-mode)))
 
-(use-package company-flx
-  :after company
-  :config
-  (company-flx-mode +1))
-
 (use-package paredit
+  :diminish paredit-mode
   :init
   (add-hook 'paredit-mode-hook
             (lambda ()
@@ -88,151 +87,25 @@
               (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp))))
 
 (use-package magit)
-;; Evil
-;;{{{ 
 
-(use-package evil
-  :init
-  (setq evil-insert-state-cursor '("ForestGreen" bar)
-        evil-normal-state-cursor '("magenta" box)
-        evil-visual-state-cursor '("cyan" box)
-        evil-default-cursor t
-        evil-want-visual-char-semi-exclusive t
-        evil-move-cursor-back nil
-        evil-want-C-u-scroll nil
-        evil-ex-hl-update-delay 0.01)
-
+(use-package yasnippet
+  :diminish yas-minor-mode
   :config
-  (define-key evil-normal-state-map (kbd "M-.") nil)
-  (define-key evil-normal-state-map (kbd "q") nil)
-  (define-key evil-operator-state-map (kbd "q") nil)
-  ;;(evil-mode 1)
+  (use-package yasnippet-snippets)
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook #'yas-minor-mode))
 
-  ;; Disable evil for some modes.
-  (evil-set-initial-state 'comint-mode 'emacs)
-  (evil-set-initial-state 'eshell-mode 'emacs)
-  )
-
-(use-package evil-leader
-  :after evil
-  :hook (evil-mode . evil-leader-mode)
+(use-package modus-operandi-theme
   :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key "s" 'yas-insert-snippet)
-  (evil-leader/set-key "a" 'counsel-ag)
-  (evil-leader/set-key "g" 'magit-status)
-  (evil-leader/set-key "w" 'ace-window)
-  (evil-leader/set-key "B" 'list-buffers)
-  (evil-leader/set-key "i" 'counsel-imenu)
-  (evil-leader/set-key "k" 'kill-buffer)
-  (evil-leader/set-key "l" 'next-buffer)
-  (evil-leader/set-key "I" 'indent-region)
-  (evil-leader/set-key "l" 'load-theme)
-  (evil-leader/set-key "m" 'disable-theme)
-  (global-evil-leader-mode 1))
-
-(use-package evil-escape
-  :after evil
-  :init
-  (setq-default evil-escape-key-sequence "fd")
-  (setq-default evil-escape-delay 0.2)
-  :config
-  (evil-escape-mode 1)) 
-
-(use-package evil-goggles
-  :after evil
-  :hook (evil-mode . evil-goggles-mode))
-
-(use-package yasnippet)
-
-(use-package kaolin-themes
-  :config
-  (load-theme 'kaolin-ocean t))
-
-(use-package spaceline
-  :init
-  (setq powerline-default-separator 'wave) ;; butt... LOL
-  (setq powerline-height 32)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified)
-  (setq spaceline-workspace-numbers-unicode t)
-  (setq spaceline-window-numbers-unicode t)
-  :config
-  (require 'spaceline-config)
-  (spaceline-emacs-theme))
-
-;;(dolist (mode '(clojure-mode-hook
-;;                lisp-mode-hook
-;;                emacs-lisp-mode-hook
-;;                haskell-mode-hook
-;;                erlang-mode-hook
-;;                racket-mode-hook
-;;                fundamental-mode-hook
-;;                scheme-mode-hook
-;;                python-mode-hook
-;;                yaml-mode-hook
-;;                ruby-mode-hook
-;;                scala-mode-hook
-;;                javascript-mode-hook
-;;                typescript-mode-hook
-;;                elm-mode-hook
-;;                web-mode-hook
-;;                scss-mode-hook
-;;                plantuml-mode-hook
-;;                css-mode-hook
-;;                conf-unix-mode-hook
-;;                ponylang-mode-hook
-;;                rust-mode-hook
-;;                text-mode-hook))
-;;  (add-hook mode #'evil-local-mode))
-
-;; Flycheck
+  (load-theme 'modus-operandi t))
 
 (use-package flycheck
+  :diminish "!"
   :init
   (add-hook 'flycheck-mode-hook
             (lambda ()
               (define-key flycheck-mode-map (kbd "S-<next>") 'flycheck-next-error)
               (define-key flycheck-mode-map (kbd "S-<prior>") 'flycheck-previous-error))))
-
-;;}}}
-
-;; Haskell
-;;{{{ 
-
-;; (let ((my-cabal-path (expand-file-name "~/.cabal/bin"))
-;;       (local-bin-path (expand-file-name "~/.local/bin")))
-;;   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
-;;   (setenv "PATH" (concat local-bin-path ":" (getenv "PATH")))
-;;   (add-to-list 'exec-path my-cabal-path)
-;;   (add-to-list 'exec-path local-bin-path))
-
-;; (evil-define-key 'insert haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
-;; (evil-define-key 'normal haskell-interactive-mode-map (kbd "RET") 'haskell-interactive-mode-return)
-
-;; (add-hook 'speedbar-load-hook (lambda ()
-;;                                 (push ".hs" speedbar-supported-extension-expressions)))
-
-
-;; (add-to-list 'flycheck-disabled-checkers 'haskell-ghc)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h b" 'haskell-interactive-bring)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h t" 'haskell-process-do-type)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h i" 'haskell-process-do-info)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h c" 'haskell-process-cabal-build)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h k" 'haskell-interactive-mode-clear)
-;; (evil-leader/set-key-for-mode 'haskell-mode "h l" 'haskell-process-load-or-reload)
-
-;; (defun my/setup-haskell ()
-;;   (company-mode)
-;;   (flycheck-mode)
-;;   (haskell-indentation-mode)
-;;   (flycheck-haskell-setup)
-;;   (rainbow-delimiters-mode)
-;;   (haskell-doc-mode)
-;;   (interactive-haskell-mode)
-;;  ) 
-
-;; (add-hook 'haskell-mode-hook 'my/setup-haskell)
-;; (add-hook 'haskell-interactive-mode-hook 'company-mode)
 
 (use-package haskell-mode
   :ensure t
@@ -253,11 +126,6 @@
     :config
     (progn
       (add-hook 'haskell-mode-hook 'intero-mode))))
-
-;;}}}
-
-;; Text
-;;{{{ 
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
@@ -282,10 +150,8 @@
         org-startup-with-inline-images t
         org-directory "~/Dropbox/org/"
         org-agenda-files '("work.org" "life.org")
-        org-mobile-inbox-for-pull "~/Dropbox/org/from-mobile.org"
-        org-archive-location "~/Dropbox/org/archive.org::datetree/* Finished tasks"
+        org-archive-location "~/Dropbox/archive.org::datetree/* Finished tasks"
         org-default-notes-file "~/Dropbox/org/work.org"
-        org-mobile-directory "~/Dropbox/MobileOrg"
         org-cycle-separator-lines 1
         org-log-done 'time
         org-confirm-babel-evaluate nil
@@ -299,6 +165,8 @@
   (use-package htmlize)
   (require 'org-tempo)
   (require 'ox-confluence)
+  (setq org-directory (expand-file-name "~/Dropbox/org/"))
+  (setq org-agenda-files (list "~/Dropbox/org/work.org"))
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((plantuml . t)
                                  (ditaa . t)
@@ -314,6 +182,15 @@
             (lambda ()
               (when org-inline-image-overlays
                 (org-redisplay-inline-images))))
+
+  (add-hook 'org-mode-hook 'company-mode)
+
+  (defun org-babel-edit-prep:java (babel-info)
+    (setq-local buffer-file-name (->> babel-info caddr (alist-get :file-name)))
+    (setq-local lsp-buffer-uri (->> babel-info caddr (alist-get :file-name) lsp--path-to-uri))
+    (lsp)
+    ;; other lsp-java specific stuff that you usually run with the major mode, company mode and so on.
+    )
 
 
   (make-variable-buffer-local 'after-save-hook)
@@ -332,6 +209,21 @@
   :ensure t
   :after org)
 
+(use-package org-roam
+  :ensure t
+  :diminish ""
+  :after org
+  :config
+  (setq org-roam-directory "~/Dropbox/org/roam/")
+  (setq org-roam-tag-sources '(all-directories)))
+
+(use-package org-journal
+  :ensure t
+  :after org
+  :bind (("C-c C-j" . org-journal-new-entry))
+  :config
+  (setq org-journal-file-format "%Y%m%d.org"))
+
 ;;}}}
 
 ;; Projectile
@@ -345,11 +237,22 @@
 
 (use-package projectile
   :ensure t
+  :diminish "Pro"
   :bind (("s-t" . projectile-toggle-between-implementation-and-test)
          ("s-T" . projectile-find-test-file)
          ("s-b" . projectile-switch-to-buffer)
          ("s-f" . projectile-find-file))
   :init
+  (projectile-global-mode)
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-indexing-method 'hybrid)
+  ;; (evil-leader/set-key "f" 'projectile-find-file)
+  ;; (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
+  ;; (evil-leader/set-key "T" 'projectile-find-test-file)
+  ;; (evil-leader/set-key "A" 'counsel-projectile-ag)
+  ;; (evil-leader/set-key "b" 'projectile-switch-to-buffer)
+  :config
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
   (add-to-list 'projectile-globally-ignored-directories ".metals")
@@ -366,43 +269,40 @@
   (add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
   (add-to-list 'projectile-globally-ignored-directories "target")
   (add-to-list 'projectile-globally-ignored-directories "project/project")
-  (add-to-list 'projectile-globally-ignored-directories "project/target")
-  (projectile-global-mode)
-  (persp-mode)
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-indexing-method 'hybrid)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (evil-leader/set-key "f" 'projectile-find-file)
-  (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
-  (evil-leader/set-key "T" 'projectile-find-test-file)
-  (evil-leader/set-key "A" 'counsel-projectile-ag)
-  (evil-leader/set-key "b" 'projectile-switch-to-buffer))
+  (add-to-list 'projectile-globally-ignored-directories "project/target"))
 
-
+(use-package project
+  :pin elpa
+  :config
+  (mapc (lambda
+          (dir) (add-to-list 'project-vc-ignores dir))
+        '(".metals" ".idea" ".bloop" ".cache" "*eglot*" ".metadata" "/project/target" "/project/project" "target" "quelpa" "node-modules")))
 
 ;;}}}
 
-(use-package perspective
-  :bind (("s-x" . persp-switch)
-         ("s-z" . persp-switch-last)
-         ("s-r" . (lambda ()
-                    (interactive)
-                    (persp-remove-buffer (current-buffer)))))
-  :config
-  (evil-leader/set-key "x" 'persp-switch)
-  (evil-leader/set-key "z" 'persp-switch-last)
-  (evil-leader/set-key "r" (lambda ()
-                             (interactive)
-                             (persp-remove-buffer (current-buffer)))))
+;; (use-package perspective
+;; :bind (("s-x" . persp-switch)
+;; ("s-z" . persp-switch-last)
+;; ("s-r" . (lambda ()
+;; (interactive)
+;; (persp-remove-buffer (current-buffer)))))
+;; :config
+;; (persp-mode))
+;; (evil-leader/set-key "x" 'persp-switch)
+;; (evil-leader/set-key "z" 'persp-switch-last)
+;; (evil-leader/set-key "r" (lambda ()
+;; (interactive)
+;; (persp-remove-buffer (current-buffer)))))
 
-(use-package persp-projectile
-  :bind (("s-c" . projectile-persp-switch-project)
-         ("s-." . projectile-next-project-buffer)
-         ("s-," . projectile-previous-project-buffer))
-  :config
-  (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
-  (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
-  (evil-leader/set-key "p" 'projectile-persp-switch-project))
+;; (use-package persp-projectile
+;;   :bind (("s-c" . projectile-persp-switch-project)
+;;          ("s-." . projectile-next-project-buffer)
+;;          ("s-," . projectile-previous-project-buffer))
+;;   :config
+;;   (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
+;;   (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
+;;   ;; (evil-leader/set-key "p" 'projectile-persp-switch-project)
+;;   )
 
 ;;}}}
 
@@ -422,12 +322,16 @@
   (setq web-mode-enable-auto-opening t)
   (setq web-mode-enable-auto-expanding t)
   (setq web-mode-enable-auto-pairing t)
-  (electric-pair-mode -1)
+  (setq web-mode-enable-engine-detection t)
   (setq web-mode-enable-auto-quoting t)
+  (setq web-mode-engines-alist '(("django" . "\\.html\\'")))
 
   (setq web-mode-content-types-alist
         '(("jsx" . "\\.js[x]?\\'")
           ("tsx" . "\\.ts[x]?\\'")))
+
+  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
 
   (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html" . web-mode))
@@ -436,6 +340,7 @@
 
   :config
   (add-hook 'web-mode-hook #'company-mode)
+  (add-hook 'web-mode-hook (lambda () (electric-pair-mode -1)))
   (add-hook 'web-mode-hook
             (lambda ()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
@@ -444,6 +349,9 @@
             (lambda ()
               (when (string-equal "jsx" (file-name-extension buffer-file-name))
                 (setup-tide-mode))))
+  :custom-face
+  (web-mode-current-column-highlight-face ((t (:background "LightSkyBlue1"))))
+  (web-mode-current-element-highlight-face ((t (:inherit highlight))))
   )
 
 ;;}}}
@@ -458,6 +366,7 @@
 
 (use-package ivy
   :ensure t
+  :diminish ivy-mode
   :init
   (setq ivy-use-virtual-buffers t)
   :config
@@ -466,45 +375,13 @@
 
 (use-package counsel
   :after ivy
+  :diminish 'counsel-mode
   :config
   (counsel-mode 1)
   :bind (("s-a" . counsel-ag)))
 
 (use-package swiper
   :bind (("C-s" . swiper)))
-
-
-;; Diminish
-;;{{{
-
-(use-package diminish
-  :ensure t
-  :init
-  (diminish 'aggressive-indent-mode)
-  (diminish 'auto-revert-mode)
-  (diminish 'paredit-mode)
-  (diminish 'evil-escape-mode)
-  (diminish 'undo-tree-mode)
-  (diminish 'rainbow-delimiters-mode)
-  (diminish 'rainbow-mode)
-  (diminish 'eldoc-mode)
-  (diminish 'hasklig-mode)
-  (diminish 'yas-minor-mode)
-  (diminish 'counsel-mode)
-  (diminish 'ivy-mode)
-  (diminish 'refill-mode "RF")
-  (diminish 'auto-fill-mode "AF")
-  (diminish 'company-mode "C")
-  (diminish 'intero-mode "I")
-  (diminish 'flycheck-mode "!")
-  (diminish 'projectile-mode "Pro"))
-
-;;}}}
-
-;; Idris
-
-(use-package idris-mode
-  :ensure t)
 
 ;; SSH
 ;;{{{
@@ -518,38 +395,6 @@
   (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode)))
 
 ;;}}}
-
-;; Erlang
-;;{{{
-
-(use-package erlang
-  :ensure t)
-
-;;}}}
-
-;; Elm
-;;{{{
-(use-package elm-mode
-  :ensure t
-  :config
-  (add-hook 'elm-mode-hook  #'company-mode)
-  (add-hook 'elm-mode-hook  #'flycheck-mode)
-  (add-to-list 'company-backends 'company-elm)
-  (use-package flycheck-elm
-    :ensure t
-    :config
-    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-  :init
-  (progn 
-    (custom-set-variables
-     '(elm-interactive-command '("elm" "repl"))
-     '(elm-reactor-command '("elm" "reactor"))
-     '(elm-package-json "elm.json")
-     '(elm-compile-arguments '("--output=elm.js" "--debug")))))
-;;}}}
-
-
-;; Sass
 
 ;;{{{
 
@@ -586,24 +431,13 @@
 
 (use-package scala-mode
   :init
-  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
+  ;; (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
   :config
   (add-hook 'scala-mode-hook (lambda () (electric-pair-mode +1))))
-
-(defun align-params ()
-  (interactive)
-  (align-regexp (region-beginning) (region-end) ": \\(\s*\\)" 1 0))
-
-(defun bap ()
-  (interactive)
-  (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)\\(<-\\|=\\)")
-  (align-regexp (region-beginning) (region-end) "\\(<-\\|=\\)\\(\\s-*\\)" 2))
 
 (use-package sbt-mode
   :commands sbt-start sbt-command
   :init
-  (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
-  (evil-leader/set-key-for-mode 'scala-mode "i" 'lsp-ui-imenu)
   :config
   (add-hook 'sbt-mode-hook #'visual-line-mode)
   (substitute-key-definition
@@ -612,43 +446,31 @@
    minibuffer-local-completion-map))
 
 (use-package rust-mode
-  :ensure t
-  :hook (rust-mode . lsp))
-
-;;;; LSP
-
-(use-package lsp-mode
-  :ensure t
-  :init (setq lsp-prefer-flymake nil))
-
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
   :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (define-key lsp-ui-mode-map (kbd "M-<") #'lsp-ui-peek-find-implementation)
-  (define-key lsp-ui-mode-map (kbd "s-p") #'lsp-ui-peek-find-workspace-symbol)
-  )
-
-(use-package lsp-scala
-  :ensure t
-  :after scala-mode
-  :demand t
-  ;; Optional - enable lsp-scala automatically in scala files
-  :hook (scala-mode . lsp))
-
-(use-package company-lsp
-  :ensure t
-  :hook (lsp-ui-mode . company-mode)
-  :config
-  (push 'company-lsp company-backends))
+  (add-hook 'rust-mode-hook #'eglot-ensure))
 
 ;;;
 
+(use-package lsp-mode
+  :config
+  (define-key lsp-mode-map [remap xref-find-apropos] #'lsp-ivy-workspace-symbol))
+
+(use-package lsp-java
+  :after lsp-mode
+  :hook (java-mode . lsp))
+
+(use-package groovy-mode
+  :config
+  (defun my/groovy-mode-hook ()
+    (setq c-basic-offset 2))
+  (add-hook 'groovy-mode-hook #'my/groovy-mode-hook))
+
+(use-package lsp-ivy
+  :after '(lsp-mode ivy))
+
 (use-package neotree
   :ensure t
-  :bind ("<f8>" . neotree-toggle)
+  :bind (("<f8>" . neotree-toggle) ("s-n" . neotree-toggle))
   :config
   (setq neo-window-position 'left)
   (setq neo-theme 'arrow)
@@ -656,56 +478,6 @@
   (setq neo-smart-open t)
   )
 
-(use-package company-go
-  :ensure t
-  :config
-  (add-hook 'go-mode-hook (lambda ()
-                            (set (make-local-variable 'company-backends) '(company-go))
-                            (company-mode))))
-
-(use-package smex
-  :ensure t)
-
-(use-package ponylang-mode
-  :ensure t
-  :config
-  (progn
-    (add-hook
-     'ponylang-mode-hook
-     (lambda ()
-       (set-variable 'indent-tabs-mode nil)
-       (set-variable 'tab-width 2)))))
-
-(use-package flycheck-pony
-  :ensure t
-  :config
-  (setq create-lockfiles nil))
-
-
-;;; js2/tsx
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
-(use-package tide
-  :ensure t
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode))
-  :config
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
-
-(use-package hasklig-mode
-  :ensure t)
 
 (use-package flycheck-yamllint
   :ensure t
@@ -714,11 +486,6 @@
   (progn
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
-
-(use-package ess
-  :init (require 'ess-site))
-
-(use-package tuareg)
 
 (use-package fennel-mode
   :init
@@ -744,5 +511,75 @@
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
+
+(use-package treemacs
+  :bind ("C-c C-t" . treemacs)
+  :config
+  (setq treemacs-no-png-images t))
+
+(use-package treemacs-projectile
+  :after treemacs)
+
+(use-package eglot
+  :pin melpa
+  :bind (("s-h" . 'eglot-help-at-point))
+  :config
+  ;; (optional) Automatically start metals for Scala files.
+  :hook
+  (scala-mode . eglot-ensure)
+  (scala-mode . company-mode)
+  (go-mode    . eglot-ensure)
+  (go-mode    . company-mode)
+  (java-mode  . company-mode))
+
+(use-package flymake
+  :pin elpa)
+
+(use-package markdown-mode)
+
+(use-package diminish)
+
+
+(diminish 'eldoc-mode)
+(diminish 'subword-mode)
+(diminish 'flymake-mode "FM")
+(diminish 'auto-fill-mode "Fil")
+(diminish 'abbrev-mode "Ab")
+
+(use-package restclient)
+
+(use-package eldoc-box
+  :diminish eldoc-box-hover-at-point-mode
+  :config
+  (add-hook 'eldoc-mode-hook #'eldoc-box-hover-at-point-mode))
+
+(use-package smart-mode-line
+  :config
+  (sml/setup))
+
+(use-package smex)
+
+;; (use-package mu4e
+;;   :ensure nil
+;;   :load-path
+;;   "/usr/local/Cellar/mu/1.4.13/share/emacs/site-lisp/mu/mu4e/"
+;;   :config
+;;   (setq mu4e-sent-folder "/[Gmail].Sent Mail"
+;;         mu4e-drafts-folder "/[Gmail].Drafts"
+;;         mu4e-trash-folder "/[Gmail].Trash"
+
+;;         mu4e-get-mail-command "offlineimap"
+
+;;         mu4e-update-interval 300
+;;         mu4e-index-update-in-background t
+;;         mu4e-maildir-shortcuts '(("/INBOX" . ?i)
+;;                                  ("/[Gmail].Sent Mail" . ?s))
+;;         ))
+
+(use-package sly
+  :config
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (add-hook 'lisp-mode-hook #'company-mode)
+  (add-hook 'sly-mrepl-mode-hook #'company-mode))
 
 (garbage-collect)
