@@ -12,6 +12,16 @@ vendor/
 dev/
 data/
 
+games/
+network-security.data
+.cache
+projects
+history
+.mc-lists.el
+*.swp
+eglot-eclipse-jdt-cache
+irony/
+transient/
 bookmarks
 tramp
 ac-comphist.dat

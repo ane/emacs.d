@@ -1,88 +1,77 @@
-;;{{{
-;; Bootstrap
+(eval-when-compile
+  (require 'package)
+  (setq package-archives '(("elpa"         . "https://elpa.gnu.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")
+                           ("org"          . "https://orgmode.org/elpa/")
+                           ("melpa"        . "https://melpa.org/packages/")))
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
 
-(require 'package)
-;;
-(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org"          . "https://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/"))
-
-;; https://github.com/purcell/emacs.d/blob/master/lisp/init-elpa.el#L64
-;; (setq package-enable-at-startup nil)
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(setq use-package-always-ensure t)
-(setq use-package-enable-imenu-support t)
-(setq use-package-verbose t)
-;; install packages automatically if not already present on your
-;; system to be global for all packages
+  (setq use-package-always-ensure t)
+  (setq use-package-verbose t)
+  (setq use-package-enable-imenu-support t))
 
 (require 'use-package)
-(require 'use-package-ensure)
+(setf use-package-always-ensure t)
 
-(setq-default line-spacing 0.2)
+;; Some buffer local defaults
+(setq-default line-spacing 0.2
+              indent-tabs-mode nil
+              buffer-file-coding-system 'utf-8-unix
+              default-buffer-file-coding-system 'utf-8-unix)
 
+;; Font
 (set-face-attribute 'default nil
                     :family "Cascadia Code"
                     :height 160
                     :weight 'normal
                     :width 'normal)
+
 (set-face-attribute 'fixed-pitch nil :family "Cascadia Code")
 
 
-(setq custom-file "~/.emacs.d/custom.el")
-
-
-
-
-;; Settings
-;;{{{
+;; Disable/enable UI features.
 (column-number-mode t)
 (show-paren-mode 1)
 (global-font-lock-mode t)
 (winner-mode t)
-(menu-bar-mode 1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+(global-auto-revert-mode 1)
+(global-hl-line-mode 1)
 
+(setq calendar-week-start-day 1 ; Week starts on Monday
 
-(setq calendar-week-start-day 1
+      ;; Don’t make autosave files.
       auto-save-default nil
+
+      custom-file "~/.emacs.d/custom.el"
+      
       uniquify-buffer-name-style 'forward
       uniquify-ignore-buffers-re "^\\*"
       visible-bell t
       xterm-mouse-mode t
+
+      ;; Option is meta.
       mac-option-modifier 'meta
+      ns-right-alternate-modifier nil
+      
+      ;; Cmd is super.
       mac-command-modifier 'super
+      ns-command-modifier 'super
+      
+      ;; Right cmd is hyper.
+      ns-right-command-modifier 'hyper
       mac-right-command-modifier 'hyper
-      set-mark-command-repeat-pop t)
 
-(setq-default cursor 't)
-(setq-default indent-tabs-mode nil)
-(setq ns-right-alternate-modifier nil)
-(setq ns-right-command-modifier 'control)
-(setq ns-right-option-modifier 'hyper)
+      ;; Right option is control.
+      ns-right-option-modifier 'control
+      mac-right-option-modifier 'control
 
-(global-auto-revert-mode 1)
-(global-hl-line-mode 1)
-
-;; UTF8
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq-default buffer-file-coding-system 'utf-8-unix)
-(setq-default default-buffer-file-coding-system 'utf-8-unix)
-(set-default-coding-systems 'utf-8-unix)
-(prefer-coding-system 'utf-8-unix)
+      ;; Repeat C-SPC to keep popping mark instead of having to
+      ;; repeat C-u.
+      set-mark-command-repeat-pop t
+      )
 
 (setq system-time-locale "C")
 (setq abbrev-file-name "~/Dropbox/abbrev_defs")
@@ -98,17 +87,9 @@
 ;; line spacing
 
 ;; more memory is fun
-(setq gc-cons-threshold 20000000)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
-;; electric indent 
-(electric-indent-mode 1)
-(electric-pair-mode 1)
-(electric-layout-mode 1)
-(electric-quote-mode 1)
-
-(fset 'yes-or-no-p 'y-or-n-p)
 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program
@@ -121,6 +102,24 @@
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
 
+;; UTF8
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+
+
+;; electric indent 
+(electric-indent-mode 1)
+(electric-pair-mode 1)
+(electric-layout-mode 1)
+(electric-quote-mode 1)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;; bindings
 ;;{{{
 (global-unset-key (kbd "C-x f"))
@@ -131,7 +130,6 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cc" 'org-capture)
 
-(global-set-key (kbd "C-S-g") 'magit)
 
 (global-set-key (kbd "s-<left>")  'windmove-left) 
 (global-set-key (kbd "s-<right>") 'windmove-right)
@@ -160,6 +158,8 @@
 (global-set-key (kbd "s-`") #'previous-buffer)
 (global-set-key (kbd "s-z") #'next-buffer)
 
+(mapc 'global-unset-key [[up] [down] [left] [right]])
+
 (defun ane/open-emacs.d-init.el ()
   (interactive)
   (find-file (expand-file-name "~/.emacs.d/init.el")))
@@ -179,7 +179,6 @@
 (savehist-mode)
 
 ;; yeah, I hate myself
-(mapc 'global-unset-key [[up] [down] [left] [right]])
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -196,14 +195,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-;;
-
-(use-package auth-source
-  :ensure nil
-  :config
-  (add-to-list 'auth-sources 'macos-keychain-internet)
-  (add-to-list 'auth-sources 'macos-keychain-generic))
 
 (defun insdate-insert-current-date (&optional omit-day-of-week-p)
   "Insert today's date using the current locale.
@@ -223,17 +214,17 @@ Example: 2010-11-29T23:23:35-08:00"
     ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
      (format-time-string "%z")))))
 
+(use-package auth-source
+  :defer t
+  :ensure nil
+  :config
+  (add-to-list 'auth-sources 'macos-keychain-internet)
+  (add-to-list 'auth-sources 'macos-keychain-generic))
+
 (use-package imenu
   :ensure nil
   :bind (("s-i" . imenu)))
 
-(use-package text-mode
-  :ensure nil
-  :hook (text-mode . auto-fill-mode))
-
-;; (use-package inf-lisp
-;;   :ensure nil
-;;   :hook (inferior-lisp-mode . (paredit-mode rainbow-delimiters-mode)))
 
 
 (use-package cider
@@ -262,40 +253,44 @@ Example: 2010-11-29T23:23:35-08:00"
   (exec-path-from-shell-initialize))
 
 (use-package ace-window
+  :defer t
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package rainbow-mode
+  :defer t
   :diminish rainbow-mode
   :config
   (rainbow-mode))
 
 (use-package aggressive-indent
+  :defer t
+  :hook ((emacs-lisp-mode scheme-mode clojure-mode lisp-mode) . aggressive-indent-mode)
   :diminish "")
 
 (use-package rainbow-delimiters
   :hook ((lisp-mode scheme-mode) . rainbow-delimiters-mode))
 
-;;}}}
-
 (use-package eros
   :diminish eros-mode
   :hook (emacs-lisp-mode . eros-mode))
 
-;; Emacs Lisp
-;;{{{ 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (flycheck-mode)
-            (aggressive-indent-mode)
-            (eldoc-mode)
-            (rainbow-delimiters-mode)
-            (rainbow-mode)
-            (company-mode)
-            (paredit-mode)))
-;;}}}
+(use-package elisp-mode
+  :defer t
+  :ensure nil
+  :config
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (flycheck-mode)
+              (eldoc-mode)
+              (rainbow-delimiters-mode)
+              (rainbow-mode)
+              (company-mode)
+              (paredit-mode))))
+
 (use-package company
-  :diminish "Company"
+  :defer t
+  :diminish t
   :config
   (add-to-list 'company-backends 'company-files)
   (add-to-list 'company-backends 'company-capf)
@@ -313,12 +308,13 @@ Example: 2010-11-29T23:23:35-08:00"
 ;;   :config
 ;;   (add-hook 'company-mode-hook #'company-box-mode))
 
-(add-hook 'css-mode-hook
-          (lambda ()
-            (electric-pair-mode)))
+(use-package css-mode
+  :ensure nil
+  :hook (css-mode . electric-pair-mode))
 
 (use-package paredit
   :diminish paredit-mode
+  :hook ((scheme-mode inf-lisp-mode lisp-mode) . paredit-mode)
   :init
   (add-hook 'paredit-mode-hook
             (lambda ()
@@ -328,6 +324,7 @@ Example: 2010-11-29T23:23:35-08:00"
               (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp))))
 
 (use-package magit
+  :bind (("C-S-g" . magit))
   :config
   (require 'magit-extras))
 
@@ -344,7 +341,8 @@ Example: 2010-11-29T23:23:35-08:00"
   (load-theme 'modus-operandi t))
 
 (use-package flycheck
-  :diminish ""
+  :defer t
+  :diminish flycheck-mode
   :init
   (add-hook 'flycheck-mode-hook
             (lambda ()
@@ -368,20 +366,15 @@ Example: 2010-11-29T23:23:35-08:00"
     (progn
       (add-hook 'haskell-mode-hook 'intero-mode))))
 
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+(use-package text-mode
+  :defer t
+  :ensure nil
+  :custom
+  (fill-column 80)
+  :config
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'text-mode-hook 'auto-fill-mode))
 
-(defun text-mode-settings ()
-  (setq fill-column 80)
-  (flyspell-mode)
-  (auto-fill-mode))
-
-(add-hook 'text-mode-hook #'text-mode-settings)
-
-(setq markdown-command "kramdown")
-
-;;}}}
-
-;;{{{ 
 (use-package org
   :ensure org-plus-contrib
   :defer t
@@ -458,11 +451,6 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (setq org-journal-file-format "%Y%m%d.org"))
 
-;;}}}
-
-;; Projectile
-;;{{{
-
 (use-package counsel-projectile
   :ensure t
   :bind (("s-g" . counsel-projectile-ag))
@@ -471,34 +459,27 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package project
   :pin elpa
-  :after magit
   :bind (("s-p" . project-switch-project)
          ("s-f" . project-find-file)
          ("s-r" . project-query-replace-regexp)
-         ("s-g" . magit-project-status)))
+         ("s-g" . magit-project-status))
+  :config
+  (require 'magit-extras)
+  (mapc (lambda
+          (dir) (add-to-list 'project-vc-ignores dir))
+        '(".metals" ".idea" ".bloop" ".cache" "*eglot*" ".metadata" "/project/target" "/project/project" "target" "quelpa" "node-modules")))
 
 (use-package projectile
+  :defer t
   :ensure t
-  :diminish nil
-  ;; :bind (
-  ;; ("s-t" . projectile-toggle-between-implementation-and-test)
-  ;; ("s-T" . projectile-find-test-file)
-  ;; ("s-b" . projectile-switch-to-buffer)
-  ;; ("s-f" . projectile-find-file)
-  ;; )
+  :diminish ""
   :init
   (setq projectile-completion-system 'ivy)
   (setq projectile-indexing-method 'hybrid)
-  ;; (evil-leader/set-key "f" 'projectile-find-file)
-  ;; (evil-leader/set-key "t" 'projectile-toggle-between-implementation-and-test)
-  ;; (evil-leader/set-key "T" 'projectile-find-test-file)
-  ;; (evil-leader/set-key "A" 'counsel-projectile-ag)
-  ;; (evil-leader/set-key "b" 'projectile-switch-to-buffer)
   :config
   (add-to-list 'safe-local-variable-values
                '(projectile-tags-command . "make ctags"))
   (projectile-mode)
-  ;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
   (add-to-list 'projectile-globally-ignored-directories ".metals")
@@ -517,47 +498,10 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-to-list 'projectile-globally-ignored-directories "project/project")
   (add-to-list 'projectile-globally-ignored-directories "project/target"))
 
-(use-package project
-  :pin elpa
-  :config
-  (mapc (lambda
-          (dir) (add-to-list 'project-vc-ignores dir))
-        '(".metals" ".idea" ".bloop" ".cache" "*eglot*" ".metadata" "/project/target" "/project/project" "target" "quelpa" "node-modules")))
-
-;;}}}
-
-;; ("s-z" . persp-switch-last)
-;; ("s-r" . (lambda ()
-;; (interactive)
-;; (persp-remove-buffer (current-buffer)))))
-;; :config
-;; (persp-mode))
-;; (evil-leader/set-key "x" 'persp-switch)
-;; (evil-leader/set-key "z" 'persp-switch-last)
-;; (evil-leader/set-key "r" (lambda ()
-;; (interactive)
-;; (persp-remove-buffer (current-buffer)))))
-
-;; (use-package persp-projectile
-;;   :bind (("s-c" . projectile-persp-switch-project)
-;;          ("s-." . projectile-next-project-buffer)
-;;          ("s-," . projectile-previous-project-buffer))
-;;   :config
-;;   (define-key projectile-mode-map [remap previous-buffer] #'projectile-previous-project-buffer)
-;;   (define-key projectile-mode-map [remap next-buffer] #'projectile-next-project-buffer)
-;;   ;; (evil-leader/set-key "p" 'projectile-persp-switch-project)
-;;   )
-
-;;}}}
-
-;; Text
-;;{{{ 
-;;}}}
-
-;; Web
 
 
 (use-package web-mode
+  :mode "\\.html"
   :init
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -574,44 +518,48 @@ Example: 2010-11-29T23:23:35-08:00"
         '(("jsx" . "\\.js[x]?\\'")
           ("tsx" . "\\.ts[x]?\\'")))
 
-  (setq web-mode-enable-current-column-highlight t)
-  (setq web-mode-enable-current-element-highlight t)
-
   (add-to-list 'auto-mode-alist '("\\.xml" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
+  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
+
   :config
+  (add-to-list 'safe-local-variable-values '(engine . "liquid"))
   (add-hook 'web-mode-hook #'company-mode)
   (add-hook 'web-mode-hook (lambda () (electric-pair-mode -1)))
   
   :custom-face
   (web-mode-current-column-highlight-face ((t (:background "LightSkyBlue1"))))
-  (web-mode-current-element-highlight-face ((t (:inherit highlight))))
-  )
-
-;;}}}
+  (web-mode-current-element-highlight-face ((t (:inherit highlight)))))
 
 (use-package calendar
+  :bind ("<f5>" . calendar)
   :config
-  (global-set-key (kbd "<f5>") 'calendar)
   (calendar-set-date-style 'european)
   (setq calendar-week-start-day 1))
 
 
 (use-package ivy
   :ensure t
-  :diminish ivy-mode
+  :diminish 
   :init
   (setq ivy-use-virtual-buffers t)
   :config
   (ivy-mode 1)
-  (setq ivy-height 15))
+  (setq ivy-height 12))
+
+(use-package ivy-posframe
+  :diminish ivy-posframe-mode
+  :after ivy
+  :config
+  (ivy-posframe-mode)
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))))
 
 (use-package ivy-avy
   :after ivy)
-
 
 (use-package counsel
   :after ivy
@@ -622,12 +570,11 @@ Example: 2010-11-29T23:23:35-08:00"
          ("M-x" . counsel-M-x)))
 
 (use-package swiper
+  :defer t
   :bind (("C-s" . swiper)))
 
-;; SSH
-;;{{{
-
 (use-package ssh-config-mode
+  :defer t
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("/\\.ssh/config\\'"     . ssh-config-mode))
@@ -635,42 +582,28 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-to-list 'auto-mode-alist '("/known_hosts\\'"       . ssh-known-hosts-mode))
   (add-to-list 'auto-mode-alist '("/authorized_keys2?\\'" . ssh-authorized-keys-mode)))
 
-;;}}}
-
-;;{{{
-
 (use-package scss-mode
+  :mode "\\.scss"
   :ensure t
   :config
-  (add-hook 'scss-mode-hook #''company-mode)
-  :init
-  (add-to-list 'auto-mode-alist '("\\.scss" . scss-mode)))
+  (add-hook 'scss-mode-hook #''company-mode))
 
-;;}}}
-
-;; Yaml
-;;{{{
 (use-package yaml-mode
+  :defer t
   :ensure t
   :config
   (add-hook 'yaml-mode-hook #'abbrev-mode)
   (add-hook 'yaml-mode-hook #'flycheck-mode))
-;;}}}
 
-
-;; PlantUML
-;;{{{
 (use-package plantuml-mode
+  :defer t
   :ensure t
   :init
   (setq plantuml-jar-path "/usr/local/lib/plantuml.jar")
   (add-to-list 'auto-mode-alist '("\\.diag\\'" . plantuml-mode)))
-;;}}}
-
-
-;;; Scala 
 
 (use-package scala-mode
+  :defer t
   :init
   ;; (evil-leader/set-key-for-mode 'scala-mode "h" 'sbt-hydra)
   :config
@@ -687,6 +620,7 @@ Example: 2010-11-29T23:23:35-08:00"
    minibuffer-local-completion-map))
 
 (use-package rust-mode
+  :defer t
   :config
   (add-hook 'rust-mode-hook #'eglot-ensure))
 
@@ -702,6 +636,7 @@ Example: 2010-11-29T23:23:35-08:00"
   :hook (java-mode . lsp))
 
 (use-package groovy-mode
+  :defer t
   :config
   (defun my/groovy-mode-hook ()
     (setq c-basic-offset 2))
@@ -730,6 +665,7 @@ Example: 2010-11-29T23:23:35-08:00"
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
 
 (use-package fennel-mode
+  :defer t
   :init
   (add-to-list 'safe-local-variable-values '(inferior-lisp-program . "love ."))
   :config
@@ -739,7 +675,8 @@ Example: 2010-11-29T23:23:35-08:00"
               (rainbow-delimiters-mode)
               (paredit-mode +1))))
 
-(use-package graphviz-dot-mode)
+(use-package graphviz-dot-mode
+  :defer t)
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
@@ -754,45 +691,52 @@ Example: 2010-11-29T23:23:35-08:00"
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-(use-package treemacs
-  :bind ("C-c C-t" . treemacs)
-  :config
-  (setq treemacs-no-png-images t))
-
-(use-package treemacs-projectile
-  :after treemacs)
-
 (use-package eglot
   :pin melpa
   :config
-  ;; (optional) Automatically start metals for Scala files.
   :hook
   (scala-mode . eglot-ensure)
   (scala-mode . company-mode)
   (go-mode    . eglot-ensure)
-  (go-mode    . company-mode)
-  (java-mode  . company-mode))
+  (go-mode    . company-mode))
 
 (use-package flymake
-  :pin elpa)
+  :defer t
+  :pin elpa
+  :diminish flymake-mode)
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
 
-(use-package diminish)
+(use-package diminish
+  :defer t)
 
+(use-package restclient
+  :defer t)
 
-(diminish 'eldoc-mode)
-(diminish 'subword-mode)
-(diminish 'flymake-mode "FM")
-(diminish 'auto-fill-mode "Fil")
-(diminish 'abbrev-mode "Ab")
+(use-package eldoc
+  :defer t
+  :pin elpa
+  :ensure t
+  :diminish ""
+  :hook (prog-mode . eldoc-mode))
 
-(use-package restclient)
+(use-package subword
+  :defer t
+  :ensure nil
+  :diminish "")
+
+(use-package abbrev
+  :ensure nil
+  :diminish ""
+  :hook (prog-mode . abbrev-mode))
 
 (use-package eldoc-box
-  :diminish eldoc-box-hover-at-point-mode
-  :config
-  (add-hook 'eldoc-mode-hook #'eldoc-box-hover-at-point-mode))
+  :defer t
+  :hook (eldoc-mode . eldoc-box-hover-at-point-mode)
+  :diminish eldoc-box-hover-at-point-mode)
 
 (use-package smart-mode-line
   :config
@@ -800,39 +744,14 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package smex)
 
-;; (use-package mu4e
-;;   :ensure nil
-;;   :load-path
-;;   "/usr/local/Cellar/mu/1.4.13/share/emacs/site-lisp/mu/mu4e/"
-;;   :config
-;;   (setq mu4e-sent-folder "/[Gmail].Sent Mail"
-;;         mu4e-drafts-folder "/[Gmail].Drafts"
-;;         mu4e-trash-folder "/[Gmail].Trash"
-
-;;         mu4e-get-mail-command "offlineimap"
-
-;;         mu4e-update-interval 300
-;;         mu4e-index-update-in-background t
-;;         mu4e-maildir-shortcuts '(("/INBOX" . ?i)
-;;                                  ("/[Gmail].Sent Mail" . ?s))
-;;         ))
-
 (use-package sly
+  :defer t
   :config
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (add-hook 'lisp-mode-hook #'company-mode)
   (add-hook 'sly-mrepl-mode-hook #'company-mode))
 
-;; (use-package desktop
-;;   :config
-;;   (desktop-save-mode 1)
-;;   (setq desktop-save 'if-exists)
-;;   (setq desktop-path (list (expand-file-name "~/Dropbox/Private/Emacs/desktop/"))))
 
-(use-package mairix
-  :config
-  (setq mairix-file-path "~/Dropbox/mail/"
-        mairix-search-file "search.mbox"))
 
 (use-package perspective
   :demand t
@@ -849,14 +768,6 @@ Example: 2010-11-29T23:23:35-08:00"
   (persp-mode)
   (add-hook 'kill-emacs-hook #'persp-state-save))
 
-;; (use-package tab-bar
-;;   :config
-;;   (setq tab-bar-tab-hints t)
-;;   (setq tab-bar-select-tab-modifiers '(super))
-
-;;   (global-set-key (kbd "M-s-<right>") #'tab-bar-switch-to-next-tab)
-;;   (global-set-key (kbd "M-s-<left>") #'tab-bar-switch-to-prev-tab))
-
 (use-package tab-line
   :ensure nil
   :config
@@ -870,30 +781,26 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (setq display-time-mail-directory "~/Dropbox/mail/imap/INBOX/new")
   (setq display-time-24hr-format t)
-
+  (setq display-time-mail-face 'font-lock-keyword-face)
   (display-time-mode 1))
 
 (use-package smtpmail
+  :defer t
   :ensure nil
   :config
   (setq message-send-mail-function 'smtpmail-send-it)
   (setq smtpmail-smtp-server "smtp.iki.fi")
   (setq smtpmail-smtp-user "ane")
   (setq smtpmail-smtp-service 587)
-  (setq smtpmail-stream-type 'starttls)
-  )
+  (setq smtpmail-stream-type 'starttls))
 
 (use-package message
+  :defer t
   :ensure nil
   :after smtpmail
   :config
   (setq
-   ;; sendmail-program "msmtp"
    message-default-headers "FCC: ~/Dropbox/mail/out/sent.mbox"
-   ;; message-send-mail-function 'message-send-mail-with-sendmail
-   ;; message-sendmail-extra-arguments '("--read-envelope-from")
-   ;; message-sendmail-envelope-from 'header
-   ;; message-sendmail-f-is-evil t
 
    user-mail-address "ane@iki.fi"
    user-full-name "Antoine Kalmbach"
@@ -912,10 +819,10 @@ Example: 2010-11-29T23:23:35-08:00"
 (use-package rmail
   :defer t
   :config
-  (global-set-key (kbd "<f9>") #'rmail)
-  (global-set-key (kbd "S-<f9>") (lambda ()
-                                   (interactive)
-                                   (rmail-input "~/Dropbox/mail/out/sent.mbox")))
+  (global-set-key (kbd "H-m") #'rmail)
+  (global-set-key (kbd "H-n") (lambda ()
+                                (interactive)
+                                (rmail-input "~/Dropbox/mail/out/sent.mbox")))
   
   (setq rmail-primary-inbox-list '("maildir:///Users/akalmbach/Dropbox/mail/imap/INBOX")
         rmail-remote-password-required t
@@ -932,32 +839,41 @@ Example: 2010-11-29T23:23:35-08:00"
                                             ("vihrea.mbox" "from" "Vihreät")
                                             ("iki.mbox" "from" "\\[IKI\\]"))))
 
-(use-package hydra
+(use-package mairix
+  :after rmail
+  :bind (("H-s" . #'mairix-search))
   :config
-  (defhydra rmail-menu (:color pink :hint nil)
-    "
-^General^          ^Output files^     ^Auto-Folders^     ^List Folders^   
-^^^^^^^^^---------------------------------------------------------------------------
-_i_: inbox         _d_: default       _f_: finances      e: emacs-devel
-_s_: sent mail     _k_: iki.mbox      _o_: OKS           n: fennel
-_x_: search        ^ ^                _k_: IKI           g: guile
+  (setq mairix-file-path "~/Dropbox/mail/"
+        mairix-search-file "search.mbox"))
 
-"
-    ("i" rmail)
-    ("s" (rmail-input "~/Dropbox/mail/out/sent.mbox"))
-    ("d" (rmail-input rmail-default-file))
-    ("f" (rmail-input "~/Dropbox/mail/old/nordea.mbox"))
-    ("k" (rmail-input "~/Dropbox/mail/old/iki.mbox"))
-    ("o" (rmail-input "~/Dropbox/mail/old/oks.mbox"))
-    ("x" mairix-search)
-    ("q" nil "quit")
-    ))
+;; (use-package hydra
+;;   :config
+;;   (defhydra rmail-menu (:color pink :hint nil)
+;;     "
+;; ^General^          ^Output files^     ^Auto-Folders^     ^List Folders^   
+;; ^^^^^^^^^---------------------------------------------------------------------------
+;; _i_: inbox         _d_: default       _f_: finances      e: emacs-devel
+;; _s_: sent mail     _k_: iki.mbox      _o_: OKS           n: fennel
+;; _x_: search        ^ ^                _k_: IKI           g: guile
 
-(use-package rmail-hydra
-  :ensure nil
-  :load-path "~/code/rmail-hydra")
+;; "
+;;     ("i" rmail)
+;;     ("s" (rmail-input "~/Dropbox/mail/out/sent.mbox"))
+;;     ("d" (rmail-input rmail-default-file))
+;;     ("f" (rmail-input "~/Dropbox/mail/old/nordea.mbox"))
+;;     ("k" (rmail-input "~/Dropbox/mail/old/iki.mbox"))
+;;     ("o" (rmail-input "~/Dropbox/mail/old/oks.mbox"))
+;;     ("x" mairix-search)
+;;     ("q" nil "quit")
+;;     ))
+
+;; (use-package rmail-hydra
+;;   :defer t
+;;   :ensure nil
+;;   :load-path "~/code/rmail-hydra")
 
 (use-package gnus
+  :defer t
   :config
   (setq gnus-select-method '(nnnil ""))  
   (setq gnus-secondary-select-methods '((nntp "gmane" (nntp-address "news.gmane.io"))))
@@ -1000,12 +916,14 @@ _x_: search        ^ ^                _k_: IKI           g: guile
 (use-package gnus-async
   :after gnus
   :ensure nil
+  :defer t
   :config
   (setq gnus-asynchronous t)
   (setq gnus-use-article-prefetch 15))
 
 (use-package gnus-sum
   :after gnus
+  :defer t
   :ensure nil
   :config
   (setq gnus-auto-select-first nil)
@@ -1049,29 +967,46 @@ _x_: search        ^ ^                _k_: IKI           g: guile
   )
 
 (use-package geiser
-  :hook (geiser-repl-mode . paredit-mode))
+  :hook (geiser-repl-mode . paredit-mode)
+  :custom
+  (geiser-guile-load-path '(".")))
 
-(use-package ggtags)
+(use-package ggtags
+  :defer t)
+
+(use-package semantic
+  :defer t
+  :ensure nil
+  :custom
+  (semantic-default-submodes '(global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode))
+  :init
+  (remove 'global-semantic-idle-scheduler-mode semantic-default-submodes)
+  (setq semantic-inhibit-functions
+        (lambda ()
+          (member major-mode '(scheme-mode)))))
 
 (use-package cc-mode
   :ensure nil
+  :defer t
   :init
   (defun cxx-mode-hook ()
     (flymake-mode)
     (company-mode)
+    (semantic-mode)
     (yas-minor-mode)
     (eldoc-mode)
-    (ggtags-mode)
-    (semantic-mode)
-    (semantic-idle-summary-mode 1)
-    (global-semantic-mru-bookmark-mode 1)
-    (semantic-add-system-include "/usr/local/Cellar/guile/3.0.4/include/guile/3.0"))
+    (semantic-default-c-setup)
+    (semantic-idle-summary-mode)
+    (semantic-add-system-include "/usr/local/Cellar/guile/3.0.4/include/guile/3.0")
+    (ggtags-mode))
+  
   :config
-  (add-hook 'c-mode-hook #'cxx-mode-hook)
-  (add-hook 'c++-mode-hook #'cxx-mode-hook)
+  (add-hook 'c-mode-common-hook #'cxx-mode-hook)
   (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode)
-  )
+  (semanticdb-enable-gnu-global-databases 'c++-mode))
 
-(garbage-collect)
-;;}}}
+(use-package meson-mode
+  :defer t)
+
+(use-package ninja-mode
+  :defer t)
