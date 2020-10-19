@@ -18,6 +18,7 @@
 
 ;; Some buffer local defaults
 (setq-default line-spacing 0.2
+              frame-title-format "%b"
               indent-tabs-mode nil
               buffer-file-coding-system 'utf-8-unix
               default-buffer-file-coding-system 'utf-8-unix)
@@ -32,13 +33,11 @@
 (set-face-attribute 'fixed-pitch nil :family "Cascadia Code")
 
 
+(setq user-mail-address "ane@iki.fi"
+      user-full-name "Antoine Kalmbach"
+      mail-signature "Antoine Kalmbach")
+
 ;; Disable/enable UI features.
-(column-number-mode t)
-(show-paren-mode 1)
-(global-font-lock-mode t)
-(winner-mode t)
-(global-auto-revert-mode 1)
-(global-hl-line-mode 1)
 
 (setq calendar-week-start-day 1 ; Week starts on Monday
 
@@ -116,7 +115,6 @@
 (electric-indent-mode 1)
 (electric-pair-mode 1)
 (electric-layout-mode 1)
-(electric-quote-mode 1)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -152,6 +150,9 @@
 (global-set-key (kbd "<S-f6>") #'ane/open-emacs.d-modes.el)
 (global-set-key (kbd "<f7>") #'ane/open-work-org)
 (global-set-key (kbd "<S-f7>") #'ane/open-blog-org)
+(global-set-key (kbd "<f9>") (lambda ()
+                               (interactive)
+                               (find-file (expand-file-name "~/Dropbox/org/life.org"))))
 
 (global-set-key (kbd "C-c C-d") #'insert-date-time)
 
@@ -281,12 +282,13 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (add-hook 'emacs-lisp-mode-hook
             (lambda ()
-              (flycheck-mode)
               (eldoc-mode)
               (rainbow-delimiters-mode)
               (rainbow-mode)
+              (flymake-mode)
               (company-mode)
-              (paredit-mode))))
+              (paredit-mode)))
+  (add-hook 'ielm-mode-hook (lambda () (paredit-mode))))
 
 (use-package company
   :defer t
@@ -337,6 +339,14 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-hook 'prog-mode-hook #'yas-minor-mode))
 
 (use-package modus-operandi-theme
+  :init
+  (setq modus-operandi-theme-mode-line '3d
+        modus-operandi-theme-completions nil
+        modus-operandi-theme-bold-constructs nil
+        modus-operandi-theme-slanted-constructs nil
+        modus-operandi-theme-fringes nil
+        modus-operandi-theme-intense-hl-line nil
+        modus-operandi-theme-prompts nil)
   :config
   (load-theme 'modus-operandi t))
 
@@ -544,6 +554,7 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package ivy
   :ensure t
+  :defer 0.1
   :diminish 
   :init
   (setq ivy-use-virtual-buffers t)
@@ -551,14 +562,10 @@ Example: 2010-11-29T23:23:35-08:00"
   (ivy-mode 1)
   (setq ivy-height 12))
 
-(use-package ivy-posframe
-  :diminish ivy-posframe-mode
-  :after ivy
-  :config
-  (ivy-posframe-mode)
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))))
-
 (use-package ivy-avy
+  :after ivy)
+
+(use-package ivy-hydra
   :after ivy)
 
 (use-package counsel
@@ -739,28 +746,42 @@ Example: 2010-11-29T23:23:35-08:00"
   :diminish eldoc-box-hover-at-point-mode)
 
 (use-package smart-mode-line
+  :defer 0.1
   :config
   (sml/setup))
 
-(use-package smex)
+(use-package smex
+  :defer 0.1)
 
 (use-package sly
   :defer t
   :config
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (add-hook 'lisp-mode-hook #'company-mode)
-  (add-hook 'sly-mrepl-mode-hook #'company-mode))
+  (add-hook 'sly-mrepl-mode-hook (lambda ()
+                                   (paredit-mode)
+                                   (company-mode))))
 
+(use-package sly-asdf
+  :after sly
+  :config
+  (add-to-list 'sly-contribs 'sly-asdf 'append))
 
+(use-package sly-quicklisp
+  :after sly
+  :config
+  (add-to-list 'sly-contribs 'sly-quicklisp 'append))
 
 (use-package perspective
-  :demand t
   :init
   (setq persp-state-default-file "~/Dropbox/emacs/perspective")
   :bind (("s-x" . persp-switch)
          ("H-," . persp-prev)
          ("H-." . persp-next)
          ("s-c" . persp-kill)
+         ("s-l" . (lambda ()
+                    (interactive)
+                    (persp-state-load persp-state-default-file)))
          ("s-q" . persp-switch-quick)
          ("s-b" . persp-counsel-switch-buffer)
          ("s-B" . persp-ivy-switch-buffer))
@@ -768,50 +789,34 @@ Example: 2010-11-29T23:23:35-08:00"
   (persp-mode)
   (add-hook 'kill-emacs-hook #'persp-state-save))
 
-(use-package tab-line
-  :ensure nil
-  :config
-  (global-tab-line-mode 1)
-  (setq tab-line-tabs-function 'tab-line-tabs-window-buffers)
-  (global-set-key (kbd "C-s-<right>") #'tab-line-switch-to-next-tab)
-  (global-set-key (kbd "C-s-<left>") #'tab-line-switch-to-prev-tab)  )
 
-(use-package time
-  :ensure nil
-  :config
-  (setq display-time-mail-directory "~/Dropbox/mail/imap/INBOX/new")
-  (setq display-time-24hr-format t)
-  (setq display-time-mail-face 'font-lock-keyword-face)
-  (display-time-mode 1))
+(setq display-time-mail-directory "~/Dropbox/mail/imap/INBOX/new")
+(setq display-time-24hr-format t)
+(setq display-time-mail-face 'font-lock-keyword-face)
 
 (use-package smtpmail
-  :defer t
   :ensure nil
   :config
-  (setq message-send-mail-function 'smtpmail-send-it)
   (setq smtpmail-smtp-server "smtp.iki.fi")
   (setq smtpmail-smtp-user "ane")
   (setq smtpmail-smtp-service 587)
   (setq smtpmail-stream-type 'starttls))
 
 (use-package message
-  :defer t
   :ensure nil
   :after smtpmail
+  :init
+  (setq message-signature "Antoine Kalmbach")
   :config
   (setq
    message-default-headers "FCC: ~/Dropbox/mail/out/sent.mbox"
-
-   user-mail-address "ane@iki.fi"
-   user-full-name "Antoine Kalmbach"
+   message-send-mail-function 'smtpmail-send-it
 
    mail-user-agent 'message-user-agent
    message-interactive t
    message-wide-reply-confirm-recipients t
    message-fcc-handler-function 'rmail-output
    message-kill-buffer-on-exit t
-   mail-signature "Antoine Kalmbach\n\n"
-   message-signature mail-signature
    mail-personal-alias-file "~/Dropbox/mail/aliases")
   
   (add-hook 'message-setup-hook #'mail-abbrevs-setup))
@@ -823,6 +828,20 @@ Example: 2010-11-29T23:23:35-08:00"
   (global-set-key (kbd "H-n") (lambda ()
                                 (interactive)
                                 (rmail-input "~/Dropbox/mail/out/sent.mbox")))
+
+  (defun my/open-rmail-archive ()
+    (interactive)
+    (let* ((folders (mapcar
+                     (lambda (f)
+                       (let ((folder (car f)))
+                         (cons (replace-regexp-in-string "\.mbox" "" folder)
+                               (expand-file-name folder (file-name-directory rmail-default-file)))))
+                     rmail-automatic-folder-directives))
+           (selected (completing-read "Open archive: " folders nil t nil))
+           (rmail-display-summary t))
+      (rmail (cdr (assoc selected folders)))))
+
+  (global-set-key (kbd "H-a") #'my/open-rmail-archive)
   
   (setq rmail-primary-inbox-list '("maildir:///Users/akalmbach/Dropbox/mail/imap/INBOX")
         rmail-remote-password-required t
@@ -830,21 +849,30 @@ Example: 2010-11-29T23:23:35-08:00"
         rmail-file-name "~/Dropbox/mail/inbox.mbox"
         rmail-displayed-headers "^\\(?:Cc\\|Date\\|From\\|Subject\\|To\\|List-Id\\):"
         rmail-output-file-alist '(("\\[IKI\\]" . "~/Dropbox/mail/old/iki.mbox")
+                                  ("\\[PATCH.*\\]" . "~/Dropbox/mail/old/saved-patches.mbox")
                                   (".*"        . "~/Dropbox/mail/old/old.mbox"))
         rmail-delete-after-output t
         rmail-default-file "~/Dropbox/mail/old/old.mbox"
-        rmail-automatic-folder-directives '(("me.mbox" "from" "Antoine")
-                                            ("nordea.mbox" "from" "nordea")
+        rmail-automatic-folder-directives '(("nordea.mbox" "from" "nordea")
+                                            ("patches.mbox" "subject" "patch")
+                                            ("public-inbox.mbox" "to" "~ane/public-inbox")
+                                            ("sourcehut.mbox" "list-id" "sr\.ht")
                                             ("oks.mbox" "from" "Olutkulttuuriseura")
                                             ("vihrea.mbox" "from" "Vihreät")
-                                            ("iki.mbox" "from" "\\[IKI\\]"))))
+                                            ("iki.mbox" "from" "\\[IKI\\]")
+                                            ("me.mbox" "from" "Antoine"))))
 
 (use-package mairix
   :after rmail
-  :bind (("H-s" . #'mairix-search))
   :config
   (setq mairix-file-path "~/Dropbox/mail/"
         mairix-search-file "search.mbox"))
+
+(use-package ivy-mairix
+  :after mairix
+  :load-path "~/code/ivy-mairix"
+  :defer t
+  :bind (("H-s" . ivy-mairix)))
 
 ;; (use-package hydra
 ;;   :config
@@ -875,8 +903,9 @@ Example: 2010-11-29T23:23:35-08:00"
 (use-package gnus
   :defer t
   :config
-  (setq gnus-select-method '(nnnil ""))  
-  (setq gnus-secondary-select-methods '((nntp "gmane" (nntp-address "news.gmane.io"))))
+  (setq gnus-select-method '(nnnil ""))
+  (setq gnus-secondary-select-methods '((nntp "gmane" (nntp-address "news.gmane.io"))
+                                        (nnmaildir "IKI" (directory "~/Dropbox/mail/imap/") (directory-files nnheader-directory-files-safe) )))
   (setq gnus-gcc-mark-as-read t)
   (setq gnus-agent t)
   (setq gnus-check-new-newsgroups 'ask-server)
@@ -985,28 +1014,51 @@ Example: 2010-11-29T23:23:35-08:00"
         (lambda ()
           (member major-mode '(scheme-mode)))))
 
-(use-package cc-mode
-  :ensure nil
-  :defer t
-  :init
-  (defun cxx-mode-hook ()
-    (flymake-mode)
-    (company-mode)
-    (semantic-mode)
-    (yas-minor-mode)
-    (eldoc-mode)
-    (semantic-default-c-setup)
-    (semantic-idle-summary-mode)
-    (semantic-add-system-include "/usr/local/Cellar/guile/3.0.4/include/guile/3.0")
-    (ggtags-mode))
-  
-  :config
-  (add-hook 'c-mode-common-hook #'cxx-mode-hook)
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode))
-
 (use-package meson-mode
-  :defer t)
+  :defer t
+  :config
+  (add-hook 'meson-mode-hook #'company-mode)
+  (add-hook 'meson-mode-hook #'rainbow-delimiters-mode))
 
 (use-package ninja-mode
   :defer t)
+
+(use-package bug-reference
+  :ensure nil
+  :defer t
+  :hook (prog-mode . bug-reference-prog-mode))
+
+(use-package hl-todo
+  :defer t 
+  :hook (prog-mode . hl-todo-mode))
+
+(use-package edit-indirect
+  :after markdown-mode
+  :defer t)
+
+(use-package wgrep
+  :defer t
+  :bind (:map grep-mode-map ("C-c C-p" . wgrep-toggle-readonly-area)))
+
+(use-package keycast
+  :defer t)
+
+(use-package gif-screencast
+  :defer t
+  :bind (("H-c" . gif-screencast)
+         ("H-v" . gif-screencast-stop)
+         ("H-b" . gif-screencast-toggle-pause))
+  :custom
+  (gif-screencast-scale-factor 2.0)
+  
+  :config
+  (setq gif-screencast-args '("-x")) 
+  (setq gif-screencast-cropping-program "mogrify")
+  (setq gif-screencast-capture-format "ppm"))
+
+(use-package with-editor
+  :bind (("M-!" . with-editor-async-shell-command))
+  :config
+  (shell-command-with-editor-mode 1))
+
+

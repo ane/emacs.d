@@ -12,7 +12,7 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq file-name-handler-alist file-name-handler-alist-old
-                  gc-cons-threshold 800000
+                  gc-cons-threshold 20000000
                   gc-cons-percentage 0.1)
             (garbage-collect)
             (message "Load time %.06f"
@@ -22,3 +22,11 @@
 (menu-bar-mode 1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(column-number-mode t)
+(show-paren-mode 1)
+(global-font-lock-mode t)
+(winner-mode t)
+(global-auto-revert-mode 1)
+(global-hl-line-mode 1)
+(global-tab-line-mode 1)
+(display-time-mode 1)
