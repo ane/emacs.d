@@ -23,6 +23,9 @@
               buffer-file-coding-system 'utf-8-unix
               default-buffer-file-coding-system 'utf-8-unix)
 
+(setq undo-limit 1000000
+      undo-outer-limit 10000000)
+
 ;; Font
 (set-face-attribute 'default nil
                     :family "Cascadia Code"
@@ -714,6 +717,8 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package markdown-mode
   :defer t
+  :custom
+  (markdown-fontify-code-blocks-natively t)
   :config
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
 
@@ -824,6 +829,7 @@ Example: 2010-11-29T23:23:35-08:00"
 (use-package rmail
   :defer t
   :config
+  (setq send-mail-function 'smtpmail-send-it)
   (global-set-key (kbd "H-m") #'rmail)
   (global-set-key (kbd "H-n") (lambda ()
                                 (interactive)
@@ -1061,4 +1067,10 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (shell-command-with-editor-mode 1))
 
+(use-package counsel-mairix
+  :bind (("H-s" . counsel-mairix))
+  :load-path "~/code/ivy-mairix"
+  :custom (counsel-mairix-include-threads t))
 
+(use-package git-email
+  :load-path "~/code/git-email")
