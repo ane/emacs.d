@@ -17,14 +17,16 @@
 (setf use-package-always-ensure t)
 
 ;; Some buffer local defaults
-(setq-default line-spacing 0.2
-              frame-title-format "%b"
+(setq-default line-spacing 0.1
+              frame-title-format '("Emacs " emacs-version " / %b")
               indent-tabs-mode nil
               buffer-file-coding-system 'utf-8-unix
               default-buffer-file-coding-system 'utf-8-unix)
 
-(setq undo-limit 1000000
-      undo-outer-limit 10000000)
+(setq undo-limit 10000000
+      undo-outer-limit 20000000)
+
+(setq custom-file "~/.emacs.d/custom.el")
 
 ;; Font
 (set-face-attribute 'default nil
@@ -35,6 +37,12 @@
 
 (set-face-attribute 'fixed-pitch nil :family "Cascadia Code")
 
+
+;; Swap zap-to-char with zap-up-to-char
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.")
+
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 
 (setq user-mail-address "ane@iki.fi"
       user-full-name "Antoine Kalmbach"
@@ -87,7 +95,6 @@
 ;; don't word wrap
 
 ;; line spacing
-
 ;; more memory is fun
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq kill-buffer-query-functions (remq 'process-kill-buffer-query-function kill-buffer-query-functions))
@@ -116,8 +123,6 @@
 
 ;; electric indent 
 (electric-indent-mode 1)
-(electric-pair-mode 1)
-(electric-layout-mode 1)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -299,7 +304,7 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (add-to-list 'company-backends 'company-files)
   (add-to-list 'company-backends 'company-capf)
-  (setq company-idle-delay 0.2
+  (setq company-idle-delay 1
         company-tooltip-align-annotations t
         company-minimum-prefix-length 2
         company-selection-wrap-around t)
@@ -319,15 +324,7 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package paredit
   :diminish paredit-mode
-  :hook ((scheme-mode inf-lisp-mode lisp-mode) . paredit-mode)
-  :init
-  (add-hook 'paredit-mode-hook
-            (lambda ()
-              (define-key paredit-mode-map (kbd "M-l") 'paredit-backward-barf-sexp)
-              (define-key paredit-mode-map (kbd "M-;") 'paredit-backward-slurp-sexp)
-              (define-key paredit-mode-map (kbd "M-'") 'paredit-forward-slurp-sexp)
-              (define-key paredit-mode-map (kbd "M-\\") 'paredit-forward-barf-sexp))))
-
+  :hook ((scheme-mode inf-lisp-mode lisp-mode) . paredit-mode))
 (use-package magit
   :bind (("C-S-g" . magit))
   :config
@@ -388,10 +385,26 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'text-mode-hook 'auto-fill-mode))
 
+
+
 (use-package org
   :ensure org-plus-contrib
-  :defer t
-  :init
+  :defer t  
+  :config
+  ;; babel
+  (use-package htmlize)
+  (use-package org-tempo :ensure nil)
+  (use-package ox-confluence :ensure nil)
+  (setq org-directory (expand-file-name "~/Dropbox/org/"))
+  (setq org-agenda-files (list "~/Dropbox/org/work.org"))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((plantuml . t)
+                                 (ditaa . t)
+                                 (dot . t)
+                                 (shell . t)
+                                 (python . t)
+                                 (R . t)))
+
   (setq org-startup-indented t
         org-startup-folded nil
         org-startup-align-all-tables t
@@ -408,20 +421,6 @@ Example: 2010-11-29T23:23:35-08:00"
         org-html-htmlize-output-type 'css
         org-journal-dir "~/Dropbox/org/journal"
         org-agenda-window-setup 'current-window)
-  :config
-  ;; babel
-  (use-package htmlize)
-  (use-package org-tempo :ensure nil)
-  (use-package ox-confluence :ensure nil)
-  (setq org-directory (expand-file-name "~/Dropbox/org/"))
-  (setq org-agenda-files (list "~/Dropbox/org/work.org"))
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               '((plantuml . t)
-                                 (ditaa . t)
-                                 (dot . t)
-                                 (shell . t)
-                                 (python . t)
-                                 (R . t)))
 
   (setq org-plantuml-jar-path "/usr/local/lib/plantuml.jar"
         org-ditaa-jar-path "/usr/local/lib/ditaa.jar")
@@ -480,7 +479,19 @@ Example: 2010-11-29T23:23:35-08:00"
   (require 'magit-extras)
   (mapc (lambda
           (dir) (add-to-list 'project-vc-ignores dir))
-        '(".metals" ".idea" ".bloop" ".cache" "*eglot*" ".metadata" "/project/target" "/project/project" "target" "quelpa" "node-modules")))
+        '(".metals"
+          ".idea"
+          ".bloop"
+          ".cache"
+          "*eglot*"
+          ".metadata"
+          "/project/target"
+          "/project/project"
+          "target"
+          "quelpa"
+          "node-modules"
+          "workspace"
+          "eclipse.jdt.ls")))
 
 (use-package projectile
   :defer t
@@ -565,6 +576,11 @@ Example: 2010-11-29T23:23:35-08:00"
   (ivy-mode 1)
   (setq ivy-height 12))
 
+(use-package avy
+  :ensure t
+  :defer t
+  :pin elpa)
+
 (use-package ivy-avy
   :after ivy)
 
@@ -577,7 +593,8 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (counsel-mode 1)
   :bind (("s-a" . counsel-ag)
-         ("M-x" . counsel-M-x)))
+         ("M-x" . counsel-M-x)
+         ("C-c m" . counsel-mark-ring)))
 
 (use-package swiper
   :defer t
@@ -642,15 +659,11 @@ Example: 2010-11-29T23:23:35-08:00"
   (define-key lsp-mode-map [remap xref-find-apropos] #'lsp-ivy-workspace-symbol))
 
 (use-package lsp-java
-  :after lsp-mode
-  :hook (java-mode . lsp))
-
-(use-package groovy-mode
   :defer t
+  :after lsp-mode
   :config
-  (defun my/groovy-mode-hook ()
-    (setq c-basic-offset 2))
-  (add-hook 'groovy-mode-hook #'my/groovy-mode-hook))
+  (add-hook 'java-mode-hook #'lsp))
+
 
 (use-package lsp-ivy
   :after '(lsp-mode ivy))
@@ -740,11 +753,6 @@ Example: 2010-11-29T23:23:35-08:00"
   :ensure nil
   :diminish "")
 
-(use-package abbrev
-  :ensure nil
-  :diminish ""
-  :hook (prog-mode . abbrev-mode))
-
 (use-package eldoc-box
   :defer t
   :hook (eldoc-mode . eldoc-box-hover-at-point-mode)
@@ -766,6 +774,7 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-hook 'sly-mrepl-mode-hook (lambda ()
                                    (paredit-mode)
                                    (company-mode))))
+
 
 (use-package sly-asdf
   :after sly
@@ -799,7 +808,51 @@ Example: 2010-11-29T23:23:35-08:00"
 (setq display-time-24hr-format t)
 (setq display-time-mail-face 'font-lock-keyword-face)
 
+
+(use-package rmail
+  :defer t
+  :config
+  (setq send-mail-function 'smtpmail-send-it)
+  (global-set-key (kbd "H-m") #'rmail)
+  (global-set-key (kbd "H-n") (lambda ()
+                                (interactive)
+                                (rmail-input "~/Dropbox/mail/out/sent.mbox")))
+
+  (defun my/open-rmail-archive ()
+    (interactive)
+    (let* ((folders (mapcar
+                     (lambda (f)
+                       (cons (replace-regexp-in-string "\.mbox" "" f)
+                             (expand-file-name f (file-name-directory rmail-default-file))))
+                     (append (mapcar #'cdr rmail-output-file-alist)
+                             (mapcar #'seq-first rmail-automatic-folder-directives))))
+           (selected (completing-read "Open archive: " folders nil t nil))
+           (rmail-display-summary t))
+      (rmail (cdr (assoc selected folders)))))
+
+  (global-set-key (kbd "H-a") #'my/open-rmail-archive)
+  
+  (setq rmail-primary-inbox-list '("maildir:///Users/akalmbach/Dropbox/mail/imap/INBOX")
+        rmail-remote-password-required t
+        rmail-preserve-inbox nil
+        rmail-file-name "~/Dropbox/mail/inbox.mbox"
+        rmail-displayed-headers "^\\(?:Cc\\|Date\\|From\\|Subject\\|To\\|List-Id\\):"
+        rmail-output-file-alist '(("\\[IKI\\]" . "iki.mbox")
+                                  ("\\[PATCH.*\\]" . "saved-patches.mbox")
+                                  ("emacs-devel" . "emacs-devel.mbox")
+                                  (".*"        . "old.mbox"))
+        rmail-delete-after-output t
+        rmail-default-file "~/Dropbox/mail/old/old.mbox"
+        rmail-automatic-folder-directives '(("nordea.mbox" "from" "nordea")
+                                            ("public-inbox.mbox" "to" "~ane/public-inbox")
+                                            ("sourcehut.mbox" "list-id" "sr\.ht")
+                                            ("oks.mbox" "from" "Olutkulttuuriseura")
+                                            ("vihrea.mbox" "from" "Vihreät")
+                                            ("iki.mbox" "from" "\\[IKI\\]")
+                                            ("me.mbox" "from" "Antoine"))))
+
 (use-package smtpmail
+  :after rmail
   :ensure nil
   :config
   (setq smtpmail-smtp-server "smtp.iki.fi")
@@ -826,59 +879,12 @@ Example: 2010-11-29T23:23:35-08:00"
   
   (add-hook 'message-setup-hook #'mail-abbrevs-setup))
 
-(use-package rmail
-  :defer t
-  :config
-  (setq send-mail-function 'smtpmail-send-it)
-  (global-set-key (kbd "H-m") #'rmail)
-  (global-set-key (kbd "H-n") (lambda ()
-                                (interactive)
-                                (rmail-input "~/Dropbox/mail/out/sent.mbox")))
-
-  (defun my/open-rmail-archive ()
-    (interactive)
-    (let* ((folders (mapcar
-                     (lambda (f)
-                       (let ((folder (car f)))
-                         (cons (replace-regexp-in-string "\.mbox" "" folder)
-                               (expand-file-name folder (file-name-directory rmail-default-file)))))
-                     rmail-automatic-folder-directives))
-           (selected (completing-read "Open archive: " folders nil t nil))
-           (rmail-display-summary t))
-      (rmail (cdr (assoc selected folders)))))
-
-  (global-set-key (kbd "H-a") #'my/open-rmail-archive)
-  
-  (setq rmail-primary-inbox-list '("maildir:///Users/akalmbach/Dropbox/mail/imap/INBOX")
-        rmail-remote-password-required t
-        rmail-preserve-inbox nil
-        rmail-file-name "~/Dropbox/mail/inbox.mbox"
-        rmail-displayed-headers "^\\(?:Cc\\|Date\\|From\\|Subject\\|To\\|List-Id\\):"
-        rmail-output-file-alist '(("\\[IKI\\]" . "~/Dropbox/mail/old/iki.mbox")
-                                  ("\\[PATCH.*\\]" . "~/Dropbox/mail/old/saved-patches.mbox")
-                                  (".*"        . "~/Dropbox/mail/old/old.mbox"))
-        rmail-delete-after-output t
-        rmail-default-file "~/Dropbox/mail/old/old.mbox"
-        rmail-automatic-folder-directives '(("nordea.mbox" "from" "nordea")
-                                            ("patches.mbox" "subject" "patch")
-                                            ("public-inbox.mbox" "to" "~ane/public-inbox")
-                                            ("sourcehut.mbox" "list-id" "sr\.ht")
-                                            ("oks.mbox" "from" "Olutkulttuuriseura")
-                                            ("vihrea.mbox" "from" "Vihreät")
-                                            ("iki.mbox" "from" "\\[IKI\\]")
-                                            ("me.mbox" "from" "Antoine"))))
-
 (use-package mairix
+  :defer t
   :after rmail
   :config
   (setq mairix-file-path "~/Dropbox/mail/"
         mairix-search-file "search.mbox"))
-
-(use-package ivy-mairix
-  :after mairix
-  :load-path "~/code/ivy-mairix"
-  :defer t
-  :bind (("H-s" . ivy-mairix)))
 
 ;; (use-package hydra
 ;;   :config
@@ -955,6 +961,8 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (setq gnus-asynchronous t)
   (setq gnus-use-article-prefetch 15))
+
+
 
 (use-package gnus-sum
   :after gnus
@@ -1074,3 +1082,13 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package git-email
   :load-path "~/code/git-email")
+
+(use-package diff-hl
+  :defer t)
+
+(use-package dired
+  :ensure nil
+  :defer t
+  :config
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
+

@@ -11,9 +11,7 @@
 
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq file-name-handler-alist file-name-handler-alist-old
-                  gc-cons-threshold 20000000
-                  gc-cons-percentage 0.1)
+            (setq file-name-handler-alist file-name-handler-alist-old)
             (garbage-collect)
             (message "Load time %.06f"
                      (float-time (time-since 
