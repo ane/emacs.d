@@ -11,6 +11,7 @@ url/
 vendor/
 dev/
 data/
+.extension/
 
 games/
 network-security.data
