@@ -13,8 +13,6 @@
   (setq use-package-verbose t)
   (setq use-package-enable-imenu-support t))
 
-(require 'use-package)                  ;
-(setf use-package-always-ensure t)
 
 ;; Some buffer local defaults
 (setq-default line-spacing 0.25
@@ -82,7 +80,8 @@
       ;; Repeat C-SPC to keep popping mark instead of having to
       ;; repeat C-u.
       set-mark-command-repeat-pop t
-      )
+
+      tab-always-indent 'complete)
 
 (setq system-time-locale "C")
 (setq abbrev-file-name "~/Dropbox/abbrev_defs")
@@ -143,7 +142,7 @@
 (global-set-key (kbd "s-<up>")    'windmove-up)
 (global-set-key (kbd "s-<down>")  'windmove-down)
 
-(global-set-key (kbd "M-SPC") 'company-complete)
+;; (global-set-key (kbd "M-SPC") 'company-complete)
 (global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
 
 (global-set-key (kbd "s-k") #'kill-current-buffer)
@@ -165,6 +164,7 @@
 (global-set-key (kbd "s-`") #'previous-buffer)
 (global-set-key (kbd "s-z") #'next-buffer)
 
+(global-set-key (kbd "M-o") #'other-window)
 (global-set-key (kbd "H-o") #'other-frame)
 
 (mapc 'global-unset-key [[up] [down] [left] [right]])
@@ -264,7 +264,7 @@ Example: 2010-11-29T23:23:35-08:00"
   (setq exec-path-from-shell-check-startup-files nil)
   :if (memq window-system '(mac ns))
   :config
-  (setq exec-path-from-shell-variables '("PATH" "CLASSPATH" "JAVA_HOME"))
+  (setq exec-path-from-shell-variables '("PATH" "CLASSPATH" "JAVA_HOME" "GTAGSLIBPATH"))
   (exec-path-from-shell-initialize))
 
 (use-package ace-window
@@ -296,7 +296,6 @@ Example: 2010-11-29T23:23:35-08:00"
               (rainbow-mode)
               (outline-minor-mode)
               (flymake-mode)
-              (company-mode)
               (paredit-mode)))
   (add-hook 'ielm-mode-hook (lambda () (paredit-mode))))
 
@@ -312,12 +311,6 @@ Example: 2010-11-29T23:23:35-08:00"
   (add-hook 'java-mode-hook #'company-mode)
   (add-hook 'ielm-mode-hook #'company-mode))
 
-;; (use-package company-box
-;;   :after company
-;;   :diminish ""
-;;   :config
-;;   (add-hook 'company-mode-hook #'company-box-mode))
-
 (use-package css-mode
   :ensure nil
   :hook (css-mode . electric-pair-mode))
@@ -326,7 +319,8 @@ Example: 2010-11-29T23:23:35-08:00"
   :diminish paredit-mode
   :hook ((scheme-mode inf-lisp-mode lisp-mode) . paredit-mode)
   :bind (:map paredit-mode-map
-              ("M-?" . nil)))
+              ("M-?" . nil)
+              ("M-s" . nil)))
 
 (use-package magit
   :bind (("C-c g" . magit))
@@ -341,17 +335,16 @@ Example: 2010-11-29T23:23:35-08:00"
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode))
 
-
-(use-package modus-operandi-theme
+(use-package modus-themes
   :init
-  (setq modus-operandi-theme-mode-line '3d
-        modus-operandi-theme-completions nil
-        modus-operandi-theme-syntax nil
-        modus-operandi-theme-bold-constructs nil
-        modus-operandi-theme-slanted-constructs nil
-        modus-operandi-theme-fringes nil
-        modus-operandi-theme-intense-hl-line nil
-        modus-operandi-theme-prompts nil)
+  (setq modus-themes-mode-line '(accented)
+        modus-themes-completions nil
+        modus-themes-syntax nil
+        modus-themes-bold-constructs nil
+        modus-themes-slanted-constructs nil
+        modus-themes-fringes 'subtle
+        modus-themes-hl-line nil
+        modus-themes-prompts nil)
   :config
   (load-theme 'modus-operandi t))
 
@@ -436,7 +429,7 @@ Example: 2010-11-29T23:23:35-08:00"
               (when org-inline-image-overlays
                 (org-redisplay-inline-images))))
 
-  (add-hook 'org-mode-hook 'company-mode)
+  ;; (add-hook 'org-mode-hook 'company-mode)
 
   (defun org-babel-edit-prep:java (babel-info)
     (setq-local buffer-file-name (->> babel-info caddr (alist-get :file-name)))
@@ -461,24 +454,22 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (setq org-journal-file-format "%Y%m%d.org"))
 
-(use-package counsel-projectile
-  :ensure t
-  :bind (("s-g" . counsel-projectile-ag))
-  :config
-  (counsel-projectile-mode))
+;; (use-package counsel-projectile
+;;   :ensure t
+;;   :bind (("s-g" . counsel-projectile-ag))
+;;   :config
+;;   (counsel-projectile-mode))
 
 (use-package project
   :pin elpa
   :bind (
-         ;; ("s-p" . project-switch-project)
-         ;; ("s-f" . project-find-file)
-         ;; ("s-r" . project-query-replace-regexp)
-         ;; ("s-g" . magit-project-status)
-         )
+         ("s-p" . project-switch-project)
+         ("s-f" . project-find-file)
+         ("s-r" . project-query-replace-regexp)
+         ("s-g" . project-vc-dir))
   :config
-  (require 'magit-extras)
-  (mapc (lambda
-          (dir) (add-to-list 'project-vc-ignores dir))
+  (mapc (lambda (dir)
+          (add-to-list 'project-vc-ignores dir))
         '(".metals"
           ".idea"
           ".bloop"
@@ -493,43 +484,43 @@ Example: 2010-11-29T23:23:35-08:00"
           "workspace"
           "eclipse.jdt.ls")))
 
-(use-package persp-projectile
-  :ensure t
-  :defer t
-  :bind (("s-p" . projectile-persp-switch-project)))
+;; (use-package persp-projectile
+;;   :ensure t
+;;   :defer t
+;;   :bind (("s-p" . projectile-persp-switch-project)))
 
-(use-package projectile
-  :defer t
-  :ensure t
-  :diminish ""
-  :bind (
-         ("s-f" . projectile-find-file)
-         ("s-r" . projectile-replace-regexp)
-         ("s-g" . magit-project-status))
-  :init
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-indexing-method 'hybrid)
-  :config
-  (add-to-list 'safe-local-variable-values
-               '(projectile-tags-command . "make ctags"))
-  (projectile-mode)
-  (add-to-list 'projectile-globally-ignored-directories "elpa")
-  (add-to-list 'projectile-globally-ignored-directories ".cache")
-  (add-to-list 'projectile-globally-ignored-directories ".metals")
-  (add-to-list 'projectile-globally-ignored-directories ".bloop")
-  (add-to-list 'projectile-globally-ignored-directories ".idea")
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (add-to-list 'projectile-globally-ignored-directories ".cask")
-  (add-to-list 'projectile-globally-ignored-directories ".cabal-sandbox")
-  (add-to-list 'projectile-globally-ignored-directories ".python-environments")
-  (add-to-list 'projectile-globally-ignored-directories "build")
-  (add-to-list 'projectile-globally-ignored-directories "bin")
-  (add-to-list 'projectile-globally-ignored-directories ".git")
-  (add-to-list 'projectile-globally-ignored-directories "quelpa")
-  (add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
-  (add-to-list 'projectile-globally-ignored-directories "target")
-  (add-to-list 'projectile-globally-ignored-directories "project/project")
-  (add-to-list 'projectile-globally-ignored-directories "project/target"))
+;; (use-package projectile
+;;   :defer t
+;;   :ensure t
+;;   :diminish ""
+;;   :bind (
+;;          ("s-f" . projectile-find-file)
+;;          ("s-r" . projectile-replace-regexp)
+;;          ("s-g" . magit-project-status))
+;;   :init
+;;   ;; (setq projectile-completion-system 'ivy)
+;;   (setq projectile-indexing-method 'hybrid)
+;;   :config
+;;   (add-to-list 'safe-local-variable-values
+;;                '(projectile-tags-command . "make ctags"))
+;;   (projectile-mode)
+;;   (add-to-list 'projectile-globally-ignored-directories "elpa")
+;;   (add-to-list 'projectile-globally-ignored-directories ".cache")
+;;   (add-to-list 'projectile-globally-ignored-directories ".metals")
+;;   (add-to-list 'projectile-globally-ignored-directories ".bloop")
+;;   (add-to-list 'projectile-globally-ignored-directories ".idea")
+;;   (add-to-list 'projectile-globally-ignored-directories "node_modules")
+;;   (add-to-list 'projectile-globally-ignored-directories ".cask")
+;;   (add-to-list 'projectile-globally-ignored-directories ".cabal-sandbox")
+;;   (add-to-list 'projectile-globally-ignored-directories ".python-environments")
+;;   (add-to-list 'projectile-globally-ignored-directories "build")
+;;   (add-to-list 'projectile-globally-ignored-directories "bin")
+;;   (add-to-list 'projectile-globally-ignored-directories ".git")
+;;   (add-to-list 'projectile-globally-ignored-directories "quelpa")
+;;   (add-to-list 'projectile-globally-ignored-directories ".ensime_cache")
+;;   (add-to-list 'projectile-globally-ignored-directories "target")
+;;   (add-to-list 'projectile-globally-ignored-directories "project/project")
+;;   (add-to-list 'projectile-globally-ignored-directories "project/target"))
 
 (use-package web-mode
   :mode "\\.html"
@@ -553,7 +544,7 @@ Example: 2010-11-29T23:23:35-08:00"
 
   :config
   (add-to-list 'safe-local-variable-values '(engine . "liquid"))
-  (add-hook 'web-mode-hook #'company-mode)
+  ;; (add-hook 'web-mode-hook #'company-mode)
   (add-hook 'web-mode-hook (lambda () (electric-pair-mode -1)))
   
   :custom-face
@@ -564,47 +555,48 @@ Example: 2010-11-29T23:23:35-08:00"
   :bind ("<f5>" . calendar)
   :config
   (calendar-set-date-style 'european)
+  (setq calendar-mark-diary-entries-flag t)
   (setq calendar-week-start-day 1))
 
 
-(use-package ivy
-  :ensure t
-  :defer 0.1
-  :diminish 
-  :init
-  (setq ivy-use-virtual-buffers t)
-  :config
-  (ivy-mode 1)
-  (setq ivy-height 12))
+;; (use-package ivy
+;;   :ensure t
+;;   :defer 0.1
+;;   :diminish 
+;;   :init
+;;   (setq ivy-use-virtual-buffers t)
+;;   :config
+;;   (ivy-mode 1)
+;;   (setq ivy-height 12))
 
-(use-package avy
-  :ensure t
-  :defer t
-  :pin elpa)
+;; (use-package avy
+;;   :ensure t
+;;   :defer t
+;;   :pin elpa)
 
-(use-package ivy-avy
-  :after ivy)
+;; (use-package ivy-avy
+;;   :after ivy)
 
-(use-package ivy-hydra
-  :after ivy)
+;; (use-package ivy-hydra
+;;   :after ivy)
 
-(use-package counsel
-  :after ivy
-  :diminish 'counsel-mode
-  ;; :config
-  (counsel-mode 1)
-  :bind (("s-a" . counsel-ag)
-         ("M-x" . counsel-M-x)
-         ("C-c i" . counsel-ibuffer)
-         ("C-c r" . counsel-register)
-         ("C-c l" . counsel-locate)
-         ("C-c o" . counsel-outline)
-         ("C-c m" . counsel-mark-ring)
-         ("C-c f" . counsel-recentf)))
+;; (use-package counsel
+;;   :after ivy
+;;   :diminish 'counsel-mode
+;;   ;; :config
+;;   (counsel-mode 1)
+;;   :bind (("s-a" . counsel-ag)
+;;          ("M-x" . counsel-M-x)
+;;          ("C-c i" . counsel-ibuffer)
+;;          ("C-c r" . counsel-register)
+;;          ("C-c l" . counsel-locate)
+;;          ("C-c o" . counsel-outline)
+;;          ("C-c m" . counsel-mark-ring)
+;;          ("C-c f" . counsel-recentf)))
 
-(use-package swiper
-  :defer t
-  :bind (("C-s" . swiper)))
+;; (use-package swiper
+;;   :defer t
+;;   :bind (("C-s" . swiper)))
 
 (use-package ssh-config-mode
   :defer t
@@ -619,7 +611,8 @@ Example: 2010-11-29T23:23:35-08:00"
   :mode "\\.scss"
   :ensure t
   :config
-  (add-hook 'scss-mode-hook #''company-mode))
+  ;; (add-hook 'scss-mode-hook #''company-mode)
+  )
 
 (use-package yaml-mode
   :defer t
@@ -660,7 +653,7 @@ Example: 2010-11-29T23:23:35-08:00"
 
 (use-package lsp-mode
   :defer t
-  :hook ((scala-mode js-mode java-mode go-mode) . lsp)
+  :hook ((scala-mode js-mode java-mode) . lsp)
   :custom
   (lsp-clients-angular-language-server-command '("node"
                                                  "/usr/local/lib/node_modules/@angular/language-server"
@@ -717,6 +710,7 @@ Example: 2010-11-29T23:23:35-08:00"
       '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))))
 
 (use-package fennel-mode
+  :defer t
   :load-path "~/code/fennel-mode"
   :init
   (add-to-list 'safe-local-variable-values '(fennel-program . "love ."))
@@ -788,10 +782,9 @@ Example: 2010-11-29T23:23:35-08:00"
   :defer t
   :config
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
-  (add-hook 'lisp-mode-hook #'company-mode)
-  (add-hook 'sly-mrepl-mode-hook (lambda ()
-                                   (paredit-mode)
-                                   (company-mode)))
+  ;; (add-hook 'sly-mrepl-mode-hook (lambda ()
+  ;;                                  (paredit-mode)
+  ;;                                  (company-mode)))
   (defun my/sly-ignore-fennel (f &rest args)
     "Prevent sly functions from running in `fennel-mode'."
     (unless (or (eq major-mode 'fennel-mode)
@@ -831,29 +824,14 @@ Example: 2010-11-29T23:23:35-08:00"
   :config
   (add-to-list 'sly-contribs 'sly-macrostep 'append))
 
-(use-package perspective
-  :init
-  (persp-mode)
-  :custom ((persp-state-default-file "~/Dropbox/emacs/perspective")
-           (persp-mode-prefix-key (kbd "C-c p")))
-  :bind (("s-x" . persp-switch)
-         ("H-," . persp-prev)
-         ("H-." . persp-next)
-         ("s-c" . persp-kill)
-         ("s-l" . (lambda ()
-                    (interactive)
-                    (persp-state-load persp-state-default-file)))
-         ("s-q" . persp-switch-quick)
-         ("s-b" . persp-counsel-switch-buffer)
-         ("s-B" . persp-ivy-switch-buffer))
-  :config
-  (add-hook 'kill-emacs-hook #'persp-state-save))
-
+(use-package calendar
+  :ensure nil
+  :bind (("s-c" . calendar)))
 
 (use-package time
   :ensure nil
   :config
-  (setq display-time-mail-directory "~/Dropbox/mail/imap/INBOX/new")
+  (setq display-time-mail-directory "~/Dropbox/imap/INBOX/new")
   (setq display-time-24hr-format t)
   (setq display-time-mail-face 'font-lock-keyword-face)
   (display-time-mode))
@@ -1135,15 +1113,19 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
   (shell-command-with-editor-mode 1))
 
 (use-package counsel-mairix
+  :defer t
   :bind (("H-s" . counsel-mairix))
   :load-path "~/code/ivy-mairix"
   :custom (counsel-mairix-include-threads t))
 
 (use-package git-email
+  :defer t
   :load-path "~/code/git-email")
 
 (use-package diff-hl
-  :defer t)
+  :defer t
+  :config
+  (global-diff-hl-mode 1))
 
 (use-package dired
   :ensure nil
@@ -1173,17 +1155,9 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
   :ensure nil
   :defer t
   :config
-  (add-hook 'c-mode-hook #'ggtags-mode)
-  (add-hook 'c-mode-hook #'company-mode)
+  (add-hook 'c-mode-hook #'eglot-ensure)
   (add-hook 'c-mode-hook #'flymake-mode)
-  (add-hook 'c-mode-hook #'electric-pair-mode)
-
-  (defun ane/c-mode-hook ()
-    (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
-    (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
-    (setq-local company-backends
-                '(company-capf company-files)))
-  (add-hook 'c-mode-hook #'ane/c-mode-hook))
+  (add-hook 'c-mode-hook #'electric-pair-mode))
 
 (use-package go-mode
   :defer t
@@ -1191,7 +1165,7 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
   (defun my/go-mode-hook ()
     (setq-local indent-tabs-mode t)
     (setq-local tab-width 4))
-  (add-hook 'go-mode-hook #'lsp)
+  (add-hook 'go-mode-hook #'eglot-ensure)
   (add-hook 'go-mode-hook #'my/go-mode-hook)
   (require 'dap-go))
 
@@ -1228,6 +1202,7 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
   :defer t
   :custom-face (tree-sitter-hl-face:property ((t (:slant normal :inherit font-lock-constant-face))))
   :hook ((typescript-mode . tree-sitter-hl-mode)
+         (go-mode . tree-sitter-hl-mode)
 	 (typescript-tsx-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
@@ -1236,6 +1211,7 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
   :config
   (tree-sitter-require 'tsx)
   (tree-sitter-require 'javascript)
+  (tree-sitter-require 'go)
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))  
   (add-to-list 'tree-sitter-major-mode-language-alist '(js-mode . javascript)))
 
@@ -1259,12 +1235,84 @@ _x_: search        _p_: public-inbox.mbox  _k_: IKI           g: guile
 (use-package diary
   :ensure nil
   :defer t
-  :config
+  :init
+  (add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
+  (add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files)
   :custom ((diary-file "~/Dropbox/Private/diary")
-           (diary-display-function 'diary-simple-display)))
+           (diary-display-function 'diary-fancy-display)))
 
 (use-package google-c-style
   :defer t
   :config
   (add-hook 'java-mode-hook 'google-set-c-style))
+
+(use-package minibuffer
+  :ensure nil
+  :bind
+  (:map completion-in-region-mode-map
+        (("M-n" . minibuffer-next-completion)
+         ("M-p" . minibuffer-previous-completion)
+         ("RET" . minibuffer-choose-completion)))
+  :custom
+  (completion-auto-help 'always)
+  (completion-auto-select nil)
+  (completion-styles '(flex partial-completion basic emacs22))
+  (completions-detailed t)
+  (completions-format 'one-column)
+  (completions-max-height 20))
+
+(use-package recentf
+  :defer t
+  :ensure nil
+  :config
+  (recentf-mode))
+
+(use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package consult
+  :bind
+  ("s-b" . consult-project-buffer)
+  ("s-i" . consult-imenu)
+  :config
+  (setq consult-narrow-key (kbd "C-+")))
+
+(use-package marginalia
+  :defer t
+  :after vertico
+  :init
+  (marginalia-mode))
+
+(use-package corfu
+  :defer t
+  :init
+  (global-corfu-mode 1))
+
+(use-package corfu-doc
+  :after corfu
+  :defer t
+  :custom ((corfu-doc-auto nil))
+  :bind (:map corfu-map ("M-d" . corfu-doc-toggle)))
+
+(use-package kind-icon
+  :defer t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package todo
+  :defer t
+  :ensure nil
+  :init
+  (setq todo-directory "~/Dropbox/Private/Emacs/todo/"))
+
+
+(defun find-recent-file (arg)
+  (interactive (list (completing-read "Find recent file: " recentf-list nil t)))
+  (find-file arg))
+
+(global-set-key (kbd "C-c f") #'find-recent-file)
+(global-set-key (kbd "s-.") #'tab-bar-switch-to-next-tab)
+(global-set-key (kbd "s-,") #'tab-bar-switch-to-prev-tab)
 

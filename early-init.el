@@ -26,5 +26,5 @@
 (winner-mode t)
 (global-auto-revert-mode 1)
 (global-hl-line-mode 1)
-(global-tab-line-mode 1)
+(tab-bar-mode 1)
 (display-time-mode 1)
